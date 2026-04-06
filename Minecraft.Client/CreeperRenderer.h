@@ -17,4 +17,5 @@ protected:
     virtual int prepareArmor(shared_ptr<LivingEntity> mob, int layer, float a);
     virtual int prepareArmorOverlay(shared_ptr<LivingEntity> _mob, int layer, float a);
 	virtual ResourceLocation *getTextureLocation(shared_ptr<Entity> mob);
+	virtual void additionalRendering(shared_ptr<LivingEntity> _mob, float a);
 };

@@ -14,6 +14,7 @@ void VillageFeature::staticCtor()
 {
 	allowedBiomes.push_back( Biome::plains );
 	allowedBiomes.push_back( Biome::desert );
+	allowedBiomes.push_back(Biome::moon);
 }
 
 void VillageFeature::_init(int iXZSize)

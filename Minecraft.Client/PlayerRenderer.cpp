@@ -305,6 +305,26 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 		}
     }
 
+	shared_ptr<ItemInstance> oxygenMask = mob->inventory->getMask();
+	shared_ptr<ItemInstance> glassMask = mob->glassMask;
+	if (oxygenMask != nullptr && glassMask != nullptr)
+	{
+		glPushMatrix();
+		humanoidModel->head->translateTo(1 / 16.0f);
+
+		if (TileRenderer::canRender(Tile::tiles[glassMask->id]->getRenderShape()))
+		{
+			float s = 10 / 16.0f;
+			glTranslatef(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
+			glRotatef(90, 0, 1, 0);
+			glScalef(s*1.1, -s*1.1, s*1.1);
+		}
+
+		entityRenderDispatcher->itemInHandRenderer->renderItem(mob, glassMask, 0);
+
+		glPopMatrix();
+	}
+
 	// need to add a custom texture for deadmau5
 	if (mob != nullptr && app.isXuidDeadmau5( mob->getXuid() ) && bindTexture(mob->customTextureUrl, L"" ))
 	{

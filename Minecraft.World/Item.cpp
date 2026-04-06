@@ -27,6 +27,7 @@ const _Tier *_Tier::STONE = new _Tier(1, 131, 4, 1, 5); //
 const _Tier *_Tier::IRON = new _Tier(2, 250, 6, 2, 14); //
 const _Tier *_Tier::DIAMOND = new _Tier(3, 1561, 8, 3, 10); //
 const _Tier *_Tier::GOLD = new _Tier(0, 32, 12, 0, 22);
+const _Tier* _Tier::TITANIUM = new _Tier(3, 2061, 8, 5, 15);
 
 Random *Item::random = new Random();
 
@@ -251,6 +252,26 @@ Item *Item::horseArmorDiamond = nullptr;
 Item *Item::lead = nullptr;
 Item *Item::nameTag = nullptr;
 
+Item* Item::rocket = nullptr;
+Item* Item::cheese = nullptr;
+Item* Item::moonDungeonKey = nullptr;
+Item* Item::titaniumIngot = nullptr;
+Item* Item::titaniumHelmet = nullptr;
+Item* Item::titaniumChestplate = nullptr;
+Item* Item::titaniumLeggings = nullptr;
+Item* Item::titaniumBoots = nullptr;
+Item* Item::titaniumSword = nullptr;
+Item* Item::titaniumShovel = nullptr;
+Item* Item::titaniumPickaxe = nullptr;
+Item* Item::titaniumHatchet = nullptr;
+Item* Item::titaniumHoe = nullptr;
+Item* Item::sapphire = nullptr;
+Item* Item::cheeseburger = nullptr;
+Item* Item::poutine = nullptr;
+Item* Item::frequencyModule = nullptr;
+Item* Item::oxygenMask = nullptr;
+Item* Item::oxygenGear = nullptr;
+Item* Item::oxygenTank = nullptr;
 
 void Item::staticCtor()
 {
@@ -345,7 +366,7 @@ void Item::staticCtor()
 
 	Item::seeds_wheat = ( new SeedItem(39, Tile::wheat_Id, Tile::farmland_Id) )			->setIconName(L"seeds")->setDescriptionId(IDS_ITEM_WHEAT_SEEDS)->setUseDescriptionId(IDS_DESC_WHEAT_SEEDS);
 	Item::wheat = ( new Item(40) )														->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_wheat)->setIconName(L"wheat")->setDescriptionId(IDS_ITEM_WHEAT)->setUseDescriptionId(IDS_DESC_WHEAT);
-	Item::bread = ( new FoodItem(41, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setIconName(L"bread")->setDescriptionId(IDS_ITEM_BREAD)->setUseDescriptionId(IDS_DESC_BREAD);
+	Item::bread = ( new FoodItem(41, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setBaseItemTypeAndMaterial(eBaseItemType_artisan,	eMaterial_artisan)->setIconName(L"bread")->setDescriptionId(IDS_ITEM_BREAD)->setUseDescriptionId(IDS_DESC_BREAD);
 
 
 	Item::flint = ( new Item(62) )																->setIconName(L"flint")->setDescriptionId(IDS_ITEM_FLINT)->setUseDescriptionId(IDS_DESC_FLINT);
@@ -493,7 +514,31 @@ void Item::staticCtor()
 	Item::horseArmorGold = (new Item(162))															->setIconName(L"gold_horse_armor")->setMaxStackSize(1)->setDescriptionId(IDS_ITEM_GOLD_HORSE_ARMOR)->setUseDescriptionId(IDS_DESC_GOLD_HORSE_ARMOR);
 	Item::horseArmorDiamond = (new Item(163))														->setIconName(L"diamond_horse_armor")->setMaxStackSize(1)->setDescriptionId(IDS_ITEM_DIAMOND_HORSE_ARMOR)->setUseDescriptionId(IDS_DESC_DIAMOND_HORSE_ARMOR);
 	Item::lead = (new LeashItem(164))																->setBaseItemTypeAndMaterial(eBaseItemType_pockettool,	eMaterial_undefined)->setIconName(L"lead")->setDescriptionId(IDS_ITEM_LEAD)->setUseDescriptionId(IDS_DESC_LEAD);
-	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);}
+	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);
+	Item::rocket = (new RocketItem(166))->setIconName(L"rocket_item")->setDescriptionId(IDS_ITEM_ROCKET)->setUseDescriptionId(IDS_DESC_ROCKET);
+	Item::cheese = (new FoodItem(167, 2, FoodConstants::FOOD_SATURATION_LOW, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"cheese")->setDescriptionId(IDS_ITEM_CHEESE)->setUseDescriptionId(IDS_DESC_CHEESE);
+
+	Item::moonDungeonKey = (new Item(168))->setIconName(L"moonDungeonKey")->setDescriptionId(IDS_ITEM_MOON_DUNGEON_KEY)->setUseDescriptionId(IDS_DESC_MOON_DUNGEON_KEY);
+	Item::titaniumIngot = (new Item(169))->setIconName(L"titaniumIngot")->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_titanium)->setDescriptionId(IDS_ITEM_INGOT_TITANIUM)->setUseDescriptionId(IDS_DESC_INGOT);
+	Item::titaniumHelmet = static_cast<ArmorItem*>((new ArmorItem(170, ArmorItem::ArmorMaterial::TITANIUM, 5, ArmorItem::SLOT_HEAD))->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_titanium)->setIconName(L"titaniumHelmet")->setDescriptionId(IDS_ITEM_HELMET_TITANIUM)->setUseDescriptionId(IDS_DESC_HELMET_DIAMOND));
+	Item::titaniumChestplate = static_cast<ArmorItem*>((new ArmorItem(171, ArmorItem::ArmorMaterial::TITANIUM, 5, ArmorItem::SLOT_TORSO))->setBaseItemTypeAndMaterial(eBaseItemType_chestplate, eMaterial_titanium)->setIconName(L"titaniumChestplate")->setDescriptionId(IDS_ITEM_CHESTPLATE_TITANIUM)->setUseDescriptionId(IDS_DESC_CHESTPLATE_DIAMOND));
+	Item::titaniumLeggings = static_cast<ArmorItem*>((new ArmorItem(172, ArmorItem::ArmorMaterial::TITANIUM, 5, ArmorItem::SLOT_LEGS))->setBaseItemTypeAndMaterial(eBaseItemType_leggings, eMaterial_titanium)->setIconName(L"titaniumLeggings")->setDescriptionId(IDS_ITEM_LEGGINGS_TITANIUM)->setUseDescriptionId(IDS_DESC_LEGGINGS_DIAMOND));
+	Item::titaniumBoots = static_cast<ArmorItem*>((new ArmorItem(173, ArmorItem::ArmorMaterial::TITANIUM, 5, ArmorItem::SLOT_FEET))->setBaseItemTypeAndMaterial(eBaseItemType_boots, eMaterial_titanium)->setIconName(L"titaniumBoots")->setDescriptionId(IDS_ITEM_BOOTS_TITANIUM)->setUseDescriptionId(IDS_DESC_BOOTS_DIAMOND));
+	Item::titaniumSword = (new WeaponItem(174, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_sword, eMaterial_titanium)->setIconName(L"titaniumSword")->setDescriptionId(IDS_ITEM_SWORD_TITANIUM)->setUseDescriptionId(IDS_DESC_SWORD);
+	Item::titaniumShovel  = (new ShovelItem(175, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_shovel, eMaterial_titanium)->setIconName(L"titaniumShovel")->setDescriptionId(IDS_ITEM_SHOVEL_TITANIUM)->setUseDescriptionId(IDS_DESC_SHOVEL);
+	Item::titaniumPickaxe = (new PickaxeItem(176, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe, eMaterial_titanium)->setIconName(L"titaniumPickaxe")->setDescriptionId(IDS_ITEM_PICKAXE_TITANIUM)->setUseDescriptionId(IDS_DESC_PICKAXE);
+	Item::titaniumHatchet = (new HatchetItem(177, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_hatchet, eMaterial_titanium)->setIconName(L"titaniumHatchet")->setDescriptionId(IDS_ITEM_HATCHET_TITANIUM)->setUseDescriptionId(IDS_DESC_HATCHET);
+	Item::titaniumHoe = (new HoeItem(178, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_hoe, eMaterial_titanium)->setIconName(L"titaniumHoe")->setDescriptionId(IDS_ITEM_HOE_TITANIUM)->setUseDescriptionId(IDS_DESC_HOE);
+	Item::sapphire = (new Item(179))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_emerald)->setIconName(L"sapphire")->setDescriptionId(IDS_ITEM_SAPPHIRE)->setUseDescriptionId(IDS_DESC_SAPPHIRE);
+	Item::cheeseburger = (new FoodItem(180, 12, FoodConstants::FOOD_SATURATION_GOOD, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"cheeseburger")->setDescriptionId(IDS_ITEM_CHEESEBURGER)->setUseDescriptionId(IDS_DESC_CHEESEBURGER);
+	Item::poutine = (new FoodItem(181, 10, FoodConstants::FOOD_SATURATION_GOOD, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"poutine")->setDescriptionId(IDS_ITEM_POUTINE)->setUseDescriptionId(IDS_DESC_POUTINE);
+
+	Item::frequencyModule = (new Item(182))->setIconName(L"frequencyModule")->setDescriptionId(IDS_ITEM_FREQUENCY_MODULE)->setUseDescriptionId(IDS_DESC_FREQUENCY_MODULE);
+	Item::oxygenMask = (new Item(183))->setIconName(L"oxygenMask")->setDescriptionId(IDS_ITEM_OXYGEN_MASK)->setUseDescriptionId(IDS_DESC_OXYGEN_MASK);
+	Item::oxygenGear = (new Item(184))->setIconName(L"oxygenGear")->setDescriptionId(IDS_ITEM_OXYGEN_GEAR)->setUseDescriptionId(IDS_DESC_OXYGEN_GEAR);
+	Item::oxygenTank = (new Item(185))->setIconName(L"oxygenTank")->setDescriptionId(IDS_ITEM_OXYGEN_TANK)->setUseDescriptionId(IDS_DESC_OXYGEN_TANK)->setMaxDamage(500);
+}
+
 
 
 // 4J Stu - We need to do this after the staticCtor AND after staticCtors for other class

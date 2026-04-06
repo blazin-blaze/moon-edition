@@ -1084,6 +1084,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
             case -1: dimension = L"minecraft:the_nether"; break;
             case 0:  dimension = L"minecraft:overworld";  break;
             case 1:  dimension = L"minecraft:the_end";    break;
+			case 2:  dimension = L"minecraft:moon";    break;
             }
             lines.push_back(dimension);
             lines.push_back(L"");

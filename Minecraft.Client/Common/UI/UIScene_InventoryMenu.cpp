@@ -40,6 +40,7 @@ UIScene_InventoryMenu::UIScene_InventoryMenu(int iPad, void *_initData, UILayer 
 	Initialize( initData->iPad, menu, false, InventoryMenu::INV_SLOT_START, eSectionInventoryUsing, eSectionInventoryMax, initData->bNavigateBack );
 
 	m_slotListArmor.addSlots(InventoryMenu::ARMOR_SLOT_START, InventoryMenu::ARMOR_SLOT_END - InventoryMenu::ARMOR_SLOT_START);
+	m_slotListSpace.addSlots(InventoryMenu::SPACE_SLOT_START, InventoryMenu::SPACE_SLOT_END - InventoryMenu::SPACE_SLOT_START);
 
 	if(initData) delete initData;
 
@@ -69,6 +70,7 @@ void UIScene_InventoryMenu::handleReload()
 	Initialize( m_iPad, m_menu, false, InventoryMenu::INV_SLOT_START, eSectionInventoryUsing, eSectionInventoryMax, m_bNavigateBack );
 
 	m_slotListArmor.addSlots(InventoryMenu::ARMOR_SLOT_START, InventoryMenu::ARMOR_SLOT_END - InventoryMenu::ARMOR_SLOT_START);
+	m_slotListSpace.addSlots(InventoryMenu::SPACE_SLOT_START, InventoryMenu::SPACE_SLOT_END - InventoryMenu::SPACE_SLOT_START);
 
 	for(unsigned int i = 0; i < MobEffect::NUM_EFFECTS; ++i)
 	{
@@ -82,6 +84,9 @@ int UIScene_InventoryMenu::getSectionColumns(ESceneSection eSection)
 	switch( eSection )
 	{
 	case eSectionInventoryArmor:
+		cols = 1;
+		break;
+	case eSectionInventorySpace:
 		cols = 1;
 		break;
 	case eSectionInventoryInventory:
@@ -105,6 +110,9 @@ int UIScene_InventoryMenu::getSectionRows(ESceneSection eSection)
 	case eSectionInventoryArmor:
 		rows = 4;
 		break;
+	case eSectionInventorySpace:
+		rows = 4;
+		break;
 	case eSectionInventoryInventory:
 		rows = 3;
 		break;
@@ -125,6 +133,10 @@ void UIScene_InventoryMenu::GetPositionOfSection( ESceneSection eSection, UIVec2
 	case eSectionInventoryArmor:
 		pPosition->x = m_slotListArmor.getXPos();
 		pPosition->y = m_slotListArmor.getYPos();
+		break;
+	case eSectionInventorySpace:
+		pPosition->x = m_slotListSpace.getXPos();
+		pPosition->y = m_slotListSpace.getYPos();
 		break;
 	case eSectionInventoryInventory:
 		pPosition->x = m_slotListInventory.getXPos();
@@ -149,6 +161,10 @@ void UIScene_InventoryMenu::GetItemScreenData( ESceneSection eSection, int iItem
 	case eSectionInventoryArmor:
 		sectionSize.x = m_slotListArmor.getWidth();
 		sectionSize.y = m_slotListArmor.getHeight();
+		break;
+	case eSectionInventorySpace:
+		sectionSize.x = m_slotListSpace.getWidth();
+		sectionSize.y = m_slotListSpace.getHeight();
 		break;
 	case eSectionInventoryInventory:
 		sectionSize.x = m_slotListInventory.getWidth();
@@ -188,6 +204,9 @@ void UIScene_InventoryMenu::setSectionSelectedSlot(ESceneSection eSection, int x
 	case eSectionInventoryArmor:
 		slotList = &m_slotListArmor;
 		break;
+	case eSectionInventorySpace:
+		slotList = &m_slotListSpace;
+		break;
 	case eSectionInventoryInventory:
 		slotList = &m_slotListInventory;
 		break;
@@ -206,6 +225,9 @@ UIControl *UIScene_InventoryMenu::getSection(ESceneSection eSection)
 	{
 	case eSectionInventoryArmor:
 		control = &m_slotListArmor;
+		break;
+	case eSectionInventorySpace:
+		control = &m_slotListSpace;
 		break;
 	case eSectionInventoryInventory:
 		control = &m_slotListInventory;

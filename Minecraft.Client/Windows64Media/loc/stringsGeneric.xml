@@ -865,6 +865,10 @@ If the Dropper is facing a Chest or another type of Container, the item will be 
 	<data name="IDS_DESC_INGOT">
 		<value>A shiny ingot which can be used to craft tools made from this material. Created by smelting ore in a furnace.</value>
 	</data>	
+	
+	<data name="IDS_DESC_MOON_DUNGEON_KEY">
+		<value>Key used to open Moon Dungeon Chests.</value>
+	</data>	
 
 	<data name="IDS_DESC_BLOCK">
 		<value>Allows ingots, gems, or dyes to be crafted into placeable blocks. Can be used as an expensive building block or compact storage of the ore.</value>
@@ -887,7 +891,15 @@ If the Dropper is facing a Chest or another type of Container, the item will be 
 	</data>	
 
 	<data name="IDS_DESC_TORCH">
-		<value>Used to create light. Torches also melt snow and ice.</value>
+		<value>Used to create light. Torches also melt snow and ice. Becomes dead if placed on the moon.</value>
+	</data>	
+	
+	<data name="IDS_DESC_GLOWSTONE_TORCH">
+		<value>Used to create light on the moon.</value>
+	</data>	
+	
+	<data name="IDS_DESC_DEAD_TORCH">
+		<value>Lit torches turn into this if placed on the moon.</value>
 	</data>	
 
 	<data name="IDS_DESC_WOODENPLANKS">
@@ -921,6 +933,10 @@ The colors of the bed are always the same, regardless of the colors of wool used
 
 	<data name="IDS_DESC_CHEST">
 		<value>Stores blocks and items inside. Place two chests side by side to create a larger chest with double the capacity.</value>
+	</data>	
+	
+	<data name="IDS_DESC_TREASURE_CHEST">
+		<value>Stores valuable moon dungeon loot inside. Must be opened with a Moon Dungeon Key.</value>
 	</data>	
 
 	<data name="IDS_DESC_FENCE">
@@ -1045,6 +1061,38 @@ The colors of the bed are always the same, regardless of the colors of wool used
 
 	<data name="IDS_DESC_NAME_TAG">
 		<value>Used to name mobs in the world.</value>
+	</data>	
+	
+	<data name="IDS_DESC_ROCKET">
+		<value>Used to go to the Moon dimension.</value>
+	</data>	
+	
+	<data name="IDS_DESC_CHEESE">
+		<value>Found on the Moon, eat to regain hunger.</value>
+	</data>	
+	
+	<data name="IDS_DESC_POUTINE">
+		<value>A tasty treat made with moon cheese, stew and potatoes.</value>
+	</data>	
+	
+	<data name="IDS_DESC_FREQUENCY_MODULE">
+		<value>Allows you to talk to Lunar Friends.</value>
+	</data>	
+	
+	<data name="IDS_DESC_OXYGEN_MASK">
+		<value>One of three items needed to breathe on The Moon.</value>
+	</data>	
+	
+	<data name="IDS_DESC_OXYGEN_GEAR">
+		<value>One of three items needed to breathe on The Moon.</value>
+	</data>	
+	
+	<data name="IDS_DESC_OXYGEN_TANK">
+		<value>One of three items needed to breathe on The Moon. Depletes over time.</value>
+	</data>	
+	
+	<data name="IDS_DESC_CHEESEBURGER">
+		<value>Created using moon cheese, steak, and bread.</value>
 	</data>	
 
 	<data name="IDS_DESC_BREAD">
@@ -1292,6 +1340,26 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_DESC_ORE_DIAMOND">
 		<value>Can be mined with an iron pickaxe or better to collect diamonds.</value>
 	</data>	
+	
+	<data name="IDS_DESC_ORE_DIAMOND">
+		<value>Can be mined with an iron pickaxe or better to collect diamonds.</value>
+	</data>	
+	
+	<data name="IDS_DESC_ORE_CHEESE">
+		<value>Can be mined with a stone pickaxe or better to collect cheese.</value>
+	</data>	
+	
+	<data name="IDS_DESC_ORE_SAPPHIRE">
+		<value>Can be mined with an iron pickaxe or better to collect sapphire.</value>
+	</data>	
+	
+	<data name="IDS_DESC_ORE_TITANIUM">
+		<value>Can be mined with a diamond pickaxe or better to collect titanium.</value>
+	</data>
+
+	<data name="IDS_DESC_ORE_MOON_QUARTZ">
+		<value>Can be mined with a iron pickaxe or better to collect quartz.</value>
+	</data>		
 
 	<data name="IDS_DESC_ORE_REDSTONE">
 		<value>Can be mined with an iron pickaxe or better to collect redstone dust.</value>
@@ -1300,9 +1368,29 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_DESC_STONE">
 		<value>Can be mined with a pickaxe to collect cobblestone.</value>
 	</data>	
+	
+	<data name="IDS_DESC_MOON_DUNGEON_BRICKS">
+		<value>Found in moon dungeons.</value>
+	</data>	
 
 	<data name="IDS_DESC_DIRT">
 		<value>Collected using a shovel. Can be used for construction.</value>
+	</data>	
+	
+	<data name="IDS_DESC_MOON_TURF">
+		<value>Collected using a shovel. Found on the surface of the moon.</value>
+	</data>	
+	
+	<data name="IDS_DESC_MOON_DIRT">
+		<value>Collected using a shovel. Found under moon turf.</value>
+	</data>	
+	
+	<data name="IDS_DESC_MOON_STONE">
+		<value>Collected using a pickaxe and is found deeper inside the moon's crust.</value>
+	</data>	
+	
+	<data name="IDS_DESC_CHEESE_BLOCK">
+		<value>Found on the moon, convert into cheese to eat.</value>
 	</data>	
 
 	<data name="IDS_DESC_SAPLING">
@@ -1828,6 +1916,14 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ZOMBIE">
 		<value>Zombie</value>
 	</data>	
+	
+	<data name="IDS_ROCKET">
+		<value>Rocketship</value>
+	</data>	
+	
+	<data name="IDS_LUNAR">
+		<value>Lunar Friend</value>
+	</data>	
 
 	<data name="IDS_DESC_ZOMBIE">
 		<value>Attacks you when you are close to it.</value>
@@ -2228,6 +2324,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_SWORD_GOLD">
 		<value>Golden Sword</value>
 	</data>	
+	
+	<data name="IDS_ITEM_SWORD_TITANIUM">
+		<value>Titanium Sword</value>
+	</data>	
 
 	<data name="IDS_ITEM_SHOVEL_WOOD">
 		<value>Wooden Shovel</value>
@@ -2247,6 +2347,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_SHOVEL_GOLD">
 		<value>Golden Shovel</value>
+	</data>	
+	
+	<data name="IDS_ITEM_SHOVEL_TITANIUM">
+		<value>Titanium Shovel</value>
 	</data>	
 
 	<data name="IDS_ITEM_PICKAXE_WOOD">
@@ -2268,6 +2372,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_PICKAXE_GOLD">
 		<value>Golden Pickaxe</value>
 	</data>	
+	
+	<data name="IDS_ITEM_PICKAXE_TITANIUM">
+		<value>Titanium Pickaxe</value>
+	</data>	
 
 	<data name="IDS_ITEM_HATCHET_WOOD">
 		<value>Wooden Axe</value>
@@ -2288,6 +2396,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_HATCHET_GOLD">
 		<value>Golden Axe</value>
 	</data>	
+	
+	<data name="IDS_ITEM_HATCHET_TITANIUM">
+		<value>Titanium Axe</value>
+	</data>	
 
 	<data name="IDS_ITEM_HOE_WOOD">
 		<value>Wooden Hoe</value>
@@ -2307,6 +2419,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_HOE_GOLD">
 		<value>Golden Hoe</value>
+	</data>	
+	
+	<data name="IDS_ITEM_HOE_TITANIUM">
+		<value>Titanium Hoe</value>
 	</data>	
 
 	<data name="IDS_ITEM_DOOR_WOOD">
@@ -2348,6 +2464,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_HELMET_GOLD">
 		<value>Golden Helmet</value>
 	</data>	
+	
+	<data name="IDS_ITEM_HELMET_TITANIUM">
+		<value>Titanium Helmet</value>
+	</data>	
 
 	<data name="IDS_ITEM_CHESTPLATE_CLOTH">
 		<value>Leather Tunic</value>
@@ -2364,6 +2484,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_CHESTPLATE_GOLD">
 		<value>Golden Chestplate</value>
 	</data>	
+	
+	<data name="IDS_ITEM_CHESTPLATE_TITANIUM">
+		<value>Titanium Chestplate</value>
+	</data>	
 
 	<data name="IDS_ITEM_LEGGINGS_CLOTH">
 		<value>Leather Pants</value>
@@ -2379,6 +2503,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_LEGGINGS_GOLD">
 		<value>Golden Leggings</value>
+	</data>	
+	
+	<data name="IDS_ITEM_LEGGINGS_TITANIUM">
+		<value>Titanium Leggings</value>
 	</data>	
 
 	<data name="IDS_ITEM_BOOTS_CLOTH">
@@ -2397,8 +2525,16 @@ Can also be used for low-level lighting.</value>
 		<value>Golden Boots</value>
 	</data>	
 
+	<data name="IDS_ITEM_BOOTS_TITANIUM">
+		<value>Titanium Boots</value>
+	</data>	
+
 	<data name="IDS_ITEM_INGOT_IRON">
 		<value>Iron Ingot</value>
+	</data>	
+	
+	<data name="IDS_ITEM_INGOT_TITANIUM">
+		<value>Titanium Ingot</value>
 	</data>	
 
 	<data name="IDS_ITEM_INGOT_GOLD">
@@ -2936,13 +3072,65 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_LEAD">
 		<value>Lead</value>
 	</data>	
-
+	
 	<data name="IDS_ITEM_NAME_TAG">
 		<value>Name Tag</value>
 	</data>	
 
+	<data name="IDS_ITEM_ROCKET">
+		<value>Rocketship</value>
+	</data>	
+	
+	<data name="IDS_ITEM_MOON_DUNGEON_KEY">
+		<value>Moon Dungeon Key</value>
+	</data>	
+	
+	<data name="IDS_ITEM_CHEESE">
+		<value>Cheese</value>
+	</data>	
+	
+	<data name="IDS_ITEM_POUTINE">
+		<value>Poutine</value>
+	</data>
+	
+	<data name="IDS_ITEM_FREQUENCY_MODULE">
+		<value>Frequency Module</value>
+	</data>
+	
+	<data name="IDS_ITEM_OXYGEN_MASK">
+		<value>Oxygen Mask</value>
+	</data>
+	
+	<data name="IDS_ITEM_OXYGEN_GEAR">
+		<value>Oxygen Gear</value>
+	</data>
+	
+	<data name="IDS_ITEM_OXYGEN_TANK">
+		<value>Oxygen Tank</value>
+	</data>
+	
+	<data name="IDS_ITEM_CHEESEBURGER">
+		<value>Cheeseburger</value>
+	</data>	
+
 	<data name="IDS_TILE_STONE">
 		<value>Stone</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_TURF">
+		<value>Moon Turf</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_DIRT">
+		<value>Moon Dirt</value>
+	</data>	
+
+	<data name="IDS_TILE_MOON_STONE">
+		<value>Moon Stone</value>
+	</data>	
+	
+	<data name="IDS_TILE_CHEESE_BLOCK">
+		<value>Block of Cheese</value>
 	</data>	
 
 	<data name="IDS_TILE_GRASS">
@@ -3023,6 +3211,22 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_ORE_GOLD">
 		<value>Gold Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_CHEESE">
+		<value>Cheese Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_SAPPHIRE">
+		<value>Sapphire Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_TITANIUM">
+		<value>Titanium Ore</value>
+	</data>	
+
+	<data name="IDS_TILE_ORE_MOON_QUARTZ">
+		<value>Moon Quartz</value>
 	</data>	
 
 	<data name="IDS_TILE_ORE_IRON">
@@ -3176,6 +3380,14 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_TILE_BLOCK_GOLD">
 		<value>Block of Gold</value>
 	</data>	
+	
+	<data name="IDS_TILE_BLOCK_TITANIUM">
+		<value>Block of Titanium</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_TITANIUM">
+		<value>A compact way of storing Titanium.</value>
+	</data>	
 
 	<data name="IDS_DESC_BLOCK_GOLD">
 		<value>A compact way of storing Gold.</value>
@@ -3260,6 +3472,14 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_TILE_TORCH">
 		<value>Torch</value>
 	</data>	
+	
+	<data name="IDS_TILE_GLOWSTONE_TORCH">
+		<value>Glowstone Torch</value>
+	</data>	
+	
+	<data name="IDS_TILE_DEAD_TORCH">
+		<value>Dead Torch</value>
+	</data>	
 
 	<data name="IDS_TILE_TORCHCOAL">
 		<value>Torch (Coal)</value>
@@ -3283,6 +3503,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_CHEST">
 		<value>Chest</value>
+	</data>	
+	
+	<data name="IDS_TILE_TREASURE_CHEST">
+		<value>Moon Treasure Chest</value>
 	</data>	
 
 	<data name="IDS_TILE_REDSTONE_DUST">
@@ -3491,6 +3715,18 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_STONE_BRICK_SMOOTH">
 		<value>Stone Bricks</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_DUNGEON_BRICKS">
+		<value>Moon Dungeon Bricks</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_DUNGEON_BRICKS_MOSSY">
+		<value>Mossy Moon Dungeon Bricks</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_DUNGEON_BRICKS_CRACKED">
+		<value>Cracked Moon Dungeon Bricks</value>
 	</data>	
 
 	<data name="IDS_TILE_STONE_BRICK_SMOOTH_MOSSY">
@@ -5963,6 +6199,14 @@ Would you like to unlock the full game now?</value>
 	<data name="IDS_PROGRESS_LEAVING_NETHER">
 		<value>Leaving The Nether</value>
 	</data>	
+	
+	<data name="IDS_PROGRESS_ENTERING_MOON">
+		<value>Entering The Moon</value>
+	</data>	
+
+	<data name="IDS_PROGRESS_LEAVING_MOON">
+		<value>Leaving The Moon</value>
+	</data>	
 
 	<data name="IDS_PROGRESS_RESPAWNING">
 		<value>Respawning</value>
@@ -8109,6 +8353,10 @@ Would you like to install the mash-up pack or texture pack now?</value>
 	<data name="IDS_DESC_EMERALD">
 		<value>Can be traded with villagers.</value>
 	</data>	
+	
+	<data name="IDS_DESC_SAPPHIRE">
+		<value>Can be traded with lunar friends.</value>
+	</data>	
 
 	<data name="IDS_DESC_FLOWERPOT">
 		<value>Used as a decoration. Flowers, Saplings, Cacti and Mushrooms can be planted in it.</value>
@@ -8156,6 +8404,10 @@ Would you like to install the mash-up pack or texture pack now?</value>
 
 	<data name="IDS_ITEM_EMERALD">
 		<value>Emerald</value>
+	</data>	
+	
+	<data name="IDS_ITEM_SAPPHIRE">
+		<value>Sapphire</value>
 	</data>	
 
 	<data name="IDS_FLOWERPOT">

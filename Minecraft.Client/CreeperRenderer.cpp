@@ -1,8 +1,14 @@
 #include "stdafx.h"
 #include "CreeperRenderer.h"
 #include "CreeperModel.h"
+#include "ModelPart.h"
 #include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
 #include "..\Minecraft.World\Mth.h"
+#include "..\Minecraft.World\net.minecraft.world.item.h"
+#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
+#include "..\Minecraft.World\net.minecraft.world.entity.h"
+#include "..\Minecraft.World\net.minecraft.h"
+#include "EntityRenderDispatcher.h"
 
 ResourceLocation CreeperRenderer::POWER_LOCATION = ResourceLocation(TN_POWERED_CREEPER);
 ResourceLocation CreeperRenderer::CREEPER_LOCATION = ResourceLocation(TN_MOB_CREEPER);
@@ -95,4 +101,38 @@ int CreeperRenderer::prepareArmorOverlay(shared_ptr<LivingEntity> mob, int layer
 ResourceLocation *CreeperRenderer::getTextureLocation(shared_ptr<Entity> mob)
 {
     return &CREEPER_LOCATION;
+}
+
+void CreeperRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
+{
+    shared_ptr<Creeper> mob = dynamic_pointer_cast<Creeper>(_mob);
+    shared_ptr<ItemInstance> headGear = mob->getArmor(3);
+    if (headGear != nullptr)
+    {
+        // don't render the pumpkin of skulls for the skins with that disabled
+        // 4J-PB - need to disable rendering armour/skulls/pumpkins for some special skins (Daleks)
+
+        if ((mob->getAnimOverrideBitmask() & (1 << HumanoidModel::eAnim_DontRenderArmour)) == 0)
+        {
+            glPushMatrix();
+            CreeperModel* creeperModel = dynamic_cast<CreeperModel*>(model);
+            creeperModel->head->translateTo(1 / 16.0f);
+
+            if (headGear->getItem()->id < 256)
+            {
+                if (Tile::tiles[headGear->id] != nullptr && TileRenderer::canRender(Tile::tiles[headGear->id]->getRenderShape()))
+                {
+                    float s = 10 / 16.0f;
+                    glTranslatef(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
+                    glRotatef(90, 0, 1, 0);
+                    glScalef(s, -s, -s);
+                }
+
+                this->entityRenderDispatcher->itemInHandRenderer->renderItem(mob, headGear, 0);
+            }
+
+            glPopMatrix();
+        }
+    }
+    MobRenderer::additionalRendering(_mob, a);
 }

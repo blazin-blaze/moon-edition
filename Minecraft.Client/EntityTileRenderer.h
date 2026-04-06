@@ -13,6 +13,7 @@ class EntityTileRenderer
 	 shared_ptr<ChestTileEntity> chest;
 	 shared_ptr<ChestTileEntity> trappedChest;
 	 shared_ptr<EnderChestTileEntity> enderChest;
+	 shared_ptr<ChestTileEntity> treasureChest;
 
  public:
 	 EntityTileRenderer();

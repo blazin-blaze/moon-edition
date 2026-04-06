@@ -256,6 +256,8 @@ const wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
 	L"Mob_Witch_Colour2",
 	L"Mob_Horse_Colour1",
 	L"Mob_Horse_Colour2",
+	L"Mob_Lunar_Colour1",
+	L"Mob_Lunar_Colour2",
 
 	L"Armour_Default_Leather_Colour",
 	L"Under_Water_Clear_Colour",

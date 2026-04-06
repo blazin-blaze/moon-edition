@@ -573,6 +573,28 @@ Recipes::Recipes()
 		L'#', Item::wheat,
 		L'F');
 
+	addShapedRecipy(new ItemInstance(Item::cheeseburger, 1), //
+		L"ssscicicig",
+		L"BBB", //
+		L"CSC", //
+		L"BBB", //
+
+		L'B', Item::bread,//
+		L'C', Item::cheese,//
+		L'S', Item::beef_cooked,
+		L'F');
+
+	addShapedRecipy(new ItemInstance(Item::poutine, 1), //
+		L"ssscicicig",
+		L"PPP", //
+		L"CCC", //
+		L" M ", //
+
+		L'P', Item::potato,//
+		L'C', Item::cheese,//
+		L'M', Item::mushroomStew,
+		L'F');
+
 	// Moved bow and arrow in from weapons to avoid stacking on the group name display
 	addShapedRecipy(new ItemInstance((Item *)Item::bow, 1), //
 		L"ssscicig",
@@ -644,6 +666,14 @@ Recipes::Recipes()
 		L"X", //
 		L"#", //
 		L'X', new ItemInstance(Item::coal, 1, CoalItem::STONE_COAL),//
+		L'#', Item::stick,
+		L'T');
+
+	addShapedRecipy(new ItemInstance(Tile::glowstoneTorch, 4), //
+		L"sscicig",
+		L"X", //
+		L"#", //
+		L'X', Item::yellowDust,//
 		L'#', Item::stick,
 		L'T');
 
@@ -992,6 +1022,20 @@ Recipes::Recipes()
 
 		L'D', Item::dye_powder, L'C', Item::fireworksCharge,
 		L'D');
+
+	addShapelessRecipy(new ItemInstance(Item::cheese, 9), //
+		L"tg",
+		Tile::cheeseBlock,
+		L'F');
+
+	addShapedRecipy(new ItemInstance(Tile::cheeseBlock), //
+		L"ssscig",
+		L"###", //
+		L"###", //
+		L"###", //
+
+		L'#', Item::cheese,
+		L'F');
 
 
 	// Sort so the largest recipes get checked first!

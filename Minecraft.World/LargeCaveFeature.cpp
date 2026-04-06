@@ -3,6 +3,7 @@
 #include "net.minecraft.world.level.tile.h"
 #include "net.minecraft.world.level.biome.h"
 #include "LargeCaveFeature.h"
+#include "Dimension.h"
 
 void LargeCaveFeature::addRoom(int64_t seed, int xOffs, int zOffs, byteArray blocks, double xRoom, double yRoom, double zRoom)
 {
@@ -140,7 +141,9 @@ void LargeCaveFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray b
 						{
 							int block = blocks[p];
 							if (block == Tile::grass_Id) hasGrass = true;
-							if (block == Tile::stone_Id || block == Tile::dirt_Id || block == Tile::grass_Id)
+							bool overworldReady = block == Tile::stone_Id || block == Tile::dirt_Id || block == Tile::grass_Id;
+							bool moonReady = block == Tile::moonStone_Id || block == Tile::moonDirt_Id || block == Tile::moonTurf_Id;
+							if ((level->dimension->id == 2 && moonReady) || overworldReady)
 							{
 								if (yy < 10)
 								{

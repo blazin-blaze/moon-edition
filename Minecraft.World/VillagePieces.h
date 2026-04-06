@@ -70,6 +70,7 @@ private:
 	private:
 		int spawnedVillagerCount;
 		bool isDesertVillage;
+		bool isLunarVillage;
 	protected:
 		StartPiece *startPiece;
 
@@ -124,6 +125,7 @@ public:
 		// these fields are only used in generation step and aren't serialized :{
 		BiomeSource *biomeSource;
 		bool isDesertVillage;
+		bool isLunarVillage;
 
 		int villageSize;
 		bool isLibraryAdded;
@@ -376,6 +378,7 @@ public:
 
 		int cropsA;
 		int cropsB;
+		bool isLunarVillage;
 
 		int selectCrops(Random *random);
 
@@ -410,6 +413,7 @@ public:
 		int cropsB;
 		int cropsC;
 		int cropsD;
+		bool isLunarVillage;
 
 		int selectCrops(Random *random);
 

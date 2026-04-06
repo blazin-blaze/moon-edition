@@ -7,7 +7,7 @@
 #include "SharedConstants.h"
 #include "JavaMath.h"
 #include "ThrownPotion.h"
-
+#include "Dimension.h"
 
 
 const double ThrownPotion::SPLASH_RANGE = 4.0;
@@ -57,7 +57,13 @@ ThrownPotion::ThrownPotion(Level *level, double x, double y, double z, shared_pt
 
 float ThrownPotion::getGravity()
 {
-	return 0.05f;
+	int* id = &(level->dimension->id);
+	if (id != nullptr && *id == 2) {
+		return 0.00833333333f;
+	}
+	else {
+		return 0.05f;
+	}
 }
 
 float ThrownPotion::getThrowPower()

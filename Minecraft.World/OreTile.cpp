@@ -7,6 +7,10 @@ OreTile::OreTile(int id) : Tile(id, Material::stone)
 {
 }
 
+OreTile::OreTile(int id, Material *mat) : Tile(id, mat)
+{
+}
+
 int OreTile::getResource(int data, Random *random, int playerBonusLevel)
 {
     if (id == Tile::coalOre_Id) return Item::coal_Id;
@@ -14,6 +18,9 @@ int OreTile::getResource(int data, Random *random, int playerBonusLevel)
     if (id == Tile::lapisOre_Id) return Item::dye_powder_Id;
 	if (id == Tile::emeraldOre_Id) return Item::emerald_Id;
 	if (id == Tile::netherQuartz_Id) return Item::netherQuartz_Id;
+	if (id == Tile::sapphireOre_Id) return Item::sapphire_Id;
+	if (id == Tile::moonQuartzOre_Id) return Item::netherQuartz_Id;
+	if (id == Tile::cheeseOre_Id) return Item::cheese_Id;
     return id;
 }
 
@@ -57,11 +64,19 @@ void OreTile::spawnResources(Level *level, int x, int y, int z, int data, float 
 		{
 			magicCount = Mth::nextInt(level->random, 3, 7);
 		}
+		else if (id == Tile::sapphireOre_Id)
+		{
+			magicCount = Mth::nextInt(level->random, 3, 7);
+		}
 		else if (id == Tile::lapisOre_Id)
 		{
 			magicCount = Mth::nextInt(level->random, 2, 5);
 		}
 		else if (id == Tile::netherQuartz_Id)
+		{
+			magicCount = Mth::nextInt(level->random, 2, 5);
+		}
+		else if (id == Tile::moonQuartzOre_Id)
 		{
 			magicCount = Mth::nextInt(level->random, 2, 5);
 		}

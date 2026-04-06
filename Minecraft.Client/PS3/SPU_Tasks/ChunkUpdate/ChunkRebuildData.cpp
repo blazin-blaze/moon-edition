@@ -147,7 +147,7 @@ void ChunkRebuildData::buildMaterials()
 {
 	buildMaterial(Material_SPU::air_Id,					Material::air);					
 	buildMaterial(Material_SPU::grass_Id,				Material::grass);				
-	buildMaterial(Material_SPU::dirt_Id,				Material::dirt);				
+	buildMaterial(Material_SPU::dirt_Id,				Material::dirt);	
 	buildMaterial(Material_SPU::wood_Id,				Material::wood);				
 	buildMaterial(Material_SPU::stone_Id,				Material::stone);				
 	buildMaterial(Material_SPU::metal_Id,				Material::metal);				

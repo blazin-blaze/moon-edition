@@ -700,6 +700,7 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y , float z,
 
 		bool playerInEnd=false;
 		bool playerInNether=false;
+		bool playerOnMoon = false;
 
 		for(unsigned int i=0;i<MAX_LOCAL_PLAYERS;i++)
 		{
@@ -713,6 +714,10 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y , float z,
 				{
 					playerInNether=true;
 				}
+				else if (pMinecraft->localplayers[i]->dimension == LevelData::DIMENSION_MOON)
+				{
+					playerOnMoon = true;
+				}
 			}
 		}
 		if(playerInEnd)
@@ -722,6 +727,9 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y , float z,
 		else if(playerInNether)
 		{
 			m_musicID = getMusicID(LevelData::DIMENSION_NETHER);
+		}
+		else if (playerOnMoon) {
+			m_musicID = getMusicID(LevelData::DIMENSION_MOON);
 		}
 		else
 		{
@@ -813,6 +821,9 @@ int SoundEngine::getMusicID(int iDomain)
 		case LevelData::DIMENSION_NETHER:
 			return GetRandomishTrack(m_iStream_Nether_Min,m_iStream_Nether_Max);
 			//return m_iStream_Nether_Min + random->nextInt(m_iStream_Nether_Max-m_iStream_Nether_Min);
+		case LevelData::DIMENSION_MOON:
+			// the end isn't random - it has different music depending on whether the dragon is alive or not, but we've not added the dead dragon music yet
+			return GetRandomishTrack(m_iStream_Overworld_Min, m_iStream_Overworld_Max);
 		default: //overworld
 			//return m_iStream_Overworld_Min + random->nextInt(m_iStream_Overworld_Max-m_iStream_Overworld_Min);
 			return GetRandomishTrack(m_iStream_Overworld_Min,m_iStream_Overworld_Max);
@@ -828,6 +839,8 @@ int SoundEngine::getMusicID(int iDomain)
 		case LevelData::DIMENSION_NETHER:
 			//return m_iStream_Nether_Min + random->nextInt(m_iStream_Nether_Max-m_iStream_Nether_Min);
 			return GetRandomishTrack(m_iStream_Nether_Min,m_iStream_Nether_Max);
+		case LevelData::DIMENSION_MOON:
+			return GetRandomishTrack(m_iStream_Overworld_Min, m_iStream_Overworld_Max);
 		default: //overworld
 			//return m_iStream_Overworld_Min + random->nextInt(m_iStream_Overworld_Max-m_iStream_Overworld_Min);
 			return GetRandomishTrack(m_iStream_Overworld_Min,m_iStream_Overworld_Max);
@@ -1286,6 +1299,7 @@ void SoundEngine::playMusicUpdate()
 			{
 				bool playerInEnd = false;
 				bool playerInNether=false;
+				bool playerOnMoon = false;
 				Minecraft *pMinecraft = Minecraft::GetInstance();
 				for(unsigned int i = 0; i < MAX_LOCAL_PLAYERS; ++i)
 				{
@@ -1299,6 +1313,10 @@ void SoundEngine::playMusicUpdate()
 						{
 							playerInNether=true;
 						}
+						else if (pMinecraft->localplayers[i]->dimension == LevelData::DIMENSION_MOON)
+						{
+							playerOnMoon = true;
+						}
 					}
 				}
 
@@ -1309,7 +1327,8 @@ void SoundEngine::playMusicUpdate()
 					// Set the end track
 					m_musicID = getMusicID(LevelData::DIMENSION_END);
 					SetIsPlayingEndMusic(true);
-					SetIsPlayingNetherMusic(false);					
+					SetIsPlayingNetherMusic(false);	
+					SetIsPlayingMoonMusic(false);
 				}
 				else if(!playerInEnd && GetIsPlayingEndMusic())
 				{
@@ -1320,7 +1339,18 @@ void SoundEngine::playMusicUpdate()
 						// Set the end track
 						m_musicID = getMusicID(LevelData::DIMENSION_NETHER);
 						SetIsPlayingEndMusic(false);
-						SetIsPlayingNetherMusic(true);					
+						SetIsPlayingNetherMusic(true);	
+						SetIsPlayingMoonMusic(false);
+					}
+					else if (playerOnMoon)
+					{
+						m_StreamState = eMusicStreamState_Stop;
+
+						// Set the end track
+						m_musicID = getMusicID(LevelData::DIMENSION_MOON);
+						SetIsPlayingEndMusic(false);
+						SetIsPlayingNetherMusic(false);
+						SetIsPlayingMoonMusic(true);
 					}
 					else
 					{
@@ -1329,7 +1359,8 @@ void SoundEngine::playMusicUpdate()
 						// Set the end track
 						m_musicID = getMusicID(LevelData::DIMENSION_OVERWORLD);
 						SetIsPlayingEndMusic(false);
-						SetIsPlayingNetherMusic(false);					
+						SetIsPlayingNetherMusic(false);		
+						SetIsPlayingMoonMusic(false);
 					}
 				}
 				else if (playerInNether && !GetIsPlayingNetherMusic())
@@ -1339,6 +1370,7 @@ void SoundEngine::playMusicUpdate()
 					m_musicID = getMusicID(LevelData::DIMENSION_NETHER);
 					SetIsPlayingNetherMusic(true);
 					SetIsPlayingEndMusic(false);
+					SetIsPlayingMoonMusic(false);
 				}
 				else if(!playerInNether && GetIsPlayingNetherMusic())
 				{
@@ -1349,6 +1381,15 @@ void SoundEngine::playMusicUpdate()
 						m_musicID = getMusicID(LevelData::DIMENSION_END);
 						SetIsPlayingNetherMusic(false);
 						SetIsPlayingEndMusic(true);
+						SetIsPlayingMoonMusic(false);
+					}
+					else if (playerOnMoon) {
+						m_StreamState = eMusicStreamState_Stop;
+						// set the Nether track
+						m_musicID = getMusicID(LevelData::DIMENSION_MOON);
+						SetIsPlayingNetherMusic(false);
+						SetIsPlayingEndMusic(false);
+						SetIsPlayingMoonMusic(true);
 					}
 					else
 					{
@@ -1357,6 +1398,47 @@ void SoundEngine::playMusicUpdate()
 						m_musicID = getMusicID(LevelData::DIMENSION_OVERWORLD);
 						SetIsPlayingNetherMusic(false);
 						SetIsPlayingEndMusic(false);
+						SetIsPlayingMoonMusic(false);
+					}
+				}
+				else if (playerOnMoon && !GetIsPlayingMoonMusic())
+				{
+					m_StreamState = eMusicStreamState_Stop;
+					// set the Nether track
+					m_musicID = getMusicID(LevelData::DIMENSION_MOON);
+					SetIsPlayingNetherMusic(false);
+					SetIsPlayingEndMusic(false);
+					SetIsPlayingMoonMusic(true);
+				}
+				else if (!playerOnMoon && GetIsPlayingMoonMusic())
+				{
+					if (playerInEnd)
+					{
+						m_StreamState = eMusicStreamState_Stop;
+						// set the Nether track
+						m_musicID = getMusicID(LevelData::DIMENSION_END);
+						SetIsPlayingNetherMusic(false);
+						SetIsPlayingEndMusic(true);
+						SetIsPlayingMoonMusic(false);
+					}
+					else if (playerInNether)
+					{
+						m_StreamState = eMusicStreamState_Stop;
+
+						// Set the end track
+						m_musicID = getMusicID(LevelData::DIMENSION_NETHER);
+						SetIsPlayingEndMusic(false);
+						SetIsPlayingNetherMusic(true);
+						SetIsPlayingMoonMusic(false);
+					}
+					else
+					{
+						m_StreamState = eMusicStreamState_Stop;
+						// set the Nether track
+						m_musicID = getMusicID(LevelData::DIMENSION_OVERWORLD);
+						SetIsPlayingNetherMusic(false);
+						SetIsPlayingEndMusic(false);
+						SetIsPlayingMoonMusic(false);
 					}
 				}
 
@@ -1417,6 +1499,7 @@ void SoundEngine::playMusicUpdate()
 			Minecraft *pMinecraft=Minecraft::GetInstance();
 			bool playerInEnd=false;
 			bool playerInNether=false;
+			bool playerOnMoon = false;
 
 			for(unsigned int i=0;i<MAX_LOCAL_PLAYERS;i++)
 			{
@@ -1430,6 +1513,10 @@ void SoundEngine::playMusicUpdate()
 					{
 						playerInNether=true;
 					}
+					else if (pMinecraft->localplayers[i]->dimension == LevelData::DIMENSION_MOON)
+					{
+						playerOnMoon = true;
+					}
 				}
 			}
 			if(playerInEnd)
@@ -1437,18 +1524,28 @@ void SoundEngine::playMusicUpdate()
 				m_musicID = getMusicID(LevelData::DIMENSION_END);
 				SetIsPlayingEndMusic(true);
 				SetIsPlayingNetherMusic(false);
+				SetIsPlayingMoonMusic(false);
 			}
 			else if(playerInNether)
 			{
 				m_musicID = getMusicID(LevelData::DIMENSION_NETHER);
 				SetIsPlayingNetherMusic(true);
 				SetIsPlayingEndMusic(false);
+				SetIsPlayingMoonMusic(false);
+			}
+			else if (playerOnMoon)
+			{
+				m_musicID = getMusicID(LevelData::DIMENSION_MOON);
+				SetIsPlayingNetherMusic(false);
+				SetIsPlayingEndMusic(false);
+				SetIsPlayingMoonMusic(true);
 			}
 			else
 			{
 				m_musicID = getMusicID(LevelData::DIMENSION_OVERWORLD);
 				SetIsPlayingNetherMusic(false);
 				SetIsPlayingEndMusic(false);
+				SetIsPlayingMoonMusic(false);
 			}
 
 			m_StreamState=eMusicStreamState_Idle;

@@ -856,7 +856,7 @@ void Tile_SPU::initTilePointers()
 	CREATE_TILE_TYPE(whiteStone_Id, Tile_SPU);
 	CREATE_TILE_TYPE(unbreakable_Id, Tile_SPU);
 	CREATE_TILE_TYPE(sponge_Id, Tile_SPU);
-	CREATE_TILE_TYPE(rock_Id, Tile_SPU);			// StoneTile
+	CREATE_TILE_TYPE(rock_Id, Tile_SPU);		// StoneTile
 	CREATE_TILE_TYPE(obsidian_Id, Tile_SPU);		// StoneTile->ObsidianTile
 	CREATE_TILE_TYPE(sand_Id, Tile_SPU);			// HeavyTile
 	CREATE_TILE_TYPE(gravel_Id, Tile_SPU);			// GravelTile

@@ -22,6 +22,7 @@ class TilePos;
 
 
 
+
 // Scale was 8 in the Java game, but that would make our nether tiny
 // Every 1 block you move in the nether maps to HELL_LEVEL_SCALE blocks in the overworld
 #ifdef _LARGE_WORLDS
@@ -32,14 +33,29 @@ class TilePos;
 #define HELL_LEVEL_SCALE_MEDIUM 6
 #define HELL_LEVEL_SCALE_LARGE 8
 
+#define MOON_LEVEL_MAX_SCALE 8
+
+#define MOON_LEVEL_SCALE_CLASSIC 3
+#define MOON_LEVEL_SCALE_SMALL 3
+#define MOON_LEVEL_SCALE_MEDIUM 6
+#define MOON_LEVEL_SCALE_LARGE 8
+
+
 #else
 #define HELL_LEVEL_MAX_SCALE 3
+#define MOON_LEVEL_MAX_SCALE 3
 #endif
 #define HELL_LEVEL_MIN_SCALE 3
 #define HELL_LEVEL_LEGACY_SCALE 3
 
 #define HELL_LEVEL_MAX_WIDTH (LEVEL_MAX_WIDTH / HELL_LEVEL_MAX_SCALE)
 #define HELL_LEVEL_MIN_WIDTH 18
+
+#define MOON_LEVEL_MIN_SCALE 3
+#define MOON_LEVEL_LEGACY_SCALE 3
+
+#define MOON_LEVEL_MAX_WIDTH (LEVEL_MAX_WIDTH / MOON_LEVEL_MAX_SCALE)
+#define MOON_LEVEL_MIN_WIDTH 18
 
 #define END_LEVEL_SCALE 3
 // 4J Stu - Fix the size of the end for all platforms

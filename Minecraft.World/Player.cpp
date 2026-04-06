@@ -108,6 +108,8 @@ void Player::_init()
 	enderChestInventory = std::make_shared<PlayerEnderChestContainer>();
 
 	m_bAwardedOnARail=false;
+
+	glassMask = std::make_shared<ItemInstance>(Tile::glass_Id, 1, 0);
 }
 
 Player::Player(Level *level, const wstring &name) : LivingEntity( level )
@@ -949,9 +951,11 @@ void Player::rideTick()
 {
 	if (!level->isClientSide && isSneaking())
 	{
-		ride(nullptr);
-		setSneaking(false);
-		return;
+		if (riding == nullptr || (riding->GetType() & eTYPE_ROCKET) != eTYPE_ROCKET) {
+			ride(nullptr);
+			setSneaking(false);
+			return;
+		}
 	}
 
 	double preX = x, preY = y, preZ = z;
@@ -1061,6 +1065,12 @@ void Player::aiStep()
 					touch(e);
 				}
 			}
+		}
+	}
+
+	if (tickCount % 20 == 0 && level->dimension->id == 2) {
+		if (!inventory->getOxygenSetup()) {
+			hurt(DamageSource::inWall, 1);
 		}
 	}
 }
@@ -2114,6 +2124,27 @@ void Player::travel(float xa, float ya)
 	else
 	{
 		LivingEntity::travel(xa, ya);
+	}
+
+	if (preY >= 400) {
+		//this->moveTo(x, level->getHeightmap(x, z), z, yRot, xRot);
+		if (this->isRiding() && dynamic_cast<Rocket*>(riding.get())) {
+			Rocket* rocket = dynamic_cast<Rocket*>(riding.get());
+			rocket->setLaunched(false);
+			riding->remove();
+			riding = nullptr;
+			this->ride(nullptr);
+			this->setSneaking(false);
+			if (this->level->dimension->id == 2) {
+				this->changeDimension(0);
+			}
+			else {
+				this->changeDimension(2);
+			}
+			if (!this->abilities.instabuild) {
+				this->inventory->add(std::make_shared<ItemInstance>(Item::rocket, 1));
+			}
+		}
 	}
 
 	checkMovementStatistiscs(x - preX, y - preY, z - preZ);

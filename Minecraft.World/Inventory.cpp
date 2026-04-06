@@ -19,6 +19,7 @@ Inventory::Inventory(Player *player)
 {
 	items = ItemInstanceArray( INVENTORY_SIZE );
 	armor = ItemInstanceArray( 4 );
+	space = ItemInstanceArray(4);
 
 	selected = 0;
 
@@ -33,6 +34,7 @@ Inventory::~Inventory()
 {
 	delete [] items.data;
 	delete [] armor.data;
+	delete[] space.data;
 }
 
 shared_ptr<ItemInstance> Inventory::getSelected()
@@ -176,6 +178,16 @@ int Inventory::clearInventory(int id, int data)
 
 		count += item->count;
 		armor[i] = nullptr;
+	}
+	for (int i = 0; i < space.length; i++)
+	{
+		shared_ptr<ItemInstance> item = space[i];
+		if (item == nullptr) continue;
+		if (id > -1 && item->id != id) continue;
+		if (data > -1 && item->getAuxValue() != data) continue;
+
+		count += item->count;
+		space[i] = nullptr;
 	}
 
 	if (carried != nullptr)
@@ -421,10 +433,14 @@ shared_ptr<ItemInstance> Inventory::removeItem(unsigned int slot, int count)
 {
 
 	ItemInstanceArray pile = items;
-	if (slot >= items.length)
+	if (slot >= items.length + armor.length)
+	{
+		pile = space;
+		slot -= (items.length + armor.length);
+	} else if (slot >= items.length)
 	{
 		pile = armor;
-		slot -= items.length;
+		slot -= (items.length);
 	}
 
 	if (pile[slot] != nullptr)
@@ -448,10 +464,14 @@ shared_ptr<ItemInstance> Inventory::removeItem(unsigned int slot, int count)
 shared_ptr<ItemInstance> Inventory::removeItemNoUpdate(int slot)
 {
 	ItemInstanceArray pile = items;
-	if (slot >= items.length)
+	if (slot >= items.length + armor.length)
+	{
+		pile = space;
+		slot -= (items.length + armor.length);
+	}else if (slot >= items.length)
 	{
 		pile = armor;
-		slot -= items.length;
+		slot -= (items.length);
 	}
 
 	if (pile[slot] != nullptr)
@@ -480,7 +500,10 @@ void Inventory::setItem(unsigned int slot, shared_ptr<ItemInstance> item)
 	}
 #endif
 	// 4J Stu - Changed this a little from Java to be less funn
-	if( slot >= items.length )
+	if (slot >= items.length + armor.length)
+	{
+		space[slot - items.length - armor.length] = item;
+	} else if (slot >= items.length)
 	{
 		armor[slot - items.length] = item;
 	}
@@ -530,6 +553,16 @@ ListTag<CompoundTag> *Inventory::save(ListTag<CompoundTag> *listTag)
 			listTag->add(tag);
 		}
 	}
+	for (unsigned int i = 0; i < space.length; i++)
+	{
+		if (space[i] != nullptr)
+		{
+			CompoundTag* tag = new CompoundTag();
+			tag->putByte(L"Slot", static_cast<byte>(i + 104));
+			space[i]->save(tag);
+			listTag->add(tag);
+		}
+	}
 	return listTag;
 }
 
@@ -546,8 +579,15 @@ void Inventory::load(ListTag<CompoundTag> *inventoryList)
 		armor.data = nullptr;
 
 	}
+	if (space.data != nullptr)
+	{
+		delete[] space.data;
+		space.data = nullptr;
+
+	}
 	items = ItemInstanceArray( INVENTORY_SIZE );
 	armor = ItemInstanceArray( 4 );
+	space = ItemInstanceArray(4);
 	for (int i = 0; i < inventoryList->size(); i++)
 	{
 		CompoundTag *tag = inventoryList->get(i);
@@ -557,21 +597,25 @@ void Inventory::load(ListTag<CompoundTag> *inventoryList)
 		{
 			if (slot >= 0 && slot < items.length) items[slot] = item;
 			if (slot >= 100 && slot < armor.length + 100) armor[slot - 100] = item;
+			if (slot >= 104 && slot < space.length + 104) space[slot - 104] = item;
 		}
 	}
 }
 
 unsigned int Inventory::getContainerSize()
 {
-	return items.length + 4;
+	return items.length + 8;
 }
 
 shared_ptr<ItemInstance> Inventory::getItem(unsigned int slot)
 {
 	// 4J Stu - Changed this a little from the Java so it's less funny
-	if( slot >= items.length )
+	if( slot >= items.length + armor.length )
 	{
-		return armor[ slot - items.length ];
+		return space[ slot - items.length - armor.length ];
+	} else if (slot >= items.length)
+	{
+		return armor[slot - items.length];
 	}
 	else
 	{
@@ -621,6 +665,42 @@ bool Inventory::canDestroy(Tile *tile)
 shared_ptr<ItemInstance> Inventory::getArmor(int layer)
 {
 	return armor[layer];
+}
+
+shared_ptr<ItemInstance> Inventory::getMask()
+{
+	return space[2];
+}
+
+bool Inventory::getOxygenSetup()
+{
+	shared_ptr<ItemInstance> oxygenMask = space[2];
+	shared_ptr<ItemInstance> oxygenGear = space[1];
+	shared_ptr<ItemInstance> oxygenTank = space[0];
+	if (oxygenMask != nullptr && oxygenGear != nullptr && oxygenTank != nullptr) {
+		return true;
+	}
+	return false;
+}
+
+bool Inventory::getFrequencyModule()
+{
+	shared_ptr<ItemInstance> frequencyModule = space[3];
+	if (frequencyModule != nullptr) {
+		return true;
+	}
+	return false;
+}
+
+void Inventory::depleteOxygen(float damage)
+{
+	if (space[0] != nullptr && space[0]->getItem() != nullptr) {
+		space[0]->hurtAndBreak(static_cast<int>(damage), dynamic_pointer_cast<LivingEntity>(player->shared_from_this()));
+		if (space[0]->count == 0)
+		{
+			space[0] = nullptr;
+		}
+	}
 }
 
 int Inventory::getArmorValue()
@@ -676,6 +756,14 @@ void Inventory::dropAll()
 			armor[i] = nullptr;
 		}
 	}
+	for (unsigned int i = 0; i < space.length; i++)
+	{
+		if (space[i] != nullptr)
+		{
+			player->drop(space[i], true);
+			space[i] = nullptr;
+		}
+	}
 }
 
 void Inventory::setChanged()
@@ -692,6 +780,10 @@ bool Inventory::isSame(shared_ptr<Inventory> copy)
 	for (unsigned int i = 0; i < armor.length; i++)
 	{
 		if (!isSame( copy->armor[i], armor[i])) return false;
+	}
+	for (unsigned int i = 0; i < space.length; i++)
+	{
+		if (!isSame(copy->space[i], space[i])) return false;
 	}
 	return true;
 }
@@ -716,6 +808,10 @@ shared_ptr<Inventory> Inventory::copy()
 	for (unsigned int i = 0; i < armor.length; i++)
 	{
 		copy->armor[i] = armor[i] != nullptr ? armor[i]->copy() : nullptr;
+	}
+	for (unsigned int i = 0; i < space.length; i++)
+	{
+		copy->space[i] = space[i] != nullptr ? space[i]->copy() : nullptr;
 	}
 	return copy;
 }
@@ -743,6 +839,10 @@ bool Inventory::contains(shared_ptr<ItemInstance> itemInstance)
 	for (unsigned int i = 0; i < armor.length; i++)
 	{
 		if (armor[i] != nullptr && armor[i]->sameItem(itemInstance)) return true;
+	}
+	for (unsigned int i = 0; i < space.length; i++)
+	{
+		if (space[i] != nullptr && space[i]->sameItem(itemInstance)) return true;
 	}
 	for (unsigned int i = 0; i < items.length; i++)
 	{
@@ -775,6 +875,10 @@ void Inventory::replaceWith(shared_ptr<Inventory> other)
 	for (int i = 0; i < armor.length; i++)
 	{
 		armor[i] = ItemInstance::clone(other->armor[i]);
+	}
+	for (int i = 0; i < space.length; i++)
+	{
+		space[i] = ItemInstance::clone(other->space[i]);
 	}
 
 	selected = other->selected;

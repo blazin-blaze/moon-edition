@@ -8,11 +8,21 @@
 #include "net.minecraft.h"
 #include "CakeTile.h"
 
+CakeTile::CakeTile(int id, bool isCheese) : Tile(id, Material::cake, isSolidRender())
+{
+	setTicking(true);
+
+	isCakeCheese = isCheese;
+	iconTop = nullptr;
+	iconBottom = nullptr;
+	iconInner = nullptr;
+}
 
 CakeTile::CakeTile(int id) : Tile(id, Material::cake,isSolidRender())
 {
 	setTicking(true);
 
+	isCakeCheese = false;
 	iconTop = nullptr;
 	iconBottom = nullptr;
 	iconInner = nullptr;
@@ -62,10 +72,18 @@ Icon *CakeTile::getTexture(int face, int data)
 
 void CakeTile::registerIcons(IconRegister *iconRegister)
 {
-	icon = iconRegister->registerIcon(L"cake_side");
-	iconInner = iconRegister->registerIcon(L"cake_inner");
-	iconTop = iconRegister->registerIcon(L"cake_top");
-	iconBottom = iconRegister->registerIcon(L"cake_bottom");
+	if (isCakeCheese) {
+		icon = iconRegister->registerIcon(L"cheese_block_side");
+		iconInner = iconRegister->registerIcon(L"cheese_block_side");
+		iconTop = iconRegister->registerIcon(L"cheese_block_top");
+		iconBottom = iconRegister->registerIcon(L"cheese_block_top");
+	}
+	else {
+		icon = iconRegister->registerIcon(L"cake_side");
+		iconInner = iconRegister->registerIcon(L"cake_inner");
+		iconTop = iconRegister->registerIcon(L"cake_top");
+		iconBottom = iconRegister->registerIcon(L"cake_bottom");
+	}
 }
 
 bool CakeTile::isCubeShaped()

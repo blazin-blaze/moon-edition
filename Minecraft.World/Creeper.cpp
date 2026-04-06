@@ -17,7 +17,7 @@
 #include "Arrow.h"
 #include "..\Minecraft.Client\Textures.h"
 #include "SoundTypes.h"
-
+#include "Dimension.h"
 
 
 void Creeper::_init()
@@ -189,4 +189,19 @@ void Creeper::thunderHit(const LightningBolt *lightningBolt)
 {
 	Monster::thunderHit(lightningBolt);
 	entityData->set(DATA_IS_POWERED, static_cast<byte>(1));
+}
+
+MobGroupData* Creeper::finalizeMobSpawn(MobGroupData* groupData, int extraData /*= 0*/) // 4J Added extraData param
+{
+	groupData = Monster::finalizeMobSpawn(groupData);
+
+	if (getCarried(SLOT_HELM) == nullptr) {
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
+			dropChances[SLOT_HELM] = 0;
+		}
+	}
+
+	return groupData;
 }

@@ -17,7 +17,7 @@
 #include "net.minecraft.world.entity.monster.h"
 #include "net.minecraft.stats.h"
 #include "SoundTypes.h"
-
+#include "Dimension.h"
 
 
 // base damage, multiplied with velocity
@@ -437,6 +437,10 @@ void Arrow::tick()
 
 	float inertia = 0.99f;
 	float gravity = 0.05f;
+	int* id = &(level->dimension->id);
+	if (id != nullptr && *id == 2) {
+		gravity = 0.00833333333f;
+	}
 
 	if (isInWater())
 	{

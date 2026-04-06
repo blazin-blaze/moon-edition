@@ -32,6 +32,7 @@
 #include "ParticleTypes.h"
 #include "GenericStats.h"
 #include "ItemEntity.h"
+#include "Dimension.h"
 
 const double LivingEntity::MIN_MOVEMENT_DISTANCE = 0.005;
 
@@ -1010,24 +1011,30 @@ void LivingEntity::causeFallDamage(float distance)
 	int dmg = static_cast<int>(ceil(distance - 3 - padding));
 	if (dmg > 0)
 	{
-		// 4J - new sounds here brought forward from 1.2.3
-		if (dmg > 4)
-		{
-			playSound(eSoundType_DAMAGE_FALL_BIG, 1, 1);
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			//Do nothing - not taking fall damage in the moon dimension.
 		}
-		else
-		{
-			playSound(eSoundType_DAMAGE_FALL_SMALL, 1, 1);
-		}
-		hurt(DamageSource::fall, dmg);
+		else {
+			// 4J - new sounds here brought forward from 1.2.3
+			if (dmg > 4)
+			{
+				playSound(eSoundType_DAMAGE_FALL_BIG, 1, 1);
+			}
+			else
+			{
+				playSound(eSoundType_DAMAGE_FALL_SMALL, 1, 1);
+			}
+			hurt(DamageSource::fall, dmg);
 
-		int t = level->getTile( Mth::floor(x), Mth::floor(y - 0.2f - this->heightOffset), Mth::floor(z));
-		if (t > 0)
-		{
-			const Tile::SoundType *soundType = Tile::tiles[t]->soundType;
-			MemSect(31);
-			playSound(soundType->getStepSound(), soundType->getVolume() * 0.5f, soundType->getPitch() * 0.75f);
-			MemSect(0);
+			int t = level->getTile(Mth::floor(x), Mth::floor(y - 0.2f - this->heightOffset), Mth::floor(z));
+			if (t > 0)
+			{
+				const Tile::SoundType* soundType = Tile::tiles[t]->soundType;
+				MemSect(31);
+				playSound(soundType->getStepSound(), soundType->getVolume() * 0.5f, soundType->getPitch() * 0.75f);
+				MemSect(0);
+			}
 		}
 	}
 }
@@ -1480,7 +1487,13 @@ void LivingEntity::travel(float xa, float ya)
 
 		if (!level->isClientSide || (level->hasChunkAt(static_cast<int>(x), 0, static_cast<int>(z)) && level->getChunkAt(static_cast<int>(x), static_cast<int>(z))->loaded))
 		{
-			yd -= 0.08;
+			int* id = &(level->dimension->id);
+			if (id != nullptr && *id == 2) {
+				yd -= 0.0133333333;
+			}
+			else {
+				yd -= 0.08;
+			}
 		}
 		else if (y > 0)
 		{

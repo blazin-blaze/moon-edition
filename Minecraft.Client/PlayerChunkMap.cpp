@@ -440,7 +440,7 @@ PlayerChunkMap::PlayerChunk *PlayerChunkMap::getChunk(int x, int z, bool create)
 	{
         chunk = new PlayerChunk(x, z, this);
         chunks[id] = chunk;
-		knownChunks.push_back(chunk);
+		knownChunks.push_back(chunk); //this is where it breaks
     }
 
 	return chunk;

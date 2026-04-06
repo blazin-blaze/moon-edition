@@ -30,3 +30,5 @@
 
 //1.2.3
 #include "JungleBiome.h"
+
+#include "MoonBiome.h"

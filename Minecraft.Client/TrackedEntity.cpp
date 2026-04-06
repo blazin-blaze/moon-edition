@@ -793,6 +793,10 @@ shared_ptr<Packet> TrackedEntity::getAddEntityPacket()
 	{
 		return std::make_shared<AddExperienceOrbPacket>(dynamic_pointer_cast<ExperienceOrb>(e));
 	}
+	else if (e->instanceof(eTYPE_ROCKET))
+	{
+		return std::make_shared<AddEntityPacket>(e, AddEntityPacket::ROCKET, yRotp, xRotp, xp, yp, zp);
+		}
 	else
 	{
 		assert(false);

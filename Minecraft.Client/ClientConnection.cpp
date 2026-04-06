@@ -407,7 +407,7 @@ void ClientConnection::handleLogin(shared_ptr<LoginPacket> packet)
 
 			if(activeLevel == nullptr)
 			{
-				otherDimensionId = packet->dimension == 0 ? 1 : (packet->dimension == -1 ? 1 : -1);
+				otherDimensionId = packet->dimension == 0 ? 1 : (packet->dimension == -1 ? 1 : packet->dimension == 2 ? 1 : -1);
 				activeLevel = minecraft->getLevel(otherDimensionId);
 			}
 
@@ -592,6 +592,9 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 	case AddEntityPacket::LEASH_KNOT:
 		e = std::make_shared<LeashFenceKnotEntity>(level, (int)x, (int)y, (int)z);
 		packet->data = 0;
+		break;
+	case AddEntityPacket::ROCKET:
+		e = std::make_shared<Rocket>(level, x, y, z);
 		break;
 #ifndef _FINAL_BUILD
 	default:
@@ -1287,6 +1290,7 @@ void ClientConnection::handleChunkTilesUpdate(shared_ptr<ChunkTilesUpdatePacket>
 void ClientConnection::handleBlockRegionUpdate(shared_ptr<BlockRegionUpdatePacket> packet)
 {
 	// 4J - changed to encode level in packet
+	//app.DebugPrintf("levelidx is: &d", packet->levelIdx);
 	MultiPlayerLevel *dimensionLevel = (MultiPlayerLevel *)minecraft->levels[packet->levelIdx];
 	if( dimensionLevel )
 	{
@@ -2939,6 +2943,14 @@ void ClientConnection::handleRespawn(shared_ptr<RespawnPacket> packet)
 		else if( oldDimension == 1)
 		{
 			param->stringId = IDS_PROGRESS_LEAVING_END;
+		}
+		else if (packet->dimension == 2)
+		{
+			param->stringId = IDS_PROGRESS_ENTERING_MOON;
+		}
+		else if (oldDimension == 2)
+		{
+			param->stringId = IDS_PROGRESS_LEAVING_MOON;
 		}
 		param->showTooltips = false;
 		param->setFailTimer = false;

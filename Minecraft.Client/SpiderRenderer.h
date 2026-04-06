@@ -14,4 +14,5 @@ protected:
 	virtual float getFlipDegrees(shared_ptr<LivingEntity> spider);
 	virtual int prepareArmor(shared_ptr<LivingEntity> _spider, int layer, float a);
 	virtual ResourceLocation *getTextureLocation(shared_ptr<Entity> mob);
+	virtual void additionalRendering(shared_ptr<LivingEntity> _mob, float a);
 };

@@ -20,6 +20,7 @@ private:
 public:
 	ItemInstanceArray items;
 	ItemInstanceArray armor;
+	ItemInstanceArray space;
 
 	int selected;
 	Player *player; // This is owned by shared_ptrs, but we are owned by it
@@ -85,8 +86,12 @@ public:
 	int getMaxStackSize() const;
 	bool canDestroy(Tile *tile);
 	shared_ptr<ItemInstance> getArmor(int layer);
+	shared_ptr<ItemInstance> getMask();
+	bool getOxygenSetup();
+	bool getFrequencyModule();
 	int getArmorValue();
 	void hurtArmor(float dmg);
+	void depleteOxygen(float dmg);
 	void dropAll();
 	void setChanged();
 	bool isSame(shared_ptr<Inventory> copy);

@@ -15,6 +15,7 @@
 #include "LakeFeature.h"
 #include "LightGemFeature.h"
 #include "MonsterRoomFeature.h"
+#include "MoonMonsterRoomFeature.h"
 #include "OreFeature.h"
 #include "PineFeature.h"
 #include "PumpkinFeature.h"

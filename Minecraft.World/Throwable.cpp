@@ -5,7 +5,7 @@
 #include "net.minecraft.world.level.tile.h"
 #include "com.mojang.nbt.h"
 #include "Throwable.h"
-
+#include "Dimension.h"
 
 
 void Throwable::_throwableInit()
@@ -261,7 +261,13 @@ void Throwable::tick()
 
 float Throwable::getGravity()
 {
-	return 0.03f;
+	int* id = &(level->dimension->id);
+	if (id != nullptr && *id == 2) {
+		return 0.005f;
+	}
+	else {
+		return 0.03f;
+	}
 }
 
 

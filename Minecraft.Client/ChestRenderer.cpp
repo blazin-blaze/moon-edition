@@ -13,6 +13,7 @@ ResourceLocation ChestRenderer::CHEST_LARGE_LOCATION = ResourceLocation(TN_TILE_
 ResourceLocation ChestRenderer::CHEST_TRAP_LOCATION = ResourceLocation(TN_TILE_TRAP_CHEST);
 //ResourceLocation ChestRenderer::CHEST_XMAS_LOCATION = ResourceLocation(TN_TILE_XMAS_CHEST);
 ResourceLocation ChestRenderer::CHEST_LOCATION = ResourceLocation(TN_TILE_CHEST);
+ResourceLocation ChestRenderer::TREASURE_CHEST_LOCATION = ResourceLocation(TN_TILE_TREASURE_CHEST);
 
 ChestRenderer::ChestRenderer() : TileEntityRenderer()
 {
@@ -87,11 +88,13 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 		if (chest->getType() == ChestTile::TYPE_TRAP)
 		{
 			bindTexture(&CHEST_TRAP_LOCATION);
-		}
+		}else if (chest->getType() == 2) {
 		//else if (xmasTextures)
 		//{
 		//	bindTexture(&CHEST_XMAS_LOCATION);
 		//}
+			bindTexture(&TREASURE_CHEST_LOCATION);
+		}
 		else
 		{
 			bindTexture(&CHEST_LOCATION);

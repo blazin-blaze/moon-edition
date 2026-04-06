@@ -48,30 +48,35 @@ void ArmorRecipes::_init()
 	ADD_OBJECT(map[0],Item::ironIngot);
 	ADD_OBJECT(map[0],Item::diamond);
 	ADD_OBJECT(map[0],Item::goldIngot);
+	ADD_OBJECT(map[0], Item::titaniumIngot);
 
 	ADD_OBJECT(map[1],Item::helmet_leather);
 //	ADD_OBJECT(map[1],Item::helmet_chain);
 	ADD_OBJECT(map[1],Item::helmet_iron);
 	ADD_OBJECT(map[1],Item::helmet_diamond);
 	ADD_OBJECT(map[1],Item::helmet_gold);
+	ADD_OBJECT(map[1], Item::titaniumHelmet);
 
 	ADD_OBJECT(map[2],Item::chestplate_leather);
 //	ADD_OBJECT(map[2],Item::chestplate_chain);
 	ADD_OBJECT(map[2],Item::chestplate_iron);
 	ADD_OBJECT(map[2],Item::chestplate_diamond);
 	ADD_OBJECT(map[2],Item::chestplate_gold);
+	ADD_OBJECT(map[2], Item::titaniumChestplate);
 
 	ADD_OBJECT(map[3],Item::leggings_leather);
 //	ADD_OBJECT(map[3],Item::leggings_chain);
 	ADD_OBJECT(map[3],Item::leggings_iron);
 	ADD_OBJECT(map[3],Item::leggings_diamond);
 	ADD_OBJECT(map[3],Item::leggings_gold);
+	ADD_OBJECT(map[3], Item::titaniumLeggings);
 
 	ADD_OBJECT(map[4],Item::boots_leather);
 //	ADD_OBJECT(map[4],Item::boots_chain);
 	ADD_OBJECT(map[4],Item::boots_iron);
 	ADD_OBJECT(map[4],Item::boots_diamond);
 	ADD_OBJECT(map[4],Item::boots_gold);
+	ADD_OBJECT(map[4], Item::titaniumBoots);
 }
 
 // 4J-PB added for quick equip in the inventory
@@ -84,6 +89,7 @@ ArmorRecipes::_eArmorType ArmorRecipes::GetArmorType(int iId)
 	case Item::helmet_iron_Id:		
 	case Item::helmet_diamond_Id:						
 	case Item::helmet_gold_Id:	
+	case Item::titaniumHelmet_Id:
 		return eArmorType_Helmet;
 		break;
 
@@ -92,6 +98,7 @@ ArmorRecipes::_eArmorType ArmorRecipes::GetArmorType(int iId)
 	case Item::chestplate_iron_Id:	
 	case Item::chestplate_diamond_Id:
 	case Item::chestplate_gold_Id:
+	case Item::titaniumChestplate_Id:
 		return eArmorType_Chestplate;
 		break;
 
@@ -100,6 +107,7 @@ ArmorRecipes::_eArmorType ArmorRecipes::GetArmorType(int iId)
 	case Item::leggings_iron_Id:
 	case Item::leggings_diamond_Id:
 	case Item::leggings_gold_Id:
+	case Item::titaniumLeggings_Id:
 		return eArmorType_Leggings;
 		break;
 
@@ -108,6 +116,7 @@ ArmorRecipes::_eArmorType ArmorRecipes::GetArmorType(int iId)
 	case Item::boots_iron_Id:
 	case Item::boots_diamond_Id:
 	case Item::boots_gold_Id:
+	case Item::titaniumBoots_Id:
 		return eArmorType_Boots;
 		break;
 	}

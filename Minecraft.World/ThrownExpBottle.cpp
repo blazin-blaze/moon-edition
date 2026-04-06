@@ -4,7 +4,7 @@
 #include "net.minecraft.world.level.tile.h"
 #include "JavaMath.h"
 #include "ThrownExpBottle.h"
-
+#include "Dimension.h"
 
 
 ThrownExpBottle::ThrownExpBottle(Level *level) : Throwable(level)
@@ -22,7 +22,13 @@ ThrownExpBottle::ThrownExpBottle(Level *level, double x, double y, double z) : T
 
 float ThrownExpBottle::getGravity()
 {
-	return 0.07f;
+	int* id = &(level->dimension->id);
+	if (id != nullptr && *id == 2) {
+		return 0.0116666667f;
+	}
+	else {
+		return 0.07f;
+	}
 }
 
 float ThrownExpBottle::getThrowPower()

@@ -82,6 +82,8 @@
 #include "ZombieRenderer.h"
 #include "BatRenderer.h"
 #include "CaveSpiderRenderer.h"
+#include "RocketRenderer.h"
+#include "LunarRenderer.h"
 
 double EntityRenderDispatcher::xOff = 0.0;
 double EntityRenderDispatcher::yOff = 0.0;
@@ -123,6 +125,8 @@ EntityRenderDispatcher::EntityRenderDispatcher()
 	renderers[eTYPE_SQUID] = new SquidRenderer(new SquidModel(), 0.7f);
 	renderers[eTYPE_VILLAGER] = new VillagerRenderer();
 	renderers[eTYPE_VILLAGERGOLEM] = new VillagerGolemRenderer();
+	renderers[eTYPE_ROCKET] = new RocketRenderer();
+	renderers[eTYPE_LUNAR] = new LunarRenderer();
 	renderers[eTYPE_BAT] = new BatRenderer();
 
 	renderers[eTYPE_MOB] = new MobRenderer(new HumanoidModel(), 0.5f);

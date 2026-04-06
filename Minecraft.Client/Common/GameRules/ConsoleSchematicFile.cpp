@@ -703,7 +703,7 @@ void ConsoleSchematicFile::generateSchematicFile(DataOutputStream *dos, Level *l
 		bool mobCanBeSaved = false;
 		if (bSaveMobs)
 		{
-			if ( e->instanceof(eTYPE_MONSTER) || e->instanceof(eTYPE_WATERANIMAL) || e->instanceof(eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER) )
+			if ( e->instanceof(eTYPE_MONSTER) || e->instanceof(eTYPE_WATERANIMAL) || e->instanceof(eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER) || (e->GetType() == eTYPE_LUNAR))
 
 				// 4J-JEV: All these are derived from eTYPE_ANIMAL and true implicitly.
 				//||	( e->GetType() == eTYPE_CHICKEN ) || ( e->GetType() == eTYPE_WOLF ) || ( e->GetType() == eTYPE_MUSHROOMCOW ) )

@@ -46,8 +46,9 @@ public:
 	static Biome *smallerExtremeHills;
 	static Biome *jungle;
 	static Biome *jungleHills;
+	static Biome *moon;
 
-	static const int BIOME_COUNT = 23; // 4J Stu added
+	static const int BIOME_COUNT = 23 + 1; // 4J Stu added
 
 public:
 	wstring m_name;

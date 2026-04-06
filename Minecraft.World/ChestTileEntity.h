@@ -21,9 +21,10 @@ public:
 	using TileEntity::setChanged;
 
 private:
-	void _init(bool isBonusChest);
+	void _init(bool isBonusChest, bool locked);
 
 public:
+	ChestTileEntity(bool locked, bool changeTexture);
 	ChestTileEntity(bool isBonusChest = false);		// 4J added param
 	ChestTileEntity(int type, bool isBonusChest = false);		// 4J added param
 	virtual ~ChestTileEntity();
@@ -32,6 +33,7 @@ private:
 	ItemInstanceArray *items;
 
 public:
+	bool isLocked;
 	bool isBonusChest;					// 4J added
 	bool hasCheckedNeighbors;
 	weak_ptr<ChestTileEntity> n;

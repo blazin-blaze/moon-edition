@@ -116,6 +116,8 @@ void EntityIO::staticCtor()
 	// 4J Added for custom spawn eggs
 	setId(EntityHorse::create,	eTYPE_HORSE,	L"EntityHorse", 100 | ((EntityHorse::TYPE_DONKEY + 1) << 12),	eMinecraftColour_Mob_Horse_Colour1,		eMinecraftColour_Mob_Horse_Colour2,		IDS_DONKEY);
 	setId(EntityHorse::create,	eTYPE_HORSE,	L"EntityHorse", 100 | ((EntityHorse::TYPE_MULE + 1) << 12),		eMinecraftColour_Mob_Horse_Colour1,		eMinecraftColour_Mob_Horse_Colour2,		IDS_MULE);
+	setId(Rocket::create, eTYPE_ROCKET, L"Rocket", IDS_ROCKET);
+	setId(LunarFriend::create, eTYPE_LUNAR, L"LunarFriend", 121, eMinecraftColour_Mob_Lunar_Colour1, eMinecraftColour_Mob_Lunar_Colour2, IDS_LUNAR);
 
 #ifndef _CONTENT_PACKAGE
 	setId(EntityHorse::create,	eTYPE_HORSE,	L"EntityHorse", 100 | ((EntityHorse::TYPE_SKELETON + 1) << 12),	eMinecraftColour_Mob_Horse_Colour1,		eMinecraftColour_Mob_Horse_Colour2,		IDS_SKELETON_HORSE);

@@ -18,6 +18,7 @@
 #include "net.minecraft.world.entity.h"
 #include "JavaMath.h"
 #include "SoundTypes.h"
+#include "Dimension.h"
 
  Attribute *Zombie::SPAWN_REINFORCEMENTS_CHANCE = (new RangedAttribute(eAttributeId_ZOMBIE_SPAWNREINFORCEMENTS, 0, 0, 1));
  AttributeModifier *Zombie::SPEED_MODIFIER_BABY = new AttributeModifier(eModifierId_MOB_ZOMBIE_BABYSPEED, 0.5f, AttributeModifier::OPERATION_MULTIPLY_BASE);
@@ -379,6 +380,12 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 			// Halloween! OooOOo! 25% of all skeletons/zombies can wear
 			// pumpkins on their heads.
 			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin));
+			dropChances[SLOT_HELM] = 0;
+		}
+
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
 			dropChances[SLOT_HELM] = 0;
 		}
 	}

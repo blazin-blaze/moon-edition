@@ -17,9 +17,11 @@ private:
 	Icon *iconTop;
 	Icon *iconBottom;
 	Icon *iconInner;
+    bool isCakeCheese;
 
 protected:
 	CakeTile(int id);
+    CakeTile(int id, bool isCheese);
     virtual void updateShape(LevelSource *level, int x, int y, int z, int forceData = -1, shared_ptr<TileEntity> forceEntity = shared_ptr<TileEntity>());	// 4J added forceData, forceEntity param
     virtual void updateDefaultShape();
     virtual AABB *getAABB(Level *level, int x, int y, int z);

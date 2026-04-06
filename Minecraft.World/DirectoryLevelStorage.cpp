@@ -40,6 +40,9 @@ int _MapDataMappings::getDimension(int id)
 	case 2:
 		returnVal = 1; // End
 		break;
+	case 3:
+		returnVal = 2; // Moon
+		break;
 	default:
 #ifndef _CONTENT_PACKAGE
 		printf("Read invalid dimension from MapDataMapping\n");
@@ -57,7 +60,7 @@ void _MapDataMappings::setMapping(int id, PlayerUID xuid, int dimension)
 	const int offset = (2*(id%4));
 
 	// Reset it first
-	dimensions[id>>2] &= ~( 2 << offset );
+	dimensions[id>>2] &= ~( 3 << offset );
 	switch(dimension)
 	{
 	case 0: // Overworld
@@ -68,6 +71,9 @@ void _MapDataMappings::setMapping(int id, PlayerUID xuid, int dimension)
 		break;
 	case 1: // End
 		dimensions[id>>2] |= ( 2 << offset );
+		break;
+	case 2: 
+		dimensions[id >> 2] |= (3 << offset);
 		break;
 	default:
 #ifndef _CONTENT_PACKAGE
@@ -108,7 +114,7 @@ void _MapDataMappings_old::setMapping(int id, PlayerUID xuid, int dimension)
 #ifdef _LARGE_WORLDS
 void DirectoryLevelStorage::PlayerMappings::addMapping(int id, int centreX, int centreZ, int dimension, int scale)
 {
-	const int64_t index = ( static_cast<int64_t>(centreZ & 0x1FFFFFFF) << 34) | ( static_cast<int64_t>(centreX & 0x1FFFFFFF) << 5) | ( (scale & 0x7) << 2) | (dimension & 0x3);
+	const int64_t index = (static_cast<int64_t>(centreZ & 0x1FFFFFFF) << 34) | (static_cast<int64_t>(centreX & 0x1FFFFFFF) << 5) | ((scale & 0x7) << 2) | (dimension & 0x3);
 	m_mappings[index] = id;
 	//app.DebugPrintf("Adding mapping: %d - (%d,%d)/%d/%d [%I64d - 0x%016llx]\n", id, centreX, centreZ, dimension, scale, index, index);
 }
@@ -120,7 +126,7 @@ bool DirectoryLevelStorage::PlayerMappings::getMapping(int &id, int centreX, int
 	//int64_t zShifted = zMasked << 34;
 	//int64_t xShifted = xMasked << 5;
 	//app.DebugPrintf("xShifted = %d (0x%016x), zShifted = %I64d (0x%016llx)\n", xShifted, xShifted, zShifted, zShifted);
-	const int64_t index = ( static_cast<int64_t>(centreZ & 0x1FFFFFFF) << 34) | ( static_cast<int64_t>(centreX & 0x1FFFFFFF) << 5) | ( (scale & 0x7) << 2) | (dimension & 0x3);
+	const int64_t index = (static_cast<int64_t>(centreZ & 0x1FFFFFFF) << 34) | (static_cast<int64_t>(centreX & 0x1FFFFFFF) << 5) | ((scale & 0x7) << 2) | (dimension & 0x3);
 	const auto it = m_mappings.find(index);
 	if(it != m_mappings.end())
 	{
@@ -226,6 +232,12 @@ ChunkStorage *DirectoryLevelStorage::createChunkStorage(Dimension *dimension)
 	if (dynamic_cast<TheEndDimension *>(dimension) != nullptr)
 	{
 		const File dir2 = File(dir, LevelStorage::ENDER_FOLDER);
+		//dir2.mkdirs(); // 4J Removed
+		return new OldChunkStorage(dir2, true);
+	}
+	if (dynamic_cast<MoonDimension*>(dimension) != nullptr)
+	{
+		const File dir2 = File(dir, LevelStorage::MOON_FOLDER);
 		//dir2.mkdirs(); // 4J Removed
 		return new OldChunkStorage(dir2, true);
 	}

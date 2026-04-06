@@ -2,6 +2,13 @@
 #include "SpiderRenderer.h"
 #include "SpiderModel.h"
 #include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
+#include "ModelPart.h"
+#include "..\Minecraft.World\Mth.h"
+#include "..\Minecraft.World\net.minecraft.world.item.h"
+#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
+#include "..\Minecraft.World\net.minecraft.world.entity.h"
+#include "..\Minecraft.World\net.minecraft.h"
+#include "EntityRenderDispatcher.h"
 
 ResourceLocation SpiderRenderer::SPIDER_LOCATION = ResourceLocation(TN_MOB_SPIDER);
 ResourceLocation SpiderRenderer::SPIDER_EYES_LOCATION = ResourceLocation(TN_MOB_SPIDER_EYES);
@@ -58,4 +65,38 @@ int SpiderRenderer::prepareArmor(shared_ptr<LivingEntity> _spider, int layer, fl
 ResourceLocation *SpiderRenderer::getTextureLocation(shared_ptr<Entity> mob)
 {
 	return &SPIDER_LOCATION;
+}
+
+void SpiderRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
+{
+	shared_ptr<Spider> mob = dynamic_pointer_cast<Spider>(_mob);
+	shared_ptr<ItemInstance> headGear = mob->getArmor(3);
+	if (headGear != nullptr)
+	{
+		// don't render the pumpkin of skulls for the skins with that disabled
+		// 4J-PB - need to disable rendering armour/skulls/pumpkins for some special skins (Daleks)
+
+		if ((mob->getAnimOverrideBitmask() & (1 << HumanoidModel::eAnim_DontRenderArmour)) == 0)
+		{
+			glPushMatrix();
+			SpiderModel* spiderModel = dynamic_cast<SpiderModel*>(model);
+			spiderModel->head->translateTo(1 / 16.0f);
+
+			if (headGear->getItem()->id < 256)
+			{
+				if (Tile::tiles[headGear->id] != nullptr && TileRenderer::canRender(Tile::tiles[headGear->id]->getRenderShape()))
+				{
+					float s = 10 / 16.0f;
+					glTranslatef(-0 / 16.0f, 0 / 16.0f, -4 / 16.0f);
+					glRotatef(90, 0, 1, 0);
+					glScalef(s, -s, -s);
+				}
+
+				this->entityRenderDispatcher->itemInHandRenderer->renderItem(mob, headGear, 0);
+			}
+
+			glPopMatrix();
+		}
+	}
+	MobRenderer::additionalRendering(_mob, a);
 }

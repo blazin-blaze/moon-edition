@@ -19,12 +19,13 @@ int ChestTileEntity::getContainerType()
 	else				return ContainerOpenPacket::CONTAINER;
 }
 
-void ChestTileEntity::_init(bool isBonusChest)
+void ChestTileEntity::_init(bool isBonusChest, bool locked)
 {
 	items = new ItemInstanceArray(9 * 4);
 
 	hasCheckedNeighbors = false;
 	this->isBonusChest = isBonusChest;
+	this->isLocked = locked;
 
 	openness = 0.0f;
 	oOpenness = 0.0f;
@@ -35,14 +36,22 @@ void ChestTileEntity::_init(bool isBonusChest)
 	name = L"";
 }
 
+ChestTileEntity::ChestTileEntity(bool locked, bool changeTexture) : TileEntity()
+{
+	_init(false, locked);
+	if (changeTexture) {
+		this->type = 2;
+	}
+}
+
 ChestTileEntity::ChestTileEntity(bool isBonusChest/* = false*/) : TileEntity()
 {
-	_init(isBonusChest);
+	_init(isBonusChest, false);
 }
 
 ChestTileEntity::ChestTileEntity(int type, bool isBonusChest/* = false*/) : TileEntity()
 {
-	_init(isBonusChest);
+	_init(isBonusChest, false);
 
 	this->type = type;
 }
@@ -145,6 +154,7 @@ void ChestTileEntity::load(CompoundTag *base)
 		if (slot >= 0 && slot < items->length) (*items)[slot] = ItemInstance::fromTag(tag);
 	}
 	isBonusChest = base->getBoolean(L"bonus");
+	isLocked = base->getBoolean(L"locked");
 }
 
 void ChestTileEntity::save(CompoundTag *base)
@@ -165,6 +175,7 @@ void ChestTileEntity::save(CompoundTag *base)
 	base->put(L"Items", listTag);
 	if (hasCustomName()) base->putString(L"CustomName", name);
 	base->putBoolean(L"bonus", isBonusChest);
+	base->putBoolean(L"locked", isLocked);
 }
 
 int ChestTileEntity::getMaxStackSize() const
@@ -253,7 +264,13 @@ void ChestTileEntity::checkNeighbors()
 bool ChestTileEntity::isSameChest(int x, int y, int z)
 {
 	Tile *tile = Tile::tiles[level->getTile(x, y, z)];
-	if (tile == nullptr || !(dynamic_cast<ChestTile *>(tile) != nullptr)) return false;
+	bool isTreasureChest = (dynamic_cast<TreasureChestTile*>(tile) != nullptr);
+	if (tile == nullptr || (!(dynamic_cast<ChestTile*>(tile) != nullptr) && !isTreasureChest)) {
+		return false;
+	}
+	if (isTreasureChest) {
+		return 2 == getType();
+	}
 	return static_cast<ChestTile *>(tile)->type == getType();
 }
 
@@ -366,7 +383,9 @@ void ChestTileEntity::startOpen()
 
 void ChestTileEntity::stopOpen()
 {
-	if (getTile() == nullptr || !( dynamic_cast<ChestTile *>( getTile() ) != nullptr)) return;
+	if (getTile() == nullptr || (!(dynamic_cast<ChestTile*>(getTile()) != nullptr) && !(dynamic_cast<TreasureChestTile*>(getTile()) != nullptr))) {
+		return;
+	}
 	openCount--;
 	level->tileEvent(x, y, z, getTile()->id, ChestTile::EVENT_SET_OPEN_COUNT, openCount);
 	level->updateNeighborsAt(x, y, z, getTile()->id);

@@ -13,7 +13,7 @@
 #include "Spider.h"
 #include "..\Minecraft.Client\Textures.h"
 #include "SoundTypes.h"
-
+#include "Dimension.h"
 
 
 Spider::Spider(Level *level) : Monster( level )
@@ -217,6 +217,14 @@ MobGroupData *Spider::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 		if (effect > 0 && MobEffect::effects[effect] != nullptr)
 		{
 			addEffect(new MobEffectInstance(effect, Integer::MAX_VALUE));
+		}
+	}
+
+	if (getCarried(SLOT_HELM) == nullptr) {
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
+			dropChances[SLOT_HELM] = 0;
 		}
 	}
 

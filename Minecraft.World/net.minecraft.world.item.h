@@ -85,3 +85,5 @@
 #include "ClockItem.h"
 #include "CompassItem.h"
 #include "HtmlString.h"
+
+#include "RocketItem.h"

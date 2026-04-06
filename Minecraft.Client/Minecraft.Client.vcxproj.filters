@@ -3793,6 +3793,15 @@
     <ClInclude Include="..\include\lce_filesystem\lce_filesystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RocketModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RocketRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LunarRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -5948,6 +5957,15 @@
     </ClCompile>
     <ClCompile Include="..\include\lce_filesystem\lce_filesystem.cpp">
       <Filter>include\lce_filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LunarRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

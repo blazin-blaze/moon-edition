@@ -59,6 +59,7 @@ protected:
 
 public:
 	shared_ptr<Inventory> inventory;
+	shared_ptr<ItemInstance> glassMask;
 
 private:
 	shared_ptr<PlayerEnderChestContainer> enderChestInventory;

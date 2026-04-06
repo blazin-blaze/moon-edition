@@ -76,6 +76,7 @@ static LevelRenderer_FindNearestChunk_DataIn g_findNearestChunkDataIn __attribut
 
 ResourceLocation LevelRenderer::MOON_LOCATION = ResourceLocation(TN_TERRAIN_MOON);
 ResourceLocation LevelRenderer::MOON_PHASES_LOCATION = ResourceLocation(TN_TERRAIN_MOON_PHASES);
+ResourceLocation LevelRenderer::EARTH_PHASES_LOCATION = ResourceLocation(TN_TERRAIN_EARTH_PHASES);
 ResourceLocation LevelRenderer::SUN_LOCATION = ResourceLocation(TN_TERRAIN_SUN);
 ResourceLocation LevelRenderer::CLOUDS_LOCATION = ResourceLocation(TN_ENVIRONMENT_CLOUDS);
 ResourceLocation LevelRenderer::END_SKY_LOCATION = ResourceLocation(TN_MISC_TUNNEL);
@@ -93,8 +94,11 @@ C4JThread::Event *LevelRenderer::s_activationEventA[MAX_CHUNK_REBUILD_THREADS];
 const int overworldSize = LEVEL_MAX_WIDTH + LevelRenderer::PLAYER_VIEW_DISTANCE + LevelRenderer::PLAYER_VIEW_DISTANCE;
 const int netherSize = HELL_LEVEL_MAX_WIDTH + 2; // 4J Stu - The plus 2 is really just to make our total chunk count a multiple of 8 for the flags, we will never see these in the nether
 const int endSize = END_LEVEL_MAX_WIDTH;
-const int LevelRenderer::MAX_LEVEL_RENDER_SIZE[3] = { overworldSize, netherSize, endSize };
-const int LevelRenderer::DIMENSION_OFFSETS[3] = { 0, (overworldSize * overworldSize * CHUNK_Y_COUNT) ,  (overworldSize * overworldSize * CHUNK_Y_COUNT) + ( netherSize * netherSize * CHUNK_Y_COUNT ) };
+const int moonSize = LEVEL_MAX_WIDTH + LevelRenderer::PLAYER_VIEW_DISTANCE + LevelRenderer::PLAYER_VIEW_DISTANCE;
+const int LevelRenderer::MAX_LEVEL_RENDER_SIZE[4] = { overworldSize, netherSize, endSize, moonSize };
+const int64_t LevelRenderer::DIMENSION_OFFSETS[4] = { 0, (overworldSize * overworldSize * CHUNK_Y_COUNT) , 
+(overworldSize * overworldSize * CHUNK_Y_COUNT) + ( netherSize * netherSize * CHUNK_Y_COUNT ), 
+(overworldSize * overworldSize * CHUNK_Y_COUNT) + (netherSize * netherSize * CHUNK_Y_COUNT) + (endSize * endSize * CHUNK_Y_COUNT) };
 #else
 // This defines the maximum size of renderable level, must be big enough to cope with actual size of level + view distance at each side
 // so that we can render the "infinite" sea at the edges. Currently defined as:
@@ -102,12 +106,12 @@ const int LevelRenderer::DIMENSION_OFFSETS[3] = { 0, (overworldSize * overworldS
 // Dimension idx 1 (nether)    : 44 ( = 18 + 13 + 13 )
 // Dimension idx 2 (the end)   : 44 ( = 18 + 13 + 13 )
 
-const int LevelRenderer::MAX_LEVEL_RENDER_SIZE[3] = { 80, 44, 44 };
+const int LevelRenderer::MAX_LEVEL_RENDER_SIZE[4] = { 80, 44, 44, 44 };
 
 // Linked directly to the sizes in the previous array, these next values dictate the start offset for each dimension index into the global array for these things.
 // Each dimension uses MAX_LEVEL_RENDER_SIZE[i]^2 * 8 indices, as a MAX_LEVEL_RENDER_SIZE * MAX_LEVEL_RENDER_SIZE * 8 sized cube of references.
 
-const int LevelRenderer::DIMENSION_OFFSETS[3] = { 0, (80 * 80 * CHUNK_Y_COUNT) ,  (80 * 80 * CHUNK_Y_COUNT) + ( 44 * 44 * CHUNK_Y_COUNT ) };
+const int LevelRenderer::DIMENSION_OFFSETS[4] = { 0, (80 * 80 * CHUNK_Y_COUNT) ,  (80 * 80 * CHUNK_Y_COUNT) + ( 44 * 44 * CHUNK_Y_COUNT ), (80 * 80 * CHUNK_Y_COUNT) + (44 * 44 * CHUNK_Y_COUNT) + (44 * 44 * CHUNK_Y_COUNT) };
 #endif
 
 LevelRenderer::LevelRenderer(Minecraft *mc, Textures *textures)
@@ -1119,7 +1123,13 @@ void LevelRenderer::renderSky(float alpha)
 		t->end();
 
 		ss = 20;
-		textures->bindTexture(&MOON_PHASES_LOCATION); // 4J was L"/1_2_2/terrain/moon_phases.png"
+		int *id = &level[playerIndex]->dimension->id;
+		if (id != nullptr && *id == 2) {
+			textures->bindTexture(&EARTH_PHASES_LOCATION); // 4J was L"/1_2_2/terrain/moon_phases.png"
+		}
+		else {
+			textures->bindTexture(&MOON_PHASES_LOCATION); // 4J was L"/1_2_2/terrain/moon_phases.png"
+		}
 		int phase = level[playerIndex]->getMoonPhase();
 		int u = phase % 4;
 		int v = phase / 4 % 2;
@@ -1870,7 +1880,7 @@ bool LevelRenderer::updateDirtyChunks()
 		else if( index > 1 )
 		{
 			int i2 = index - 2;
-			if( i2 >= DIMENSION_OFFSETS[2] )
+			if( i2 >= DIMENSION_OFFSETS[2] && i2 < DIMENSION_OFFSETS[3])
 			{
 				i2 -= DIMENSION_OFFSETS[2];
 				int y2 = i2 & (CHUNK_Y_COUNT-1);
@@ -2820,6 +2830,9 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 	case eParticleType_smoke:
 		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za);
 		break;
+	case eParticleType_smokeBig:
+		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za, 5.0f);
+		break;
 	case eParticleType_endportal: // 4J - Added.
 		{
 			SmokeParticle *tmp = new SmokeParticle(lev, x, y, z, xa, ya, za);
@@ -3338,7 +3351,15 @@ void LevelRenderer::registerTextures(IconRegister *iconRegister)
 // Gets a dimension index (0, 1, or 2) from an id ( 0, -1, 1)
 int LevelRenderer::getDimensionIndexFromId(int id)
 {
-	return ( 3 - id ) % 3;
+	switch (id) {
+	case 0: return 0; break;
+	case -1: return 1; break;
+	case 1: return 2; break;
+	case 2: return 3; break;
+	default:
+		app.DebugPrintf("INVALID DIMENSION ID: %d\n", id);
+		return 0;
+	}
 }
 
 // 4J - added for new render list handling. Render lists used to be allocated per chunk, but these are now allocated per fixed chunk position
@@ -3351,6 +3372,7 @@ int LevelRenderer::getGlobalIndexForChunk(int x, int y, int z, Level *level)
 int LevelRenderer::getGlobalIndexForChunk(int x, int y, int z, int dimensionId)
 {
 	int dimIdx = getDimensionIndexFromId(dimensionId);
+	//app.DebugPrintf("dimId=%d ? dimIdx=%d\n", dimensionId, dimIdx);
 	int xx = ( x / CHUNK_XZSIZE ) + ( MAX_LEVEL_RENDER_SIZE[dimIdx] / 2 );
 	int yy = y / CHUNK_SIZE;
 	int zz = ( z / CHUNK_XZSIZE )  + ( MAX_LEVEL_RENDER_SIZE[dimIdx] / 2 );
@@ -3365,6 +3387,8 @@ int LevelRenderer::getGlobalIndexForChunk(int x, int y, int z, int dimensionId)
 	offset += ( zz * MAX_LEVEL_RENDER_SIZE[dimIdx] + xx ) * CHUNK_Y_COUNT;			// Offset by x/z pos
 	offset += yy;														// Offset by y pos
 
+	//app.DebugPrintf("dimIdx=%d dimOffset=%d finalIdx=%d\n", dimIdx, dimOffset, offset);
+
 	return offset;
 }
 
@@ -3372,8 +3396,11 @@ bool LevelRenderer::isGlobalIndexInSameDimension( int idx, Level *level)
 {
 	int dim = getDimensionIndexFromId(level->dimension->id);
 	int idxDim = 0;
-	if( idx >= DIMENSION_OFFSETS[2] ) idxDim = 2;
-	else if ( idx >= DIMENSION_OFFSETS[1] ) idxDim = 1;
+	if (idx >= DIMENSION_OFFSETS[3]) idxDim = 3;
+	else if (idx >= DIMENSION_OFFSETS[2]) idxDim = 2;
+	else if( idx >= DIMENSION_OFFSETS[1] ) idxDim = 1;
+	else if ( idx >= DIMENSION_OFFSETS[0] ) idxDim = 0;
+	//app.DebugPrintf("idx == %d, dimension offset == %d, idxDim == %d, dim == %d\n", idx, DIMENSION_OFFSETS[3], idxDim, dim);
 	return (dim == idxDim);
 }
 
@@ -3381,7 +3408,7 @@ int LevelRenderer::getGlobalChunkCount()
 {
 	return  ( MAX_LEVEL_RENDER_SIZE[0] * MAX_LEVEL_RENDER_SIZE[0] * CHUNK_Y_COUNT ) +
 		( MAX_LEVEL_RENDER_SIZE[1] * MAX_LEVEL_RENDER_SIZE[1] * CHUNK_Y_COUNT ) +
-		( MAX_LEVEL_RENDER_SIZE[2] * MAX_LEVEL_RENDER_SIZE[2] * CHUNK_Y_COUNT );
+		( MAX_LEVEL_RENDER_SIZE[2] * MAX_LEVEL_RENDER_SIZE[2] * CHUNK_Y_COUNT ) + (MAX_LEVEL_RENDER_SIZE[3] * MAX_LEVEL_RENDER_SIZE[3] * CHUNK_Y_COUNT);
 }
 
 int LevelRenderer::getGlobalChunkCountForOverworld()

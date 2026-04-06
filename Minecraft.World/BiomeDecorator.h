@@ -26,6 +26,7 @@ public:
 	BiomeDecorator(Biome *biome);
 
 	void decorate(Level *level, Random *random, int xo, int zo);
+	void decorateMoon(Level* level, Random* random, int xo, int zo);
 
 protected:
 	Feature *clayFeature;
@@ -46,7 +47,11 @@ protected:
 	Feature *hugeMushroomFeature;
 	Feature *reedsFeature;
 	Feature *cactusFeature;
-	Feature *waterlilyFeature;
+	Feature* waterlilyFeature;
+
+	Feature* moonQuartzOreFeature;
+	Feature* sapphireOreFeature;
+	Feature* titaniumOreFeature;
 
 	int waterlilyCount;
 	int treeCount;
@@ -66,10 +71,11 @@ protected:
 
 protected:
 	virtual void decorate();
-
+	virtual void decorateMoon();
 
 	void decorate(int count, Feature *feature);
 	void decorateDepthSpan(int count, Feature *feature, int y0, int y1);
 	void decorateDepthAverage(int count, Feature *feature, int yMid, int ySpan);
 	void decorateOres();
+	void decorateMoonOres();
 };

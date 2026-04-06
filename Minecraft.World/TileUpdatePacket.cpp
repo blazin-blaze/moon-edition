@@ -21,7 +21,13 @@ TileUpdatePacket::TileUpdatePacket(int x, int y, int z, Level *level)
 	this->z = z;
 	block = level->getTile(x, y, z);
 	data = level->getData(x, y, z);
-	levelIdx = ( ( level->dimension->id == 0 ) ? 0 : ( (level->dimension->id == -1) ? 1 : 2 ) );
+	switch (level->dimension->id) {
+	case 0: levelIdx = 0; break;
+	case -1: levelIdx = 1; break;
+	case 1: levelIdx = 2; break;
+	case 2: levelIdx = 3; break;
+	}
+	//levelIdx = ( ( level->dimension->id == 0 ) ? 0 : ( (level->dimension->id == -1) ? 1 : ((level->dimension->id == 1) ? 2 : 3)));
 }
 
 void TileUpdatePacket::read(DataInputStream *dis) //throws IOException 

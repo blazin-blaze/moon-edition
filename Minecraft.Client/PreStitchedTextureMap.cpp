@@ -510,7 +510,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(10,	3,	L"name_tag")
 		ADD_ICON(10,	4,	L"lead")
 		ADD_ICON(10,	5,	L"netherbrick")
-		//ADD_ICON(10,	6,	L"unused")
+		ADD_ICON(10,	6,	L"poutine")
 		ADD_ICON(10,	7,	L"minecart_furnace")
 		ADD_ICON(10,	8,	L"charcoal")
 		ADD_ICON(10,	9,	L"monsterPlacer_overlay")
@@ -522,7 +522,12 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(10,	15,	L"dyePowder_orange")
 
 		ADD_ICON(11,	0,	L"leggingsCloth_overlay")
-		//ADD_ICON(11,	1,	L"unused")
+		ADD_ICON(11,	1,	L"rocket_item")
+		ADD_ICON(11, 2, L"cheese")
+		ADD_ICON(11, 3, L"moonDungeonKey")
+		ADD_ICON(11, 4, L"titaniumIngot")
+		ADD_ICON(11, 5, L"sapphire")
+		ADD_ICON(11, 6, L"cheeseburger")
 		//ADD_ICON(11,	2,	L"unused")
 		//ADD_ICON(11,	3,	L"unused")
 		//ADD_ICON(11,	4,	L"unused")
@@ -541,10 +546,10 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(12,	0,	L"bootsCloth_overlay")
 		//ADD_ICON(12,	1,	L"unused")
 		//ADD_ICON(12,	2,	L"unused")
-		//ADD_ICON(12,	3,	L"unused")
-		//ADD_ICON(12,	4,	L"unused")
-		//ADD_ICON(12,	5,	L"unused")
-		//ADD_ICON(12,	6,	L"unused")
+		ADD_ICON(12,	3,	L"titaniumHelmet")
+		ADD_ICON(12,	4,	L"titaniumChestplate")
+		ADD_ICON(12,	5,	L"titaniumLeggings")
+		ADD_ICON(12,	6,	L"titaniumBoots")
 		ADD_ICON(12,	7,	L"minecart_tnt")
 		//ADD_ICON(12,	8,	L"unused")
 		ADD_ICON(12,	9,	L"fireworks")
@@ -554,6 +559,16 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(12,	13,	L"map_empty")
 		ADD_ICON(12,	14,	L"frame")
 		ADD_ICON(12,	15,	L"enchantedBook")
+
+		ADD_ICON(13, 2, L"titaniumSword")
+		ADD_ICON(13, 3, L"titaniumShovel")
+		ADD_ICON(13, 4, L"titaniumPickaxe")
+		ADD_ICON(13, 5, L"titaniumHatchet")
+		ADD_ICON(13, 6, L"titaniumHoe")
+		ADD_ICON(13, 7, L"frequencyModule")
+		ADD_ICON(13, 8, L"oxygenMask")
+		ADD_ICON(13, 9, L"oxygenGear")
+		ADD_ICON(13, 10, L"oxygenTank")
 
 		ADD_ICON(14,	0,	L"skull_skeleton")
 		ADD_ICON(14,	1,	L"skull_wither")
@@ -986,5 +1001,22 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(19,	13,	L"glass_pane_top_silver");
 		ADD_ICON(19,	14,	L"glass_pane_top_white");
 		ADD_ICON(19,	15,	L"glass_pane_top_yellow");
+
+		ADD_ICON(20, 0, L"moonTurf");
+		ADD_ICON(20, 1, L"moonDirt");
+		ADD_ICON(20, 2, L"moonStone");
+		ADD_ICON(20, 3, L"cheeseOre");
+		ADD_ICON(20, 4, L"sapphireOre");
+		ADD_ICON(20, 5, L"moonQuartzOre");
+		ADD_ICON(20, 6, L"titaniumOre");
+		ADD_ICON(20, 7, L"titaniumBlock");
+		ADD_ICON(20, 8, L"moonDungeonBricks");
+		ADD_ICON(20, 9, L"moonDungeonMossyBricks");
+		ADD_ICON(20, 10, L"moonDungeonCrackedBricks");
+		ADD_ICON(20, 11, L"glowstoneTorch");
+		ADD_ICON(20, 12, L"deadTorch");
+
+		ADD_ICON(21, 0, L"cheese_block_top");
+		ADD_ICON(21, 1, L"cheese_block_side");
 	}
 }

@@ -168,6 +168,8 @@ enum eINSTANCEOF
 						eTYPE_WITCH			= eTYPE_MONSTER | eTYPE_VALID_IN_SPAWNER_FLAG | 0x7,
 						eTYPE_WITHERBOSS	= eTYPE_MONSTER | eTYPE_VALID_IN_SPAWNER_FLAG | 0x8,
 
+					eTYPE_LUNAR = eTYPE_PATHFINDER_MOB | 0x1,
+
 
 				eTYPE_AMBIENT			= eTYPE_MOB | BIT_AMBIENT_MOB,
 					eTYPE_BAT			= eTYPE_AMBIENT | eTYPE_VALID_IN_SPAWNER_FLAG | 0x1,
@@ -242,7 +244,7 @@ enum eINSTANCEOF
 	eTYPE_MULTIENTITY_MOB_PART	= (eTYPE_OTHER_ENTITIES + 12),
 	eTYPE_NETHER_SPHERE			= (eTYPE_OTHER_ENTITIES + 13),
 	eTYPE_ENDER_CRYSTAL			= (eTYPE_OTHER_ENTITIES + 14),
-	
+	eTYPE_ROCKET = (eTYPE_OTHER_ENTITIES + 15),
 	
 	// === PARTICLES === //
 
@@ -429,6 +431,7 @@ public:
 		classes->push_back( SUBCLASS(eTYPE_BLAZE			)->addParent( eTYPE_MONSTER)->addParent(eTYPE_VALID_IN_SPAWNER_FLAG ) );
 		classes->push_back( SUBCLASS(eTYPE_WITCH			)->addParent( eTYPE_MONSTER)->addParent(eTYPE_VALID_IN_SPAWNER_FLAG ) );
 		classes->push_back( SUBCLASS(eTYPE_WITHERBOSS	)->addParent( eTYPE_MONSTER)->addParent(eTYPE_VALID_IN_SPAWNER_FLAG ) );
+		classes->push_back(SUBCLASS(eTYPE_LUNAR)->addParent(eTYPE_PATHFINDER_MOB));
 		classes->push_back( SUBCLASS(eTYPE_AMBIENT		)->addParent( eTYPE_MOB ) );
 		classes->push_back( SUBCLASS(eTYPE_BAT		)->addParent( eTYPE_AMBIENT )->addParent(eTYPE_VALID_IN_SPAWNER_FLAG ) );
 		classes->push_back( SUBCLASS(eTYPE_FLYING_MOB	)->addParent( eTYPE_MOB ) );
@@ -480,6 +483,7 @@ public:
 		classes->push_back( SUBCLASS(eTYPE_MULTIENTITY_MOB_PART	)->addParent( eTYPE_ENTITY  ) );
 		classes->push_back( SUBCLASS(eTYPE_NETHER_SPHERE			)->addParent( eTYPE_ENTITY  ) );
 		classes->push_back( SUBCLASS(eTYPE_ENDER_CRYSTAL			)->addParent( eTYPE_ENTITY  ) );
+		classes->push_back(SUBCLASS(eTYPE_ROCKET)->addParent(eTYPE_ENTITY));
 
 		classes->push_back( SUBCLASS(eType_BREAKINGITEMPARTICLE)->addParent(eTYPE_ENTITY) );
 		classes->push_back( SUBCLASS(eType_BUBBLEPARTICLE)->addParent(eTYPE_ENTITY) );

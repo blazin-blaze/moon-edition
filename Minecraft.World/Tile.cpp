@@ -220,6 +220,22 @@ Tile *Tile::woolCarpet = nullptr;
 Tile *Tile::clayHardened = nullptr;
 Tile *Tile::coalBlock = nullptr;
 
+Tile* Tile::moonTurf = nullptr;
+Tile* Tile::moonDirt = nullptr;
+Tile* Tile::moonStone = nullptr;
+Tile* Tile::cheeseBlock = nullptr;
+Tile* Tile::sapphireOre = nullptr;
+Tile* Tile::cheeseOre = nullptr;
+Tile* Tile::titaniumOre = nullptr;
+Tile* Tile::moonQuartzOre = nullptr;
+Tile* Tile::titaniumBlock = nullptr;
+Tile* Tile::moonDungeonBricks = nullptr;
+Tile* Tile::moonDungeonCrackedBricks = nullptr;
+Tile* Tile::moonDungeonMossyBricks = nullptr;
+Tile* Tile::glowstoneTorch = nullptr;
+Tile* Tile::deadTorch = nullptr;
+Tile* Tile::treasureChest = nullptr;
+
 DWORD Tile::tlsIdxShape = TlsAlloc();
 
 Tile::ThreadStorage::ThreadStorage()
@@ -442,6 +458,21 @@ void Tile::staticCtor()
 	Tile::clayHardened = (new Tile(172, Material::stone))			->setBaseItemTypeAndMaterial(Item::eBaseItemType_clay,	Item::eMaterial_clay)->setDestroyTime(1.25f)->setExplodeable(7)->setSoundType(SOUND_STONE)->setIconName(L"hardened_clay")->setDescriptionId(IDS_TILE_HARDENED_CLAY)->setUseDescriptionId(IDS_DESC_HARDENED_CLAY);
 	Tile::coalBlock = (new Tile(173, Material::stone))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_block,	Item::eMaterial_coal)->setDestroyTime(5.0f)->setExplodeable(10)->setSoundType(SOUND_STONE)->setIconName(L"coal_block")->setDescriptionId(IDS_TILE_COAL)->setUseDescriptionId(IDS_DESC_COAL_BLOCK);
 
+	Tile::moonTurf = (new Tile(174, Material::dirt))->setDestroyTime(0.5f)->setSoundType(Tile::SOUND_GRAVEL)->setIconName(L"moonTurf")->setDescriptionId(IDS_TILE_MOON_TURF)->setUseDescriptionId(IDS_DESC_MOON_TURF);
+	Tile::moonDirt = (new Tile(175, Material::dirt))->setDestroyTime(0.5f)->setSoundType(Tile::SOUND_GRAVEL)->setIconName(L"moonDirt")->setDescriptionId(IDS_TILE_MOON_DIRT)->setUseDescriptionId(IDS_DESC_MOON_DIRT);
+	Tile::moonStone = (new Tile(176, Material::stone))->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"moonStone")->setDescriptionId(IDS_TILE_MOON_STONE)->setUseDescriptionId(IDS_DESC_MOON_STONE);
+	Tile::cheeseBlock = (new CakeTile(177, true))->setBaseItemTypeAndMaterial(Item::eBaseItemType_artisan, Item::eMaterial_artisan)->setDestroyTime(0.5f)->setSoundType(Tile::SOUND_CLOTH)->setIconName(L"cheese_block")->setDescriptionId(IDS_TILE_CAKE)->setNotCollectStatistics()->sendTileData()->setIconName(L"cheeseBlock")->setDescriptionId(IDS_TILE_CHEESE_BLOCK)->setUseDescriptionId(IDS_DESC_CHEESE_BLOCK);
+	Tile::cheeseOre = (new OreTile(178, Material::clay))->setDestroyTime(0.5f)->setSoundType(Tile::SOUND_GRAVEL)->setIconName(L"cheeseOre")->setDescriptionId(IDS_TILE_ORE_CHEESE)->setUseDescriptionId(IDS_DESC_ORE_CHEESE);
+	Tile::sapphireOre = (new OreTile(179))->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"sapphireOre")->setDescriptionId(IDS_TILE_ORE_SAPPHIRE)->setUseDescriptionId(IDS_DESC_ORE_SAPPHIRE);
+	Tile::titaniumOre = (new Tile(180, Material::stone))->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"titaniumOre")->setDescriptionId(IDS_TILE_ORE_TITANIUM)->setUseDescriptionId(IDS_DESC_ORE_TITANIUM);
+	Tile::moonQuartzOre = (new OreTile(181))->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"moonQuartzOre")->setDescriptionId(IDS_TILE_ORE_MOON_QUARTZ)->setUseDescriptionId(IDS_DESC_ORE_MOON_QUARTZ);
+	Tile::titaniumBlock = (new MetalTile(182))->setBaseItemTypeAndMaterial(Item::eBaseItemType_block, Item::eMaterial_titanium)->setDestroyTime(5.0f)->setExplodeable(10)->setSoundType(Tile::SOUND_METAL)->setIconName(L"titaniumBlock")->setDescriptionId(IDS_TILE_BLOCK_TITANIUM)->setUseDescriptionId(IDS_DESC_BLOCK_TITANIUM);
+	Tile::moonDungeonBricks = (new Tile(183, Material::stone))->setBaseItemTypeAndMaterial(Item::eBaseItemType_structblock, Item::eMaterial_stoneSmooth)->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(SOUND_STONE)->setIconName(L"moonDungeonBricks")->setDescriptionId(IDS_TILE_MOON_DUNGEON_BRICKS)->setUseDescriptionId(IDS_DESC_MOON_DUNGEON_BRICKS);
+	Tile::moonDungeonMossyBricks = (new Tile(184, Material::stone))->setBaseItemTypeAndMaterial(Item::eBaseItemType_structblock, Item::eMaterial_stoneSmooth)->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(SOUND_STONE)->setIconName(L"moonDungeonMossyBricks")->setDescriptionId(IDS_TILE_MOON_DUNGEON_BRICKS_MOSSY)->setUseDescriptionId(IDS_DESC_MOON_DUNGEON_BRICKS);
+	Tile::moonDungeonCrackedBricks = (new Tile(185, Material::stone))->setBaseItemTypeAndMaterial(Item::eBaseItemType_structblock, Item::eMaterial_stoneSmooth)->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(SOUND_STONE)->setIconName(L"moonDungeonCrackedBricks")->setDescriptionId(IDS_TILE_MOON_DUNGEON_BRICKS_CRACKED)->setUseDescriptionId(IDS_DESC_MOON_DUNGEON_BRICKS);
+	Tile::glowstoneTorch = (new TorchTile(186, false, false))->setBaseItemTypeAndMaterial(Item::eBaseItemType_torch, Item::eMaterial_wood)->setDestroyTime(0.0f)->setLightEmission(15 / 16.0f)->setSoundType(Tile::SOUND_WOOD)->disableMipmap()->setIconName(L"glowstoneTorch")->setDescriptionId(IDS_TILE_GLOWSTONE_TORCH)->setUseDescriptionId(IDS_DESC_GLOWSTONE_TORCH);
+	Tile::deadTorch = (new TorchTile(187, false, true))->setBaseItemTypeAndMaterial(Item::eBaseItemType_torch, Item::eMaterial_wood)->setDestroyTime(0.0f)->setLightEmission(0.0f)->setSoundType(Tile::SOUND_WOOD)->disableMipmap()->setIconName(L"deadTorch")->setDescriptionId(IDS_TILE_DEAD_TORCH)->setUseDescriptionId(IDS_DESC_DEAD_TORCH);
+	Tile::treasureChest = static_cast<TreasureChestTile*>((new TreasureChestTile(188, ChestTile::TYPE_BASIC))->setBaseItemTypeAndMaterial(Item::eBaseItemType_chest, Item::eMaterial_wood)->setIndestructible()->setExplodeable(6000000)->setSoundType(Tile::SOUND_STONE)->setIconName(L"treasureChest")->setDescriptionId(IDS_TILE_TREASURE_CHEST)->sendTileData()->setUseDescriptionId(IDS_DESC_TREASURE_CHEST));
 
 	// Special cases for certain items since they can have different icons
 	Item::items[wool_Id]				= ( new WoolTileItem(Tile::wool_Id- 256) )->setIconName(L"cloth")->setDescriptionId(IDS_TILE_CLOTH)->setUseDescriptionId(IDS_DESC_WOOL);

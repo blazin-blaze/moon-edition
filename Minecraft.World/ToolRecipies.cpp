@@ -34,30 +34,35 @@ void ToolRecipies::_init()
 	ADD_OBJECT(map[0],Item::ironIngot);
 	ADD_OBJECT(map[0],Item::diamond);
 	ADD_OBJECT(map[0],Item::goldIngot);
+	ADD_OBJECT(map[0], Item::titaniumIngot);
 
 	ADD_OBJECT(map[1],Item::pickAxe_wood);
 	ADD_OBJECT(map[1],Item::pickAxe_stone);
 	ADD_OBJECT(map[1],Item::pickAxe_iron);
 	ADD_OBJECT(map[1],Item::pickAxe_diamond);
 	ADD_OBJECT(map[1],Item::pickAxe_gold);
+	ADD_OBJECT(map[1], Item::titaniumPickaxe);
 
 	ADD_OBJECT(map[2],Item::shovel_wood);
 	ADD_OBJECT(map[2],Item::shovel_stone);
 	ADD_OBJECT(map[2],Item::shovel_iron);
 	ADD_OBJECT(map[2],Item::shovel_diamond);
 	ADD_OBJECT(map[2],Item::shovel_gold);
+	ADD_OBJECT(map[2], Item::titaniumShovel);
 
 	ADD_OBJECT(map[3],Item::hatchet_wood);
 	ADD_OBJECT(map[3],Item::hatchet_stone);
 	ADD_OBJECT(map[3],Item::hatchet_iron);
 	ADD_OBJECT(map[3],Item::hatchet_diamond);
 	ADD_OBJECT(map[3],Item::hatchet_gold);
+	ADD_OBJECT(map[3], Item::titaniumHatchet);
 
 	ADD_OBJECT(map[4],Item::hoe_wood);
 	ADD_OBJECT(map[4],Item::hoe_stone);
 	ADD_OBJECT(map[4],Item::hoe_iron);
 	ADD_OBJECT(map[4],Item::hoe_diamond);
 	ADD_OBJECT(map[4],Item::hoe_gold);
+	ADD_OBJECT(map[4], Item::titaniumHoe);
 }
 
 void ToolRecipies::addRecipes(Recipes *r) 

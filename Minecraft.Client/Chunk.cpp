@@ -270,6 +270,8 @@ void Chunk::rebuild()
 					offset = Level::COMPRESSED_CHUNK_SECTION_TILES;
 				}
 
+				//app.DebugPrintf("xx=%d zz=%d y=%d\n", xx, zz, indexY);
+
 				unsigned char tileId = tileIds[ offset + ( ( ( xx + 0 ) << 11 ) | ( ( zz + 0 ) << 7 ) | ( indexY + 0 ) ) ];
 				if( tileId > 0 ) empty = false;
 

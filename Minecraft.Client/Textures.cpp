@@ -85,6 +85,7 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"item/xporb",
 	L"item/chest",
 	L"item/largechest",
+	L"item/treasurechest",
 
 	// 1.3.2
 	L"item/enderchest",
@@ -110,6 +111,7 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"misc/tunnel",
 	L"misc/particlefield",
 	L"terrain/moon_phases",
+	L"terrain/earth_phases",
 
 	// 1.2.3
 	L"mob/ozelot",
@@ -117,6 +119,8 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"mob/cat_red",
 	L"mob/cat_siamese",
 	L"mob/villager_golem",
+	L"mob/rocket",
+	L"mob/lunar_friend",
 	L"mob/skeleton_wither",
 
 	// TU 14

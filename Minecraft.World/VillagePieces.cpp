@@ -268,6 +268,7 @@ VillagePieces::VillagePiece::VillagePiece()
 	heightPosition = -1;
 	spawnedVillagerCount = 0;
 	isDesertVillage = false;
+	isLunarVillage = false;
 	startPiece = nullptr;
 	// for reflection
 }
@@ -276,11 +277,13 @@ VillagePieces::VillagePiece::VillagePiece(StartPiece *startPiece, int genDepth) 
 {
 	heightPosition = -1;
 	isDesertVillage = false;
+	isLunarVillage = false;
 	spawnedVillagerCount = 0;
 	this->startPiece = startPiece;
 	if (startPiece != nullptr)
 	{
 		this->isDesertVillage = startPiece->isDesertVillage;
+		this->isLunarVillage = startPiece->isLunarVillage;
 	}
 }
 
@@ -289,6 +292,7 @@ void VillagePieces::VillagePiece::addAdditonalSaveData(CompoundTag *tag)
 	tag->putInt(L"HPos", heightPosition);
 	tag->putInt(L"VCount", spawnedVillagerCount);
 	tag->putBoolean(L"Desert", isDesertVillage);
+	tag->putBoolean(L"Lunar", isLunarVillage);
 }
 
 void VillagePieces::VillagePiece::readAdditonalSaveData(CompoundTag *tag)
@@ -296,6 +300,7 @@ void VillagePieces::VillagePiece::readAdditonalSaveData(CompoundTag *tag)
 	heightPosition = tag->getInt(L"HPos");
 	spawnedVillagerCount = tag->getInt(L"VCount");
 	isDesertVillage = tag->getBoolean(L"Desert");
+	isLunarVillage = tag->getBoolean(L"Lunar");
 }
 
 StructurePiece *VillagePieces::VillagePiece::generateHouseNorthernLeft(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int yOff, int zOff)
@@ -391,9 +396,16 @@ void VillagePieces::VillagePiece::spawnVillagers(Level *level, BoundingBox *chun
 		{
 			spawnedVillagerCount++;
 
-			shared_ptr<Villager> villager = std::make_shared<Villager>(level, getVillagerProfession(i));
-			villager->moveTo(worldX + 0.5, worldY, worldZ + 0.5, 0, 0);
-			level->addEntity(villager);
+			if (isLunarVillage) {
+				shared_ptr<LunarFriend> lunarFriend = std::make_shared<LunarFriend>(level);
+				lunarFriend->moveTo(worldX + 0.5, worldY, worldZ + 0.5, 0, 0);
+				level->addEntity(lunarFriend);
+			}
+			else {
+				shared_ptr<Villager> villager = std::make_shared<Villager>(level, getVillagerProfession(i));
+				villager->moveTo(worldX + 0.5, worldY, worldZ + 0.5, 0, 0);
+				level->addEntity(villager);
+			}
 		}
 		else
 		{
@@ -437,6 +449,53 @@ int VillagePieces::VillagePiece::biomeBlock(int tile, int data)
 			return Tile::sandStone_Id;
 		}
 	}
+	if (isLunarVillage)
+	{
+		if (tile == Tile::treeTrunk_Id)
+		{
+			return Tile::quartzBlock_Id;
+		}
+		else if (tile == Tile::cobblestone_Id)
+		{
+			return Tile::quartzBlock_Id;
+		}
+		else if (tile == Tile::wood_Id)
+		{
+			return Tile::quartzBlock_Id;
+		}
+		else if (tile == Tile::stairs_wood_Id)
+		{
+			return Tile::stairs_quartz_Id;
+		}
+		else if (tile == Tile::stairs_stone_Id)
+		{
+			return Tile::stairs_quartz_Id;
+		}
+		else if (tile == Tile::gravel_Id)
+		{
+			return Tile::moonStone_Id;
+		}
+		else if (tile == Tile::dirt_Id)
+		{
+			return Tile::moonDirt_Id;
+		}
+		else if (tile == Tile::fence_Id)
+		{
+			return Tile::ironFence_Id;
+		}
+		else if (tile == Tile::thinGlass_Id)
+		{
+			return Tile::stained_glass_pane_Id;
+		}
+		else if (tile == Tile::glass_Id)
+		{
+			return Tile::stained_glass_Id;
+		}
+		else if (tile == Tile::torch_Id)
+		{
+			return Tile::glowstoneTorch_Id;
+		}
+	}
 	return tile;
 }
 
@@ -455,6 +514,25 @@ int VillagePieces::VillagePiece::biomeData(int tile, int data)
 		else if (tile == Tile::wood_Id)
 		{
 			return SandStoneTile::TYPE_SMOOTHSIDE;
+		}
+	}
+	if (isLunarVillage)
+	{
+		if (tile == Tile::treeTrunk_Id)
+		{
+			return QuartzBlockTile::TYPE_LINES_Y;
+		}
+		else if (tile == Tile::cobblestone_Id)
+		{
+			return QuartzBlockTile::TYPE_CHISELED;
+		}
+		else if (tile == Tile::stained_glass_pane_Id)
+		{
+			return 8;
+		}
+		else if (tile == Tile::stained_glass_Id)
+		{
+			return 8;
 		}
 	}
 	return data;
@@ -580,6 +658,7 @@ VillagePieces::StartPiece::StartPiece(BiomeSource *biomeSource, int genDepth, Ra
 
 	Biome *biome = biomeSource->getBiome(west, north);
 	isDesertVillage = biome == Biome::desert || biome == Biome::desertHills;
+	isLunarVillage = biome == Biome::moon;
 }
 
 VillagePieces::StartPiece::~StartPiece()
@@ -1747,6 +1826,7 @@ VillagePieces::Farmland::Farmland()
 {
 	cropsA = 0;
 	cropsB = 0;
+	isLunarVillage = false;
 	// for reflection
 }
 
@@ -1757,6 +1837,10 @@ VillagePieces::Farmland::Farmland(StartPiece *startPiece, int genDepth, Random *
 
 	cropsA = selectCrops(random);
 	cropsB = selectCrops(random);
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 int VillagePieces::Farmland::selectCrops(Random *random)
@@ -1799,7 +1883,7 @@ VillagePieces::Farmland *VillagePieces::Farmland::createPiece(StartPiece *startP
 	return new Farmland(startPiece, genDepth, random, box, direction);
 }
 
-bool VillagePieces::Farmland::postProcess(Level *level, Random *random, BoundingBox *chunkBB)
+bool VillagePieces::Farmland::postProcess(Level* level, Random* random, BoundingBox* chunkBB)
 {
 	if (heightPosition < 0)
 	{
@@ -1822,6 +1906,13 @@ bool VillagePieces::Farmland::postProcess(Level *level, Random *random, Bounding
 	generateBox(level, chunkBB, 6, 0, 0, 6, 0, 8, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
 	generateBox(level, chunkBB, 1, 0, 0, 5, 0, 0, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
 	generateBox(level, chunkBB, 1, 0, 8, 5, 0, 8, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
+	if (isLunarVillage) {
+		generateBox(level, chunkBB, 0, 1, 0, 0, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 6, 1, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 1, 1, 0, 5, 3, 0, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 1, 1, 8, 5, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 0, 3, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+	}
 	// water
 	generateBox(level, chunkBB, 3, 0, 1, 3, 0, 7, Tile::water_Id, Tile::water_Id, false);
 	// crops
@@ -1852,6 +1943,7 @@ VillagePieces::DoubleFarmland::DoubleFarmland()
 	cropsB = 0;
 	cropsC = 0;
 	cropsD = 0;
+	isLunarVillage = false;
 	// for reflection
 }
 
@@ -1865,6 +1957,10 @@ VillagePieces::DoubleFarmland::DoubleFarmland(StartPiece *startPiece, int genDep
 	cropsB = selectCrops(random);
 	cropsC = selectCrops(random);
 	cropsD = selectCrops(random);
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 void VillagePieces::DoubleFarmland::addAdditonalSaveData(CompoundTag *tag)
@@ -1937,6 +2033,14 @@ bool VillagePieces::DoubleFarmland::postProcess(Level *level, Random *random, Bo
 	generateBox(level, chunkBB, 12, 0, 0, 12, 0, 8, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
 	generateBox(level, chunkBB, 1, 0, 0, 11, 0, 0, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
 	generateBox(level, chunkBB, 1, 0, 8, 11, 0, 8, Tile::treeTrunk_Id, Tile::treeTrunk_Id, false);
+	if (isLunarVillage) {
+		generateBox(level, chunkBB, 0, 1, 0, 0, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 6, 1, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 12, 1, 0, 12, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 1, 1, 0, 11, 3, 0, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 1, 1, 8, 11, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 0, 3, 0, 12, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+	}
 	// water
 	generateBox(level, chunkBB, 3, 0, 1, 3, 0, 7, Tile::water_Id, Tile::water_Id, false);
 	generateBox(level, chunkBB, 9, 0, 1, 9, 0, 7, Tile::water_Id, Tile::water_Id, false);

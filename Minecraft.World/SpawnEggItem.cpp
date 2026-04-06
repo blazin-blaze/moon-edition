@@ -135,6 +135,16 @@ shared_ptr<Entity> SpawnEggItem::canSpawn(int iAuxVal, Level *level, int *piResu
 				*piResult=eSpawnResult_FailTooManyBats;
 			}
 			break;
+		case eTYPE_LUNAR:
+			if (level->canCreateMore(eTYPE_LUNAR, Level::eSpawnType_Egg))
+			{
+				canSpawn = true;
+			}
+			else
+			{
+				*piResult = eSpawnResult_FailTooManyVillagers;
+			}
+			break;
 		default:
 			if ( eTYPE_FLAGSET(eTYPE_ANIMALS_SPAWN_LIMIT_CHECK, newEntity->GetType()) )
 			{

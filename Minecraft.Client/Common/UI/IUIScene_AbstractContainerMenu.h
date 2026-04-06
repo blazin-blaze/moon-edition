@@ -53,6 +53,7 @@ protected:
 		eSectionInventoryUsing,
 		eSectionInventoryInventory,
 		eSectionInventoryArmor,
+		eSectionInventorySpace,
 		eSectionInventoryMax,
 		
 		eSectionTrapUsing,

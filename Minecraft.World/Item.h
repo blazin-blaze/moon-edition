@@ -90,7 +90,8 @@ public:
 		eMaterial_book,
 		eMaterial_bookshelf,
 		eMaterial_wheat,
-
+		eMaterial_artisan,
+		eMaterial_titanium,
 	}
 	eMaterial;
 
@@ -141,6 +142,7 @@ public:
 		eBaseItemType_lever,
 		eBaseItemType_paper,
 		eBaseItemType_MAXTYPES,
+		eBaseItemType_artisan,
 	}
 	eBaseItemType;
 
@@ -158,6 +160,7 @@ public:
 		static const Tier *IRON; //
 		static const Tier *DIAMOND; //
 		static const Tier *GOLD;
+		static const Tier* TITANIUM;
 
 	private:
 		const int level;
@@ -412,6 +415,26 @@ public:
 	static Item *lead;
 	static Item *nameTag;
 
+	static Item* rocket;
+	static Item* cheese;
+	static Item* moonDungeonKey;
+	static Item* titaniumIngot;
+	static Item* titaniumHelmet;
+	static Item* titaniumChestplate;
+	static Item* titaniumLeggings;
+	static Item* titaniumBoots;
+	static Item* titaniumSword;
+	static Item* titaniumShovel;
+	static Item* titaniumPickaxe;
+	static Item* titaniumHatchet;
+	static Item* titaniumHoe;
+	static Item* sapphire;
+	static Item* cheeseburger;
+	static Item* poutine;
+	static Item* frequencyModule;
+	static Item* oxygenMask;
+	static Item* oxygenGear;
+	static Item* oxygenTank;
 
 	static const int shovel_iron_Id			= 256;
 	static const int pickAxe_iron_Id		= 257;
@@ -617,6 +640,27 @@ public:
 	static const int horseArmorDiamond_Id = 419;
 	static const int lead_Id = 420;
 	static const int nameTag_Id = 421;
+
+	static const int rocket_Id = 422;
+	static const int cheese_Id = 423;
+	static const int moonDungeonKey_Id = 424;
+	static const int titaniumIngot_Id = 425;
+	static const int titaniumHelmet_Id = 426;
+	static const int titaniumChestplate_Id = 427;
+	static const int titaniumLeggings_Id = 428;
+	static const int titaniumBoots_Id = 429;
+	static const int titaniumSword_Id = 430;
+	static const int titaniumShovel_Id = 431;
+	static const int titaniumPickaxe_Id = 432;
+	static const int titaniumHatchet_Id = 433;
+	static const int titaniumHoe_Id = 434;
+	static const int sapphire_Id = 435;
+	static const int cheeseburger_Id = 436;
+	static const int poutine_Id = 437;
+	static const int frequencyModule_Id = 438;
+	static const int oxygenMask_Id = 439;
+	static const int oxygenGear_Id = 440;
+	static const int oxygenTank_Id = 441;
 
 public:
 	const int id;

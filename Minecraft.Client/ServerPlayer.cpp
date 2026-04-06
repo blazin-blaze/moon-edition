@@ -260,6 +260,12 @@ void ServerPlayer::tick()
 		}
 	}
 
+	if (tickCount % 20 == 0 && level->dimension->id == 2) {
+		if (inventory->getOxygenSetup()) {
+			inventory->depleteOxygen(1.0f);
+		}
+	}
+
 	flushEntitiesToRemove();
 }
 
@@ -429,6 +435,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 						PIXBeginNamedEvent(0,"Creation BRUP for sending\n");
 						int64_t before = System::currentTimeMillis();
 						const auto packet = std::make_shared<BlockRegionUpdatePacket>(nearest.x * 16, 0, nearest.z * 16, 16, Level::maxBuildHeight, 16, level);
+						app.DebugPrintf("Sending chunk (%d,%d) in dim=%d\n", nearest.x, nearest.z, dimension);
 						int64_t after = System::currentTimeMillis();
 //						app.DebugPrintf(">>><<< %d ms\n",after-before);
 						PIXEndNamedEvent();

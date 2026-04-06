@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "Monster.h"
+#include "MobGroupData.h"
 
 class Level;
 class DamageSource;
@@ -54,6 +55,7 @@ public:
 	virtual bool doHurtTarget(shared_ptr<Entity> target);
 	virtual bool isPowered();
 	float getSwelling(float a);
+	virtual MobGroupData* finalizeMobSpawn(MobGroupData* groupData, int extraData = 0); // 4J Added extraData param
 
 protected:
 	int getDeathLoot();

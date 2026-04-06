@@ -8,7 +8,11 @@ class HitResult;
 class TorchTile : public Tile
 {
 	friend class Tile;
+private:
+	bool isFlaming;
+	bool burntOut;
 protected:
+	TorchTile(int id, bool hasFlames, bool isBurntOut);
 	TorchTile(int id);
 public:
 	virtual AABB *getAABB(Level *level, int x, int y, int z);
@@ -25,6 +29,7 @@ public:
 	virtual void tick(Level *level, int x, int y, int z, Random *random);
 	virtual void onPlace(Level *level, int x, int y, int z);
 	virtual void neighborChanged(Level *level, int x, int y, int z, int type);
+	virtual bool use(Level* level, int x, int y, int z, shared_ptr<Player> player, int clickedFace, float clickX, float clickY, float clickZ, bool soundOnly = false); // 4J added soundOnly param
 
 protected:
 	virtual bool checkDoPop(Level *level, int x, int y, int z, int type);

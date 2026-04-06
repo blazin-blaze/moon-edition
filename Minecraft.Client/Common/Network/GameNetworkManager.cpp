@@ -418,7 +418,7 @@ bool	CGameNetworkManager::StartNetworkGame(Minecraft *minecraft, LPVOID lpParame
 	TexturePack *tPack = Minecraft::GetInstance()->skins->getSelected();
 	do
 	{
-		app.DebugPrintf("ticking connection A\n");
+		//app.DebugPrintf("ticking connection A\n");
 		connection->tick();
 
 		// 4J Stu - We were ticking this way too fast which could cause the connection to time out

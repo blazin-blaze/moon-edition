@@ -905,15 +905,21 @@ void PlayerList::repositionAcrossDimension(shared_ptr<Entity> entity, int lastDi
 	}
 	else if (entity->dimension == 0)
 	{
-		xt *= scale;
-		zt *= scale;
+		int* id = &(oldLevel->dimension->id);
+		if (id != nullptr && *id == 2) {
+			//Do nothing, we don't want to scale coordinates if we came from the moon.
+		}
+		else {
+			xt *= scale;
+			zt *= scale;
+		}
 		entity->moveTo(xt, entity->y, zt, entity->yRot, entity->xRot);
 		if (entity->isAlive())
 		{
 			oldLevel->tick(entity, false);
 		}
 	}
-	else
+	else if(entity->dimension == 1)
 	{
 		Pos *p;
 
@@ -937,6 +943,12 @@ void PlayerList::repositionAcrossDimension(shared_ptr<Entity> entity, int lastDi
 		{
 			oldLevel->tick(entity, false);
 		}
+	}else if(entity->dimension == 2) {
+		entity->moveTo(xt, entity->y, zt, entity->yRot, entity->xRot);
+		if (entity->isAlive())
+		{
+			oldLevel->tick(entity, false);
+		}
 	}
 
 	if(entity->GetType() == eTYPE_SERVERPLAYER)
@@ -955,9 +967,11 @@ void PlayerList::repositionAcrossDimension(shared_ptr<Entity> entity, int lastDi
 			newLevel->addEntity(entity);
 			entity->moveTo(xt, entity->y, zt, entity->yRot, entity->xRot);
 			newLevel->tick(entity, false);
-			newLevel->cache->autoCreate = true;
-			newLevel->getPortalForcer()->force(entity, xOriginal, yOriginal, zOriginal, yRotOriginal);
-			newLevel->cache->autoCreate = false;
+			if (lastDimension != 2) {
+				newLevel->cache->autoCreate = true;
+				newLevel->getPortalForcer()->force(entity, xOriginal, yOriginal, zOriginal, yRotOriginal);
+				newLevel->cache->autoCreate = false;
+			}
 		}
 	}
 
@@ -1476,6 +1490,7 @@ shared_ptr<ServerPlayer> PlayerList::findAlivePlayerOnSystem(shared_ptr<ServerPl
 	dimIndex = playerDim = player->dimension;
 	if( dimIndex == -1 ) dimIndex = 1;
 	else if( dimIndex == 1) dimIndex = 2;
+	else if (dimIndex == 2) dimIndex = 3;
 
 	INetworkPlayer *thisPlayer = player->connection->getNetworkPlayer();
 	if( thisPlayer )
@@ -1558,6 +1573,7 @@ void PlayerList::removePlayerFromReceiving(shared_ptr<ServerPlayer> player, bool
 				int newPlayerDim = 0;
 				if( newPlayer->dimension == -1 ) newPlayerDim = 1;
 				else if( newPlayer->dimension == 1) newPlayerDim = 2;
+				else if (newPlayer->dimension == 2) newPlayerDim = 3;
 				bool foundPrimary = false;
 				for(auto& primaryPlayer : receiveAllPlayers[newPlayerDim])
 				{
@@ -1585,6 +1601,7 @@ void PlayerList::addPlayerToReceiving(shared_ptr<ServerPlayer> player)
 	int playerDim = 0;
 	if( player->dimension == -1 ) playerDim = 1;
 	else if( player->dimension == 1) playerDim = 2;
+	else if (player->dimension == 2) playerDim = 3;
 
 #ifndef _CONTENT_PACKAGE
 	app.DebugPrintf("Requesting add player %ls as primary in dimension %d\n", player->name.c_str(), playerDim);
@@ -1628,6 +1645,7 @@ bool PlayerList::canReceiveAllPackets(shared_ptr<ServerPlayer> player)
 	int playerDim = 0;
 	if( player->dimension == -1 ) playerDim = 1;
 	else if( player->dimension == 1) playerDim = 2;
+	else if (player->dimension == 2) playerDim = 3;
 	for(const auto& newPlayer : receiveAllPlayers[playerDim])
 	{
 		if(newPlayer == player)

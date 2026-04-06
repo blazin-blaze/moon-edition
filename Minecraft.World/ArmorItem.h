@@ -35,12 +35,14 @@ public:
 		static const int ironArray[];
 		static const int goldArray[];
 		static const int diamondArray[];
+		static const int titaniumArray[];
 	public:
 		static const ArmorMaterial *CLOTH;
 		static const ArmorMaterial *CHAIN;
 		static const ArmorMaterial *IRON;
 		static const ArmorMaterial *GOLD;
 		static const ArmorMaterial *DIAMOND;
+		static const ArmorMaterial* TITANIUM;
 
 	private:
 		int durabilityMultiplier;

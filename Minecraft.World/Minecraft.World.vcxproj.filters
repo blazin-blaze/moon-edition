@@ -3197,6 +3197,36 @@
     <ClInclude Include="FireworksMenu.h">
       <Filter>net\minecraft\world\inventory</Filter>
     </ClInclude>
+    <ClInclude Include="Rocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RocketItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonLevelRandomLevelSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonDimension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonBiome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LunarFriend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheeseFeature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceSlot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonMonsterRoomFeature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TreasureChestTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -5625,6 +5655,36 @@
     </ClCompile>
     <ClCompile Include="EmptyMapItem.cpp">
       <Filter>net\minecraft\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Rocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonLevelRandomLevelSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonDimension.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonBiome.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LunarFriend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CheeseFeature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceSlot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonMonsterRoomFeature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TreasureChestTile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

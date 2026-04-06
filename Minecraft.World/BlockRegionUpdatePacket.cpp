@@ -42,7 +42,13 @@ BlockRegionUpdatePacket::BlockRegionUpdatePacket(int x, int y, int z, int xs, in
 	this->ys = ys;
 	this->zs = zs;
 	bIsFullChunk = false;
-	levelIdx = ( ( level->dimension->id == 0 ) ? 0 : ( (level->dimension->id == -1) ? 1 : 2 ) );
+	switch (level->dimension->id) {
+	case 0: levelIdx = 0; break;
+	case -1: levelIdx = 1; break;
+	case 1: levelIdx = 2; break;
+	case 2: levelIdx = 3; break;
+	}
+	//levelIdx = ( ( level->dimension->id == 0 ) ? 0 : ( (level->dimension->id == -1) ? 1 : 2 ) );
 
 	// 4J - if we are compressing a full chunk, re-order the blocks so that they compress better
 	// TODO - we should be using compressed data directly here rather than decompressing first and then recompressing...

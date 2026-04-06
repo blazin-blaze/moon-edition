@@ -258,6 +258,12 @@ MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData 
 			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin));
 			dropChances[SLOT_HELM] = 0;
 		}
+
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
+			dropChances[SLOT_HELM] = 0;
+		}
 	}
 	return groupData;
 }

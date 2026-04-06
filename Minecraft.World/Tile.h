@@ -365,6 +365,21 @@ public:
 	static const int clayHardened_Id = 172;
 	static const int coalBlock_Id = 173;
 
+	static const int moonTurf_Id = 174;
+	static const int moonDirt_Id = 175;
+	static const int moonStone_Id = 176;
+	static const int cheeseBlock_Id = 177;
+	static const int cheeseOre_Id = 178;
+	static const int sapphireOre_Id = 179;
+	static const int titaniumOre_Id = 180;
+	static const int moonQuartzOre_Id = 181;
+	static const int titaniumBlock_Id = 182;
+	static const int moonDungeonBricks_Id = 183;
+	static const int moonDungeonMossyBricks_Id = 184;
+	static const int moonDungeonCrackedBricks_Id = 185;
+	static const int glowstoneTorch_Id = 186;
+	static const int deadTorch_Id = 187;
+	static const int treasureChest_Id = 188;
 
 	static Tile *stone;
 	static GrassTile *grass;
@@ -540,6 +555,22 @@ public:
 	static Tile *woolCarpet;
 	static Tile *clayHardened;
 	static Tile *coalBlock;
+
+	static Tile* moonTurf;
+	static Tile* moonDirt;
+	static Tile* moonStone;
+	static Tile* cheeseBlock;
+	static Tile* cheeseOre;
+	static Tile* sapphireOre;
+	static Tile* titaniumOre;
+	static Tile* moonQuartzOre;
+	static Tile* titaniumBlock;
+	static Tile* moonDungeonBricks;
+	static Tile* moonDungeonMossyBricks;
+	static Tile* moonDungeonCrackedBricks;
+	static Tile* glowstoneTorch;
+	static Tile* deadTorch;
+	static Tile* treasureChest;
 
 	static void staticCtor();
 

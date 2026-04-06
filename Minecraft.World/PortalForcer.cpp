@@ -58,6 +58,11 @@ void PortalForcer::force(shared_ptr<Entity> e, double xOriginal, double yOrigina
 		return;
 	}
 
+	if (level->dimension->id == 2)
+	{
+		return;
+	}
+
 	if (findPortal(e, xOriginal, yOriginal, zOriginal, yRotOriginal))
 	{
 		return;

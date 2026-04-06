@@ -653,6 +653,7 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y, float z, 
 
 	SetIsPlayingEndMusic(false);
 	SetIsPlayingNetherMusic(false);
+	SetIsPlayingMoonMusic(false);
 
 	if(name.empty())
 	{
@@ -670,6 +671,7 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y, float z, 
 		Minecraft *pMinecraft=Minecraft::GetInstance();
 		bool playerInEnd=false;
 		bool playerInNether=false;
+		bool playerOnMoon = false;
 
 		for(unsigned int i=0;i<XUSER_MAX_COUNT;i++)
 		{
@@ -683,13 +685,17 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y, float z, 
 				{
 					playerInNether=true;
 				}
+				else if (pMinecraft->localplayers[i]->dimension == LevelData::DIMENSION_MOON)
+				{
+					playerOnMoon = true;
+				}
 			}
 		}
 		TexturePack *pTexPack=Minecraft::GetInstance()->skins->getSelected();
 
 		if(Minecraft::GetInstance()->skins->isUsingDefaultSkin() || pTexPack->hasAudio()==false)
 		{
-			if(playerInEnd || playerInNether)
+			if(playerInEnd || playerInNether || playerOnMoon)
 			{
 				pSoundBank=m_pSoundBank2;
 			}
@@ -722,6 +728,12 @@ void SoundEngine::playStreaming(const wstring& name, float x, float y, float z, 
 			m_musicIDX = pSoundBank->GetCueIndex("nether");
 			SetIsPlayingNetherMusic(true);
 			bSoundBank2=true;
+		}
+		else if (playerOnMoon)
+		{
+			m_musicIDX = pSoundBank->GetCueIndex("moon");
+			SetIsPlayingMoonMusic(true);
+			bSoundBank2 = true;
 		}
 		else
 		{

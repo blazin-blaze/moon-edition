@@ -10807,6 +10807,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="LeashKnotModel.h" />
     <ClInclude Include="LeashKnotRenderer.h" />
     <ClInclude Include="LivingEntityRenderer.h" />
+    <ClInclude Include="LunarRenderer.h" />
     <ClInclude Include="MemTexture.h" />
     <ClInclude Include="MemTextureProcessor.h" />
     <ClInclude Include="MinecartSpawnerRenderer.h" />
@@ -20727,6 +20728,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     </ClInclude>
     <ClInclude Include="Rect2i.h" />
     <ClInclude Include="ResourceLocation.h" />
+    <ClInclude Include="RocketModel.h" />
+    <ClInclude Include="RocketRenderer.h" />
     <ClInclude Include="ServerCommandDispatcher.h" />
     <ClInclude Include="ServerConnection.h" />
     <ClInclude Include="ServerInterface.h" />
@@ -33890,6 +33893,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="Lighting.cpp" />
     <ClCompile Include="LightningBoltRenderer.cpp" />
     <ClCompile Include="LivingEntityRenderer.cpp" />
+    <ClCompile Include="LunarRenderer.cpp" />
     <ClCompile Include="MemoryTracker.cpp" />
     <ClCompile Include="MemTexture.cpp" />
     <ClCompile Include="MinecartModel.cpp" />
@@ -37950,6 +37954,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="QuadrupedModel.cpp" />
     <ClCompile Include="RedDustParticle.cpp" />
     <ClCompile Include="RenameWorldScreen.cpp" />
+    <ClCompile Include="RocketModel.cpp" />
+    <ClCompile Include="RocketRenderer.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenSizeCalculator.cpp" />
     <ClCompile Include="ScrolledSelectionList.cpp" />

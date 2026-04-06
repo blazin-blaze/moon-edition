@@ -34,6 +34,14 @@ void ConsoleSoundEngine::SetIsPlayingNetherMusic(bool bVal)
 {
 	m_bIsPlayingNetherMusic=bVal;
 }
+bool ConsoleSoundEngine::GetIsPlayingMoonMusic()
+{
+	return m_bIsPlayingMoonMusic;
+}
+void ConsoleSoundEngine::SetIsPlayingMoonMusic(bool bVal)
+{
+	m_bIsPlayingMoonMusic = bVal;
+}
 
 void ConsoleSoundEngine::tick()
 {

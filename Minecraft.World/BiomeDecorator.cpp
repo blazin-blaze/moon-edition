@@ -38,7 +38,26 @@ void BiomeDecorator::decorate(Level *level, Random *random, int xo, int zo)
 	this->random = nullptr;
 }
 
+void BiomeDecorator::decorateMoon(Level* level, Random* random, int xo, int zo)
+{
+	if (this->level != nullptr)
+	{
+		app.DebugPrintf("BiomeDecorator::decorate - Already decorating!!\n");
+#ifndef _CONTENT_PACKAGE
+		__debugbreak();
+		//throw new RuntimeException("Already decorating!!");
+#endif
+	}
+	this->level = level;
+	this->random = random;
+	this->xo = xo;
+	this->zo = zo;
 
+	decorateMoon();
+
+	this->level = nullptr;
+	this->random = nullptr;
+}
 
 void BiomeDecorator::_init()
 {
@@ -49,9 +68,12 @@ void BiomeDecorator::_init()
 	gravelOreFeature = new OreFeature(Tile::gravel_Id, 32);
 	coalOreFeature = new OreFeature(Tile::coalOre_Id, 16);
 	ironOreFeature = new OreFeature(Tile::ironOre_Id, 8);
+	moonQuartzOreFeature = new OreFeature(Tile::moonQuartzOre_Id, 10, Tile::moonStone_Id);
 	goldOreFeature = new OreFeature(Tile::goldOre_Id, 8);
+	sapphireOreFeature = new OreFeature(Tile::sapphireOre_Id, 8, Tile::moonStone_Id);
 	redStoneOreFeature = new OreFeature(Tile::redStoneOre_Id, 7);
 	diamondOreFeature = new OreFeature(Tile::diamondOre_Id, 7);
+	titaniumOreFeature = new OreFeature(Tile::titaniumOre_Id, 8, Tile::moonStone_Id);
 	lapisOreFeature = new OreFeature(Tile::lapisOre_Id, 6);
 	yellowFlowerFeature = new FlowerFeature(Tile::flower_Id);
 	roseFlowerFeature = new FlowerFeature(Tile::rose_Id);
@@ -286,6 +308,13 @@ void BiomeDecorator::decorate()
 	PIXEndNamedEvent();
 }
 
+void BiomeDecorator::decorateMoon()
+{
+	PIXBeginNamedEvent(0, "Decorate ores");
+	decorateMoonOres();
+	PIXEndNamedEvent();
+}
+
 void BiomeDecorator::decorate(int count, Feature *feature)
 {
 	decorateDepthSpan(count, feature, 0, Level::genDepth);
@@ -324,5 +353,14 @@ void BiomeDecorator::decorateOres()
 	decorateDepthSpan(8, redStoneOreFeature, 0, Level::genDepth / 8);
 	decorateDepthSpan(1, diamondOreFeature, 0, Level::genDepth / 8);
 	decorateDepthAverage(1, lapisOreFeature, Level::genDepth / 8, Level::genDepth / 8);
+	level->setInstaTick(false);
+}
+
+void BiomeDecorator::decorateMoonOres()
+{
+	level->setInstaTick(true);		// 4J - optimisation
+	decorateDepthSpan(10, moonQuartzOreFeature, 0, Level::genDepth / 2);
+	decorateDepthSpan(2, sapphireOreFeature, 0, Level::genDepth / 4);
+	decorateDepthSpan(1, titaniumOreFeature, 0, Level::genDepth / 4);
 	level->setInstaTick(false);
 }

@@ -450,6 +450,9 @@ public:
 	static const int quartzBlock_Id = 155;
 	static const int stairs_quartz_Id = 156;
 	static const int woolCarpet_Id = 171;
+	static const int moonTurf_Id = 174;
+	static const int moonDirt_Id = 175;
+	static const int moonStone_Id = 176;
 
 	static Tile_SPU m_tiles[256];
 

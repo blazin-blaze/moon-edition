@@ -5,6 +5,7 @@ enum ePARTICLE_TYPE
 {
 	eParticleType_bubble,
 	eParticleType_smoke,
+	eParticleType_smokeBig,
 	eParticleType_note,
 	eParticleType_netherportal, // 4J - This particle should only be used by the Nether portal. Everything else should use eParticleType_end
 	eParticleType_endportal, // 4J - Seperated this from torches and fires

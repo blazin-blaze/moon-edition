@@ -914,6 +914,9 @@ LevelChunk *Level::getChunk(int x, int z)
 
 bool Level::setTileAndData(int x, int y, int z, int tile, int data, int updateFlags)
 {
+	if (tile == 50 && this->dimension->id == 2) {
+		tile = 187;
+	}
 	if (x < -MAX_LEVEL_SIZE || z < -MAX_LEVEL_SIZE || x >= MAX_LEVEL_SIZE || z >= MAX_LEVEL_SIZE)
 	{
 		return false;
@@ -4703,6 +4706,10 @@ bool Level::canCreateMore(eINSTANCEOF type, ESPAWN_TYPE spawnType)
 		{
 		case eTYPE_VILLAGER:
 			count = countInstanceOf( eTYPE_VILLAGER, true);
+			max = MobCategory::MAX_XBOX_VILLAGERS_WITH_SPAWN_EGG;
+			break;
+		case eTYPE_LUNAR:
+			count = countInstanceOf(eTYPE_LUNAR, true);
 			max = MobCategory::MAX_XBOX_VILLAGERS_WITH_SPAWN_EGG;
 			break;
 		case eTYPE_CHICKEN:

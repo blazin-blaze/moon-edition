@@ -45,7 +45,7 @@ void EvolvedSpider::dropDeathLoot(bool wasKilledByPlayer, int playerBonusLevel)
 			count += random->nextInt(playerBonusLevel + 1);
 		}
 		for (int i = 0; i < count; i++)
-			spawnAtLocation(make_shared<ItemInstance>(loot, 1, count), 0);
+			spawnAtLocation(make_shared<ItemInstance>(loot, count, 1), 0);
 	}
 
 	bool shouldDropKey = random->nextInt(7) == 1 ? true : false;

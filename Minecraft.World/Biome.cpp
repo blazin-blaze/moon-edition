@@ -79,7 +79,7 @@ void Biome::staticCtor()
 
 	Biome::jungle = (new JungleBiome(21))->setColor(0x537b09)->setName(L"Jungle")->setLeafColor(0x537b09)->setTemperatureAndDownfall(1.2f, 0.9f)->setDepthAndScale(0.2f, 0.4f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Jungle, eMinecraftColour_Foliage_Jungle, eMinecraftColour_Water_Jungle,eMinecraftColour_Sky_Jungle);
 	Biome::jungleHills = (new JungleBiome(22))->setColor(0x2c4205)->setName(L"JungleHills")->setLeafColor(0x537b09)->setTemperatureAndDownfall(1.2f, 0.9f)->setDepthAndScale(1.8f, 0.5f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_JungleHills, eMinecraftColour_Foliage_JungleHills, eMinecraftColour_Water_JungleHills,eMinecraftColour_Sky_JungleHills);
-	Biome::moon = (new MoonBiome(23))->setColor(0x2c4205)->setName(L"Moon")->setLeafColor(0xFA9418)->setTemperatureAndDownfall(2, 0)->setDepthAndScale(0.1f, 0.2f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Desert, eMinecraftColour_Foliage_Desert, eMinecraftColour_Water_JungleHills, eMinecraftColour_Sky_JungleHills);
+	Biome::moon = (new MoonBiome(23))->setColor(0x2c4205)->setName(L"Moon")->setLeafColor(0xFA9418)->setTemperatureAndDownfall(2, 0)->setDepthAndScale(0.1f, 0.2f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Desert, eMinecraftColour_Foliage_Desert, eMinecraftColour_Water_JungleHills, eMinecraftColour_Sky_JungleHills)->setNoRain();
 }
 
 Biome::Biome(int id) : id(id)

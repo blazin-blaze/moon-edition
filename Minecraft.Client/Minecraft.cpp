@@ -1514,7 +1514,7 @@ void Minecraft::run_middle()
 
 							if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_CRAFTING) || g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_CRAFTING_ALT))
 							{
-							if((ui.IsSceneInStack(i, eUIScene_Crafting2x2Menu) || ui.IsSceneInStack(i, eUIScene_Crafting3x3Menu) || ui.IsSceneInStack(i, eUIScene_CreativeMenu) || isClosableByEitherKey) && !isEditing)
+							if((ui.IsSceneInStack(i, eUIScene_Crafting2x2Menu) || ui.IsSceneInStack(i, eUIScene_Crafting3x3Menu) || ui.IsSceneInStack(i, eUIScene_SpaceCrafting3x3Menu) || ui.IsSceneInStack(i, eUIScene_CreativeMenu) || isClosableByEitherKey) && !isEditing)
 							{
 								ui.CloseUIScenes(i);
 							}
@@ -2484,7 +2484,7 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 			//TODO
 		}
 
-		if (player->isUnderLiquid(Material::water))
+		if (player->isUnderLiquid(Material::water) || player->isUnderLiquid(Material::oil))
 		{
 			*piJump=IDS_TOOLTIPS_SWIMUP;
 		}
@@ -2601,7 +2601,9 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 				case Item::bucket_water_Id:
 					*piUse=IDS_TOOLTIPS_EMPTY;
 					break;
-
+				case Item::oilBucket_Id:
+					*piUse = IDS_TOOLTIPS_EMPTY;
+					break;
 				case Item::boat_Id:
 				case Tile::waterLily_Id:
 					if (bUseItem) *piUse=IDS_TOOLTIPS_PLACE;
@@ -2750,6 +2752,7 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 						case Tile::button_wood_Id:
 						case Tile::trapdoor_Id:
 						case Tile::fenceGate_Id:
+						case Tile::quartzFenceGate_Id:
 						case Tile::beacon_Id:
 							*piAction=IDS_TOOLTIPS_MINE;
 							*piUse=IDS_TOOLTIPS_USE;

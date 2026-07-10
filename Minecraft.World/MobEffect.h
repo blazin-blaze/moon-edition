@@ -64,7 +64,7 @@ public:
 	static MobEffect *healthBoost;
 	static MobEffect *absorption;
 	static MobEffect *saturation;
-	static MobEffect *reserved_24;
+	static MobEffect *moonReturn;
 	static MobEffect *reserved_25;
 	static MobEffect *reserved_26;
 	static MobEffect *reserved_27;

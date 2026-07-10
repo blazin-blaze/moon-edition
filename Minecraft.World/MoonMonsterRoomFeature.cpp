@@ -9,17 +9,36 @@
 
 WeighedTreasure* MoonMonsterRoomFeature::monsterRoomTreasure[MoonMonsterRoomFeature::TREASURE_ITEMS_COUNT] =
 {
-		new WeighedTreasure(Item::sapphire_Id, 0, 1, 10, 5),
+		new WeighedTreasure(Item::sapphire_Id, 0, 1, 12, 7),
 		new WeighedTreasure(Item::titaniumIngot_Id, 0, 1, 2, 1),
 		new WeighedTreasure(Item::cheese_Id, 0, 1, 15, 10),
 		new WeighedTreasure(Item::netherQuartz_Id, 0, 1, 25, 10),
 		new WeighedTreasure(Item::oxygenTank_Id, 0, 1, 1, 1),
-		new WeighedTreasure(Item::cheeseburger_Id, 0, 1, 2, 3),
-		new WeighedTreasure(Item::poutine_Id, 0, 1, 1, 3),
-		new WeighedTreasure(Item::apple_gold_Id, 0, 1, 1, 1),
-		new WeighedTreasure(Item::apple_gold_Id, 1, 1, 1, 1),
-		new WeighedTreasure(Item::nameTag_Id, 0, 1, 1, 10),
-		new WeighedTreasure(Item::diamond_Id, 0, 1, 10, 5),
+		new WeighedTreasure(Item::cheeseburger_Id, 0, 1, 2, 7),
+		new WeighedTreasure(Item::poutine_Id, 0, 1, 1, 5),
+		new WeighedTreasure(Item::apple_gold_Id, 0, 1, 1, 7),
+		new WeighedTreasure(Item::apple_gold_Id, 1, 1, 1, 5),
+		new WeighedTreasure(Item::nameTag_Id, 0, 1, 1, 7),
+		new WeighedTreasure(Item::diamond_Id, 0, 1, 10, 7),
+		new WeighedTreasure(Item::sword_diamond_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::pickAxe_diamond_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::hatchet_diamond_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::hoe_diamond_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::shovel_diamond_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::dehydratedApple_Id, 0, 1, 3, 10),
+		new WeighedTreasure(Item::dehydratedCarrot_Id, 0, 1, 3, 10),
+		new WeighedTreasure(Item::dehydratedMelon_Id, 0, 1, 3, 10),
+		new WeighedTreasure(Item::dehydratedPotato_Id, 0, 1, 3, 10),
+		new WeighedTreasure(Item::cannedBeef_Id, 0, 1, 3, 10),
+		new WeighedTreasure(Item::sapphireHelmet_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireChestplate_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireLeggings_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireBoots_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireSword_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphirePickaxe_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireHatchet_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireShovel_Id, 0, 1, 1, 3),
+		new WeighedTreasure(Item::sapphireHoe_Id, 0, 1, 1, 3),
 };
 
 bool MoonMonsterRoomFeature::place(Level* level, Random* random, int x, int y, int z)
@@ -134,9 +153,9 @@ bool MoonMonsterRoomFeature::place(Level* level, Random* random, int x, int y, i
 wstring MoonMonsterRoomFeature::randomEntityId(Random* random)
 {
 	int id = random->nextInt(4);
-	if (id == 0) return wstring(L"Skeleton");
-	if (id == 1) return wstring(L"Zombie");
-	if (id == 2) return wstring(L"Zombie");
-	if (id == 3) return wstring(L"Spider");
+	if (id == 0) return wstring(L"EvolvedSkeleton");
+	if (id == 1) return wstring(L"EvolvedZombie");
+	if (id == 2) return wstring(L"EvolvedZombie");
+	if (id == 3) return wstring(L"EvolvedSpider");
 	return wstring(L"");
 }

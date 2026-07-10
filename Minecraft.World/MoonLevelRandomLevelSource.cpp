@@ -23,6 +23,7 @@ MoonLevelRandomLevelSource::MoonLevelRandomLevelSource(Level* level, int64_t see
 	caveFeature = new LargeCaveFeature();
 	//strongholdFeature = new StrongholdFeature();
 	villageFeature = new VillageFeature(m_XZSize);
+	mineShaftFeature = new MoonMineShaftFeature();
 	//mineShaftFeature = new MineShaftFeature();
 	//scatteredFeature = new RandomScatteredLargeFeature();
 	canyonFeature = new CanyonFeature();
@@ -58,7 +59,7 @@ MoonLevelRandomLevelSource::~MoonLevelRandomLevelSource()
 	delete caveFeature;
 	//delete strongholdFeature;
 	delete villageFeature;
-	//delete mineShaftFeature;
+	delete mineShaftFeature;
 	//delete scatteredFeature;
 	delete canyonFeature;
 
@@ -481,7 +482,7 @@ LevelChunk* MoonLevelRandomLevelSource::getChunk(int xOffs, int zOffs)
 	canyonFeature->apply(this, level, xOffs, zOffs, blocks);
 	if (generateStructures)
 	{
-		//mineShaftFeature->apply(this, level, xOffs, zOffs, blocks);
+		mineShaftFeature->apply(this, level, xOffs, zOffs, blocks);
 		villageFeature->apply(this, level, xOffs, zOffs, blocks);
 		//strongholdFeature->apply(this, level, xOffs, zOffs, blocks);
 		//scatteredFeature->apply(this, level, xOffs, zOffs, blocks);
@@ -763,7 +764,7 @@ void MoonLevelRandomLevelSource::postProcess(ChunkSource* parent, int xt, int zt
 	PIXBeginNamedEvent(0, "Structure postprocessing");
 	if (generateStructures)
 	{
-		//mineShaftFeature->postProcess(level, pprandom, xt, zt);
+		mineShaftFeature->postProcess(level, pprandom, xt, zt);
 		hasVillage = villageFeature->postProcess(level, pprandom, xt, zt);
 		//strongholdFeature->postProcess(level, pprandom, xt, zt);
 		//scatteredFeature->postProcess(level, random, xt, zt);
@@ -894,7 +895,7 @@ void MoonLevelRandomLevelSource::recreateLogicStructuresForChunk(int chunkX, int
 {
 	if (generateStructures)
 	{
-		//mineShaftFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		mineShaftFeature->apply(this, level, chunkX, chunkZ, byteArray());
 		villageFeature->apply(this, level, chunkX, chunkZ, byteArray());
 		//strongholdFeature->apply(this, level, chunkX, chunkZ, byteArray());
 		//scatteredFeature->apply(this, level, chunkX, chunkZ, byteArray());

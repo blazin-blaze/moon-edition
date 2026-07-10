@@ -108,30 +108,30 @@ void EnchantmentMenu::slotsChanged() // 4J used to take a shared_ptr<Container> 
 
 					if (level->isEmptyTile(x + ox, y, z + oz) && level->isEmptyTile(x + ox, y + 1, z + oz))
 					{
-						if (level->getTile(x + ox * 2, y, z + oz * 2) == Tile::bookshelf_Id)
+						if (level->getTile(x + ox * 2, y, z + oz * 2) == Tile::bookshelf_Id || level->getTile(x + ox * 2, y, z + oz * 2) == Tile::quartzBookshelf_Id)
 						{
 							bookcases++;
 						}
-						if (level->getTile(x + ox * 2, y + 1, z + oz * 2) == Tile::bookshelf_Id)
+						if (level->getTile(x + ox * 2, y + 1, z + oz * 2) == Tile::bookshelf_Id || level->getTile(x + ox * 2, y + 1, z + oz * 2) == Tile::quartzBookshelf_Id)
 						{
 							bookcases++;
 						}
 						// corners
 						if (ox != 0 && oz != 0)
 						{
-							if (level->getTile(x + ox * 2, y, z + oz) == Tile::bookshelf_Id)
+							if (level->getTile(x + ox * 2, y, z + oz) == Tile::bookshelf_Id || level->getTile(x + ox * 2, y, z + oz) == Tile::quartzBookshelf_Id)
 							{
 								bookcases++;
 							}
-							if (level->getTile(x + ox * 2, y + 1, z + oz) == Tile::bookshelf_Id)
+							if (level->getTile(x + ox * 2, y + 1, z + oz) == Tile::bookshelf_Id || level->getTile(x + ox * 2, y + 1, z + oz) == Tile::quartzBookshelf_Id)
 							{
 								bookcases++;
 							}
-							if (level->getTile(x + ox, y, z + oz * 2) == Tile::bookshelf_Id)
+							if (level->getTile(x + ox, y, z + oz * 2) == Tile::bookshelf_Id || level->getTile(x + ox, y, z + oz * 2) == Tile::quartzBookshelf_Id)
 							{
 								bookcases++;
 							}
-							if (level->getTile(x + ox, y + 1, z + oz * 2) == Tile::bookshelf_Id)
+							if (level->getTile(x + ox, y + 1, z + oz * 2) == Tile::bookshelf_Id || level->getTile(x + ox, y + 1, z + oz * 2) == Tile::quartzBookshelf_Id)
 							{
 								bookcases++;
 							}

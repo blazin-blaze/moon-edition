@@ -323,6 +323,7 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 						case Tile::dispenser_Id:		m_pPlayer->awardStat(GenericStats::dispenseWithThis(),		GenericStats::param_dispenseWithThis());	break;
 						case Tile::enchantTable_Id:		m_pPlayer->awardStat(GenericStats::enchantments(),			GenericStats::param_enchantments());		break;
 						case Tile::bookshelf_Id:		m_pPlayer->awardStat(GenericStats::bookcase(),				GenericStats::param_bookcase());			break;
+						case Tile::quartzBookshelf_Id:		m_pPlayer->awardStat(GenericStats::bookcase(), GenericStats::param_bookcase());			break;
 						}
 
 						// We've used some ingredients from our inventory, so update the recipes we can make

@@ -3,15 +3,21 @@
 #include "EndermanModel.h"
 #include "TextureAtlas.h"
 #include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
+#include "..\Minecraft.World\net.minecraft.world.item.h"
 #include "..\Minecraft.World\net.minecraft.world.level.tile.h"
+#include "EntityRenderDispatcher.h"
+#include "OxygenSetupModel.h"
+#include "ModelPart.h"
 
 ResourceLocation EndermanRenderer::ENDERMAN_EYES_LOCATION = ResourceLocation(TN_MOB_ENDERMAN_EYES);
 ResourceLocation EndermanRenderer::ENDERMAN_LOCATION = ResourceLocation(TN_MOB_ENDERMAN);
+ResourceLocation EndermanRenderer::OXYGEN_SETUP_LOCATION = ResourceLocation(TN_MOB_OXYGEN_SETUP);
 
 EndermanRenderer::EndermanRenderer() : MobRenderer(new EndermanModel(), 0.5f)
 {
 	model = static_cast<EndermanModel *>(MobRenderer::model);
 	this->setArmor(model);
+	oxygenSetup = nullptr;
 }
 
 void EndermanRenderer::render(shared_ptr<Entity> _mob, double x, double y, double z, float rot, float a)
@@ -119,4 +125,49 @@ int EndermanRenderer::prepareArmor(shared_ptr<LivingEntity> _mob, int layer, flo
 	glEnable(GL_LIGHTING);
 	glColor4f(1, 1, 1, br);
 	return 1;
+}
+
+void EndermanRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+	if (entity->dimension == 2) {
+
+		EndermanModel* endermanModel = dynamic_cast<EndermanModel*>(model);
+		shared_ptr<ItemInstance> headGear = entity->getArmor(3);
+		if (headGear != nullptr)
+		{
+			glPushMatrix();
+
+			endermanModel->head->translateTo(1 / 16.0f);
+
+			if (headGear->getItem()->id < 256)
+			{
+				if (Tile::tiles[headGear->id] != nullptr && TileRenderer::canRender(Tile::tiles[headGear->id]->getRenderShape()))
+				{
+					float s = 10 / 16.0f;
+					glTranslatef(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
+					glRotatef(90, 0, 1, 0);
+					glScalef(s, -s, -s);
+				}
+
+				this->entityRenderDispatcher->itemInHandRenderer->renderItem(entity, headGear, 0);
+			}
+
+			glPopMatrix();
+		}
+
+		if (oxygenSetup == nullptr) {
+			oxygenSetup = new OxygenSetupModel();
+		}
+
+		glPushMatrix();
+
+
+		endermanModel->body->translateTo(1 / 16.0f);
+
+		bindTexture(&OXYGEN_SETUP_LOCATION);
+		float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : entity->getBrightness(a);
+		glColor3f(brightness, brightness, brightness);
+		oxygenSetup->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+		glPopMatrix();
+	}
 }

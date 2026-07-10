@@ -19,6 +19,7 @@ class Pos;
 class TileEntity;
 class BeaconTileEntity;
 class FurnaceTileEntity;
+//class OxygenatorTileEntity;
 class DispenserTileEntity;
 class SignTileEntity;
 class BrewingStandTileEntity;
@@ -114,7 +115,7 @@ private:
 	Pos *minecartAchievementPos;
 
 	//4J Gordon: These are in cms, every time they go > 1m they are entered into the stats
-	int distanceWalk, distanceSwim, distanceFall, distanceClimb, distanceMinecart, distanceBoat, distancePig;
+	int distanceWalk, distanceSwim, distanceFall, distanceClimb, distanceMinecart, distanceBoat, distancePig, distanceStep, lastStep;
 
 public:
 	Abilities abilities;
@@ -217,6 +218,7 @@ public:
 	virtual bool startEnchanting(int x, int y, int z, const wstring &name);				// 4J - added bool return
 	virtual bool startRepairing(int x, int y, int z);				// 4J - added bool return
 	virtual bool startCrafting(int x, int y, int z);				// 4J - added bool return
+	virtual bool startSpaceCrafting(int x, int y, int z);				// 4J - added bool return
 	virtual bool openFireworks(int x, int y, int z);				// 4J - added
 	virtual float getHeadHeight();
 
@@ -248,6 +250,7 @@ public:
 	using Entity::interact;
 
 	virtual bool openFurnace(shared_ptr<FurnaceTileEntity> container);		// 4J - added bool return
+	//virtual bool openOxygenator(shared_ptr<OxygenatorTileEntity> container);		// 4J - added bool return
 	virtual bool openTrap(shared_ptr<DispenserTileEntity> container);		// 4J - added bool return
 	virtual void openTextEdit(shared_ptr<TileEntity> sign);
 	virtual bool openBrewingStand(shared_ptr<BrewingStandTileEntity> brewingStand); // 4J - added bool return

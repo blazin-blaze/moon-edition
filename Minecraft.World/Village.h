@@ -12,6 +12,7 @@ private:
 	int stableSince;
 	int _tick;
 	int populationSize;
+	int alienPopulationSize;
 	int noBreedTimer;
 
 	unordered_map<wstring, int> playerStanding;
@@ -49,6 +50,7 @@ public:
 	int getDoorCount();
 	int getStableAge();
 	int getPopulationSize();
+	int getAlienPopulationSize();
 	bool isInside(int xx, int yy, int zz);
 	vector<shared_ptr<DoorInfo> > *getDoorInfos();
 	shared_ptr<DoorInfo> getClosestDoorInfo(int x, int y, int z);

@@ -18,3 +18,6 @@
 #include "VillagePieces.h"
 #include "RandomScatteredLargeFeature.h"
 #include "ScatteredFeaturePieces.h"
+#include "MoonMineShaftFeature.h"
+#include "MoonMineShaftPieces.h"
+#include "MoonMineShaftStart.h"

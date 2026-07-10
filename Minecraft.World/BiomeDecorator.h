@@ -33,6 +33,8 @@ protected:
 	Feature *sandFeature;
 	Feature *gravelFeature;
 	Feature *dirtOreFeature;
+	Feature* moonDirtOreFeature;
+	Feature* cheeseOreFeature;
 	Feature *gravelOreFeature;
 	Feature *coalOreFeature;
 	Feature *ironOreFeature;
@@ -52,6 +54,10 @@ protected:
 	Feature* moonQuartzOreFeature;
 	Feature* sapphireOreFeature;
 	Feature* titaniumOreFeature;
+	Feature* copperOreFeature;
+	Feature* tinOreFeature;
+	Feature* aluminiumOreFeature;
+	Feature* siliconOreFeature;
 
 	int waterlilyCount;
 	int treeCount;

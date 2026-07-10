@@ -75,7 +75,7 @@ private:
 		StartPiece *startPiece;
 
 		VillagePiece();
-		VillagePiece(StartPiece *startPiece, int genDepth);
+		VillagePiece(StartPiece *startPiece, int genDepth, BiomeSource *biomeSource, int west, int north);
 		virtual void addAdditonalSaveData(CompoundTag *tag);
 		virtual void readAdditonalSaveData(CompoundTag *tag);
 		StructurePiece *generateHouseNorthernLeft(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int yOff, int zOff);
@@ -106,10 +106,10 @@ public:
 		static const int width = 6;
 		static const int height = 15;
 		static const int depth = 6;
-
+		bool isLunarVillage;
 	public:
 		Well();
-		Well(StartPiece *startPiece, int genDepth, Random *random, int west, int north);
+		Well(StartPiece *startPiece, int genDepth, Random *random, int west, int north, BiomeSource *biomeSource);
 		Well(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction);
 		virtual void addChildren(StructurePiece *startPiece, list<StructurePiece *> *pieces, Random *random);
 		virtual bool postProcess(Level *level, Random *random, BoundingBox *chunkBB);
@@ -150,7 +150,7 @@ public:
 	{
 	protected:
 		VillageRoadPiece() {}
-		VillageRoadPiece(StartPiece *startPiece, int genDepth) : VillagePiece(startPiece, genDepth) {}
+		VillageRoadPiece(StartPiece *startPiece, int genDepth) : VillagePiece(startPiece, genDepth, nullptr, 0, 0) {}
 	};
 
 	/**
@@ -226,6 +226,7 @@ public:
 		static const int depth = 9;
 
 		int heightPosition;
+		bool isLunarVillage;
 
 	public:
 		SmallTemple();
@@ -249,6 +250,7 @@ public:
 		static const int depth = 6;
 
 		int heightPosition;
+		bool isLunarVillage;
 
 	public:
 		BookHouse();
@@ -274,6 +276,7 @@ public:
 
 		bool lowCeiling;
 		int tablePlacement;
+		bool isLunarVillage;
 
 	public:
 		SmallHut();
@@ -301,6 +304,8 @@ public:
 		static const int height = 7;
 		static const int depth = 11;
 
+		bool isLunarVillage;
+
 	public:
 		PigHouse();
 		PigHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction);
@@ -322,6 +327,7 @@ public:
 		static const int depth = 12;
 
 		int heightPosition;
+		bool isLunarVillage;
 
 	public:
 		TwoRoomHouse();
@@ -344,6 +350,7 @@ public:
 		static const int depth = 7;
 
 		bool hasPlacedChest;
+		bool isLunarVillage;
 
 		static WeighedTreasureArray treasureItems;
 

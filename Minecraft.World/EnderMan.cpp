@@ -11,6 +11,7 @@
 #include "com.mojang.nbt.h"
 #include "..\Minecraft.Client\Textures.h"
 #include "EnderMan.h"
+#include "Dimension.h"
 
 AttributeModifier *EnderMan::SPEED_MODIFIER_ATTACKING = (new AttributeModifier(eModifierId_MOB_ENDERMAN_ATTACKSPEED, 6.2f, AttributeModifier::OPERATION_ADDITION))->setSerialize(false);
 
@@ -441,4 +442,19 @@ bool EnderMan::isCreepy()
 void EnderMan::setCreepy(bool creepy)
 {
 	entityData->set(DATA_CREEPY, static_cast<byte>(creepy ? 1 : 0));
+}
+
+MobGroupData* EnderMan::finalizeMobSpawn(MobGroupData* groupData, int extraData /*= 0*/) // 4J Added extraData param
+{
+	groupData = Monster::finalizeMobSpawn(groupData);
+
+	if (getCarried(SLOT_HELM) == nullptr) {
+		int* id = &(level->dimension->id);
+		if (id != nullptr && *id == 2) {
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
+			dropChances[SLOT_HELM] = 0;
+		}
+	}
+
+	return groupData;
 }

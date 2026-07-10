@@ -64,12 +64,14 @@ const int _ArmorMaterial::ironArray[] = {2, 6, 5, 2};
 const int _ArmorMaterial::goldArray[] = {2, 5, 3, 1};
 const int _ArmorMaterial::diamondArray[] = {3, 8, 6, 3};
 const int _ArmorMaterial::titaniumArray[] = { 3, 8, 6, 3 };
+const int _ArmorMaterial::sapphireArray[] = { 2, 6, 5, 2 };
 const _ArmorMaterial *_ArmorMaterial::CLOTH = new _ArmorMaterial(5, _ArmorMaterial::clothArray, 15);
 const _ArmorMaterial *_ArmorMaterial::CHAIN = new _ArmorMaterial(15, _ArmorMaterial::chainArray, 12);
 const _ArmorMaterial *_ArmorMaterial::IRON = new _ArmorMaterial(15, _ArmorMaterial::ironArray, 9);
 const _ArmorMaterial *_ArmorMaterial::GOLD = new _ArmorMaterial(7, _ArmorMaterial::goldArray, 25);
 const _ArmorMaterial *_ArmorMaterial::DIAMOND = new _ArmorMaterial(33, _ArmorMaterial::diamondArray, 10);
 const _ArmorMaterial* _ArmorMaterial::TITANIUM = new _ArmorMaterial(50, _ArmorMaterial::titaniumArray, 15);
+const _ArmorMaterial* _ArmorMaterial::SAPPHIRE = new _ArmorMaterial(18, _ArmorMaterial::sapphireArray, 25);
 
 _ArmorMaterial::ArmorMaterial(int durabilityMultiplier, const int slotProtections[], int enchantmentValue)
 {
@@ -123,6 +125,10 @@ int _ArmorMaterial::getTierItemId() const
 	else if (this == TITANIUM)
 	{
 		return Item::titaniumIngot_Id;
+	}
+	else if (this == SAPPHIRE)
+	{
+		return Item::sapphire_Id;
 	}
 	return 0;
 }

@@ -369,6 +369,21 @@ void PacketListener::handleSoundEvent(shared_ptr<LevelSoundPacket> packet)
 	onUnhandledPacket(packet);
 }
 
+void PacketListener::handleRocketSoundEvent(shared_ptr<LevelRocketSoundPacket> packet)
+{
+	onUnhandledPacket(packet);
+}
+
+void PacketListener::handleRocketSoundMoveEvent(shared_ptr<LevelRocketSoundMovePacket> packet)
+{
+	onUnhandledPacket(packet);
+}
+
+void PacketListener::handleRocketSoundRemoveEvent(shared_ptr<LevelRocketSoundRemovePacket> packet)
+{
+	onUnhandledPacket(packet);
+}
+
 void PacketListener::handleTileDestruction(shared_ptr<TileDestructionPacket> packet)
 {
 	onUnhandledPacket(packet);
@@ -435,6 +450,11 @@ bool PacketListener::isDisconnected()
 void PacketListener::handleCraftItem(shared_ptr<CraftItemPacket> packet)
 {
 	onUnhandledPacket( (shared_ptr<Packet> ) packet);
+}
+
+void PacketListener::handleSpaceCraftItem(shared_ptr<SpaceCraftItemPacket> packet)
+{
+	onUnhandledPacket((shared_ptr<Packet>) packet);
 }
 
 void PacketListener::handleTradeItem(shared_ptr<TradeItemPacket> packet) 

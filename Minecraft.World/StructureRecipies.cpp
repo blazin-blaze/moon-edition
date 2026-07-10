@@ -56,6 +56,15 @@ void StructureRecipies::addRecipes(Recipes *r)
 
 		L'#', Tile::wood,
 		L'S');
+
+	r->addShapedRecipy(new ItemInstance(Tile::spaceWorkbench), //
+		L"sssctcictcig",
+		L"RRR", //
+		L"ICI", //
+		L"IAI", //
+
+		L'C', Tile::workBench, L'R', Item::ironIngot, L'I', Tile::ironBlock, L'A', Item::advancedWafer,
+		L'S');
 	
 	r->addShapedRecipy(new ItemInstance(Tile::furnace), //
 		L"sssctg",

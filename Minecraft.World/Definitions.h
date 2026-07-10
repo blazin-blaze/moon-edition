@@ -3,10 +3,12 @@ using namespace std;
 
 class AABB;
 class Recipy;
+class SpaceRecipy;
 class Object;
 
 typedef std::vector<AABB*> AABBList;
 typedef std::vector<Recipy *> RecipyList;
+typedef std::vector<SpaceRecipy*> SpaceRecipyList;
 typedef std::vector<Object *> ObjectList;
 
 #define MAX_PATH_SIZE 256

@@ -64,6 +64,8 @@ Icon_SPU *LiquidTile_SPU::getTexture(int face, int data)
 	{
 		if(id == water_Id || id == calmWater_Id)
 			return &ms_pTileData->liquidTile_iconWaterStill;
+		if (id == oil_Id || id == calmOil_Id)
+			return &ms_pTileData->liquidTile_iconOilStill;
 		else //(id == lava_Id || id == calmLava_Id)
 			return &ms_pTileData->liquidTile_iconLavaStill;
 	}
@@ -71,6 +73,8 @@ Icon_SPU *LiquidTile_SPU::getTexture(int face, int data)
 	{
 		if(id == water_Id || id == calmWater_Id)
 			return &ms_pTileData->liquidTile_iconWaterFlow;
+		if (id == oil_Id || id == calmOil_Id)
+			return &ms_pTileData->liquidTile_iconOilFlow;
 		else //(id == lava_Id || id == calmLava_Id)
 			return &ms_pTileData->liquidTile_iconLavaFlow;
     }
@@ -217,6 +221,11 @@ double LiquidTile_SPU::getSlopeAngle(ChunkRebuildData *level, int x, int y, int 
 	{
 		TileRef_SPU tRef(Tile_SPU::lava_Id);
 		flow = static_cast<LiquidTile_SPU *>(tRef.getPtr())->getFlow(level, x, y, z);
+	}
+	if (m->getID() == Material_SPU::oil_Id)
+	{
+		TileRef_SPU tRef(Tile_SPU::oil_Id);
+		flow = static_cast<LiquidTile_SPU*>(tRef.getPtr())->getFlow(level, x, y, z);
 	}
     if (flow.x == 0 && flow.z == 0) return -1000;
     return atan2(flow.z, flow.x) - MATH_PI / 2;

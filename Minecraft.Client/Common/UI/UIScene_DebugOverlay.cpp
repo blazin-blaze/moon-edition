@@ -129,6 +129,12 @@ UIScene_DebugOverlay::UIScene_DebugOverlay(int iPad, void *initData, UILayer *pa
 	m_mobFactories.push_back(eTYPE_BLAZE);
 	m_buttonListMobs.addItem( L"Magma Cube" );
 	m_mobFactories.push_back(eTYPE_LAVASLIME);
+	m_buttonListMobs.addItem(L"EvolvedSpider");
+	m_mobFactories.push_back(eTYPE_EVOLVEDSPIDER);
+	m_buttonListMobs.addItem(L"EvolvedZombie");
+	m_mobFactories.push_back(eTYPE_EVOLVEDZOMBIE);
+	m_buttonListMobs.addItem(L"EvolvedSkeleton");
+	m_mobFactories.push_back(eTYPE_EVOLVEDSKELETON);
 }
 
 wstring UIScene_DebugOverlay::getMoviePath()

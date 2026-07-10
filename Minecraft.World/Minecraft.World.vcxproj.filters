@@ -264,6 +264,7 @@
       <Filter>net\minecraft\core</Filter>
     </None>
     <None Include="EntityDiagram.cd" />
+    <None Include="MoonMineShaftFeature.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -3212,7 +3213,7 @@
     <ClInclude Include="MoonBiome.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LunarFriend.h">
+    <ClInclude Include="AlienVillager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CheeseFeature.h">
@@ -3225,6 +3226,66 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TreasureChestTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolvedZombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolvedSpider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolvedSkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceCraftingMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceRecipes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceRecipy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceShapelessRecipy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceShapedRecipy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceCraftItemPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonStoneTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Buggy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BuggyItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CannedFoodItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CobblestoneTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelRocketSoundPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelRocketSoundMovePacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelRocketSoundRemovePacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonMineShaftStart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoonMineShaftPieces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -5671,7 +5732,7 @@
     <ClCompile Include="MoonBiome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LunarFriend.cpp">
+    <ClCompile Include="AlienVillager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CheeseFeature.cpp">
@@ -5684,6 +5745,66 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TreasureChestTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolvedZombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolvedSpider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolvedSkeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceCraftingMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceRecipes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceShapelessRecipy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceShapedRecipy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceCraftItemPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonStoneTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buggy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuggyItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CannedFoodItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CobblestoneTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelRocketSoundPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelRocketSoundMovePacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelRocketSoundRemovePacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonMineShaftFeature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonMineShaftStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoonMineShaftPieces.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StringItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

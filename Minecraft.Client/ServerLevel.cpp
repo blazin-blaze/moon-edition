@@ -58,7 +58,7 @@ int	   ServerLevel::m_randValue[4];
 
 void ServerLevel::staticCtor()
 {
-	m_updateTrigger  = new C4JThread::EventArray(3);
+	m_updateTrigger  = new C4JThread::EventArray(4);
 	InitializeCriticalSection(&m_updateCS[0]);
 	InitializeCriticalSection(&m_updateCS[1]);
 	InitializeCriticalSection(&m_updateCS[2]);

@@ -47,6 +47,16 @@ int WebTile::getResource(int data, Random *random, int playerBonusLevel)
     return Item::string->id;
 }
 
+int WebTile::getSpawnResourcesAuxValue(int data)
+{
+	if (this->id == Tile::greenWeb_Id) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
 bool WebTile::isSilkTouchable()
 {
 	return true;

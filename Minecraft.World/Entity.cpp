@@ -1063,7 +1063,9 @@ bool Entity::isInWater()
 
 bool Entity::updateInWaterState()
 {
-	if(level->checkAndHandleWater(bb->grow(0, -0.4f, 0)->shrink(0.001, 0.001, 0.001), Material::water, shared_from_this()))
+	bool isWater = level->checkAndHandleWater(bb->grow(0, -0.4f, 0)->shrink(0.001, 0.001, 0.001), Material::water, shared_from_this());
+	bool isOil = level->checkAndHandleWater(bb->grow(0, -0.4f, 0)->shrink(0.001, 0.001, 0.001), Material::oil, shared_from_this());
+	if(isWater || isOil)
 	{
 		if (!wasInWater && !firstTick && canCreateParticles())
 		{
@@ -1077,13 +1079,23 @@ bool Entity::updateInWaterState()
 			{
 				float xo = (random->nextFloat() * 2 - 1) * bbWidth;
 				float zo = (random->nextFloat() * 2 - 1) * bbWidth;
-				level->addParticle(eParticleType_bubble, x + xo, yt + 1, z + zo, xd, yd - random->nextFloat() * 0.2f, zd);
+				if (isOil) {
+					level->addParticle(eParticleType_oil_bubble, x + xo, yt + 1, z + zo, xd, yd - random->nextFloat() * 0.2f, zd);
+				}
+				else {
+					level->addParticle(eParticleType_bubble, x + xo, yt + 1, z + zo, xd, yd - random->nextFloat() * 0.2f, zd);
+				}
 			}
 			for (int i = 0; i < 1 + bbWidth * 20; i++)
 			{
 				float xo = (random->nextFloat() * 2 - 1) * bbWidth;
 				float zo = (random->nextFloat() * 2 - 1) * bbWidth;
-				level->addParticle(eParticleType_splash, x + xo, yt + 1, z + zo, xd, yd, zd);
+				if (isOil) {
+					level->addParticle(eParticleType_oil_splash, x + xo, yt + 1, z + zo, xd, yd, zd);
+				}
+				else {
+					level->addParticle(eParticleType_splash, x + xo, yt + 1, z + zo, xd, yd, zd);
+				}
 			}
 		}
 		fallDistance = 0;
@@ -1093,6 +1105,7 @@ bool Entity::updateInWaterState()
 	else
 	{
 		wasInWater = false;
+
 	}
 	return wasInWater;
 }

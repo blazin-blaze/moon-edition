@@ -41,6 +41,7 @@ Zombie::Zombie(Level *level) : Monster( level )
 	goalSelector.addGoal(1, new BreakDoorGoal(this));
 	goalSelector.addGoal(2, new MeleeAttackGoal(this, eTYPE_PLAYER, 1.0, false));
 	goalSelector.addGoal(3, new MeleeAttackGoal(this, eTYPE_VILLAGER, 1.0, true));
+	goalSelector.addGoal(3, new MeleeAttackGoal(this, eTYPE_LUNAR, 1.0, true));
 	goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 1.0));
 	goalSelector.addGoal(5, new MoveThroughVillageGoal(this, 1.0, false));
 	goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0));
@@ -50,6 +51,7 @@ Zombie::Zombie(Level *level) : Monster( level )
 	targetSelector.addGoal(1, new HurtByTargetGoal(this, true));
 	targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, typeid(Player), 0, true));
 	targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, typeid(Villager), 0, false));
+	targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, typeid(AlienVillager), 0, false));
 }
 
 void Zombie::registerAttributes()
@@ -139,7 +141,9 @@ void Zombie::aiStep()
 					}
 				}
 
-				burn = false;
+				if (helmet->id != Tile::glass_Id) {
+					burn = false;
+				}
 			}
 
 			if (burn)
@@ -357,12 +361,12 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 	{
 		ZombieGroupData *zombieData = static_cast<ZombieGroupData *>(groupData);
 
-		if (zombieData->isVillager)
+		if (zombieData->isVillager && this->level != nullptr && this->level->dimension->id != 2)
 		{
 			setVillager(true);
 		}
 
-		if (zombieData->isBaby)
+		if (zombieData->isBaby && this->level != nullptr && this->level->dimension->id != 2)
 		{
 			setBaby(true);
 		}
@@ -382,12 +386,12 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin));
 			dropChances[SLOT_HELM] = 0;
 		}
+	}
 
-		int* id = &(level->dimension->id);
-		if (id != nullptr && *id == 2) {
-			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
-			dropChances[SLOT_HELM] = 0;
-		}
+	int* id = &(level->dimension->id);
+	if (id != nullptr && *id == 2) {
+		setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(Tile::glass));
+		dropChances[SLOT_HELM] = 0;
 	}
 
 	getAttribute(SharedMonsterAttributes::KNOCKBACK_RESISTANCE)->addModifier(new AttributeModifier(random->nextDouble() * 0.05f, AttributeModifier::OPERATION_ADDITION));

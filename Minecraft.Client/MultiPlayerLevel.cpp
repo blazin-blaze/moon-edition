@@ -593,7 +593,9 @@ bool MultiPlayerLevel::doSetTileAndData(int x, int y, int z, int tile, int data)
 		( ( prevTile == Tile::calmWater_Id )  && ( tile == Tile::water_Id ) )	||
 		( ( prevTile == Tile::lava_Id )		&& ( tile == Tile::calmLava_Id ) )	||
 		( ( prevTile == Tile::calmLava_Id )		&& ( tile == Tile::calmLava_Id ) )	||
-		( ( prevTile == Tile::calmLava_Id )	&& ( tile == Tile::lava_Id ) ) ) );
+		( ( prevTile == Tile::calmLava_Id )	&& ( tile == Tile::lava_Id ) ) ||
+		((prevTile == Tile::oil_Id) && (tile == Tile::calmOil_Id)) ||
+		((prevTile == Tile::calmOil_Id) && (tile == Tile::oil_Id)) ) );
 	// If we're the host, need to tell the renderer for updates even if they don't change things as the host
 	// might have been sharing data and so set it already, but the renderer won't know to update
 	if( (Level::setTileAndData(x, y, z, tile, data, Tile::UPDATE_ALL) || g_NetworkManager.IsHost() ) )
@@ -775,6 +777,51 @@ void MultiPlayerLevel::playLocalSound(double x, double y, double z, int iSound, 
 		else
 		{
 			minecraft->soundEngine->play(iSound, static_cast<float>(x), static_cast<float>(y), static_cast<float>(z), volume, pitch);
+		}
+	}
+}
+
+void MultiPlayerLevel::playRocketLocalSound(double x, double y, double z, int rocketId, float fClipSoundDist)
+{
+	// 4J - find min distance to any players rather than just the current one
+	float minDistSq = FLT_MAX;
+	for (int i = 0; i < XUSER_MAX_COUNT; i++)
+	{
+		if (minecraft->localplayers[i])
+		{
+			float distSq = minecraft->localplayers[i]->distanceToSqr(x, y, z);
+			if (distSq < minDistSq)
+			{
+				minDistSq = distSq;
+			}
+		}
+	}
+
+	if (minDistSq < fClipSoundDist * fClipSoundDist)
+	{
+		minecraft->soundEngine->playR(eSoundType_ROCKET_LAUNCH, x, y, z, 1.0F, 1.0F, rocketId);
+	}
+}
+
+void MultiPlayerLevel::moveRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist)
+{
+	for (auto* s : m_activeSounds) {
+		if (s->info.iSound == eSoundType_ROCKET_LAUNCH + eSFX_MAX && s->info.rocketId == rocketId) {
+			s->info.x = x;
+			s->info.y = y;
+			s->info.z = z;
+			break;
+		}
+	}
+}
+
+void MultiPlayerLevel::removeRocketSound(int rocketId, float fClipSoundDist)
+{
+	for (auto it = m_activeSounds.begin(); it != m_activeSounds.end(); ++it) {
+		auto s = *it;
+		if (s->info.iSound == eSoundType_ROCKET_LAUNCH + eSFX_MAX && s->info.rocketId == rocketId) {
+			s->info.removeRocketSound = true;
+			break;
 		}
 	}
 }

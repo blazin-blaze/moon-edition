@@ -2,8 +2,9 @@
 using namespace std;
 
 #ifdef _LARGE_WORLDS
-// 51 maps per player (7x7 overworld, 1 nether, 1 end) * 100 players rounded up to power of 2
-#define MAXIMUM_MAP_SAVE_DATA 8192//65536
+// 51 maps per player (7x7 overworld, 7x7 moon, 1 nether, 1 end) * 100 players rounded up to power of 2
+#define MAXIMUM_MAP_SAVE_DATA 16384//65536
+//MAXIMUM_MAP_SAVE_DATA used to be 8192 - had to round to the next power of 2 to accomodate for moon maps
 
 // 4J Stu - These are special map slots that are used on local machines. They will never be an actual map,
 // but are placeholders for when we get updated with the correct id

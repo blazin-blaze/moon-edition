@@ -22,7 +22,7 @@ float WeaponItem::getTierDamage()
 
 float WeaponItem::getDestroySpeed(shared_ptr<ItemInstance> itemInstance, Tile *tile)
 {
-	if (tile->id == Tile::web_Id)
+	if (tile->id == Tile::web_Id || tile->id == Tile::greenWeb_Id)
 	{
 		// swords can quickly cut web
 		return 15;
@@ -73,7 +73,7 @@ shared_ptr<ItemInstance> WeaponItem::use(shared_ptr<ItemInstance> instance, Leve
 
 bool WeaponItem::canDestroySpecial(Tile *tile)
 {
-	return tile->id == Tile::web_Id;
+	return tile->id == Tile::web_Id || tile->id == Tile::greenWeb_Id;
 }
 
 int WeaponItem::getEnchantmentValue()

@@ -13,6 +13,7 @@ enum EStructureStart
 	eStructureStart_NetherBridgeStart,
 	eStructureStart_StrongholdStart,
 	eStructureStart_ScatteredFeatureStart,
+	eStructureStart_MoonMineShaftStart,
 };
 
 enum EStructurePiece
@@ -69,6 +70,11 @@ enum EStructurePiece
 	eStructurePiece_DoubleFarmland,
 	eStructurePiece_LightPost,
 	eStructurePiece_VillageStartPiece,
+
+	eStructurePiece_MoonMineShaftRoom,
+	eStructurePiece_MoonMineShaftCorridor,
+	eStructurePiece_MoonMineShaftCrossing,
+	eStructurePiece_MoonMineShaftStairs,
 };
 
 class StructureFeatureIO

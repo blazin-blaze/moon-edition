@@ -213,6 +213,12 @@ enum eSOUND_TYPE
 
 	eSoundType_FIRE_NEWIGNITE,
 
+	eSoundType_ROCKET_RUMBLE,
+	eSoundType_ROCKET_LAUNCH,
+
+	eSoundType_TREASURE_UNLOCK,
+	eSoundType_TREASURE_LOCKED,
+
 	eSoundType_MAX
 };
 

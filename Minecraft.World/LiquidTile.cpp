@@ -12,6 +12,8 @@ const wstring LiquidTile::TEXTURE_LAVA_STILL = L"lava";
 const wstring LiquidTile::TEXTURE_WATER_STILL = L"water";
 const wstring LiquidTile::TEXTURE_WATER_FLOW = L"water_flow";
 const wstring LiquidTile::TEXTURE_LAVA_FLOW = L"lava_flow";
+const wstring LiquidTile::TEXTURE_OIL_STILL = L"oil";
+const wstring LiquidTile::TEXTURE_OIL_FLOW = L"oil_flow";
 
 LiquidTile::LiquidTile(int id, Material *material) : Tile(id, material,isSolidRender())
 {
@@ -215,6 +217,7 @@ void LiquidTile::handleEntityInside(Level *level, int x, int y, int z, shared_pt
 int LiquidTile::getTickDelay(Level *level)
 {
 	if (material == Material::water) return 5;
+	if (material == Material::oil) return 5;
 	if (material == Material::lava)
 	{
 		if (level->dimension->hasCeiling)
@@ -303,7 +306,7 @@ void LiquidTile::animateTick(Level *level, int x, int y, int z, Random *random)
 			}
 		}
 	}
-	if (material == Material::water && random->nextInt(64) == 0)
+	if ((material == Material::water || material == Material::oil) && random->nextInt(64) == 0)
 	{
 		int d = level->getData(x, y, z);
 		if (d > 0 && d < 8)
@@ -342,7 +345,8 @@ void LiquidTile::animateTick(Level *level, int x, int y, int z, Random *random)
 			double zz = z + random->nextFloat();
 
 			if (material == Material::water) level->addParticle(eParticleType_dripWater, xx, yy, zz, 0, 0, 0);
-			else level->addParticle(eParticleType_dripLava, xx, yy, zz, 0, 0, 0);
+			if (material == Material::lava) level->addParticle(eParticleType_dripLava, xx, yy, zz, 0, 0, 0);
+			if (material == Material::oil) level->addParticle(eParticleType_dripOil, xx, yy, zz, 0, 0, 0);
 		}
 	}
 }
@@ -352,6 +356,7 @@ double LiquidTile::getSlopeAngle(LevelSource *level, int x, int y, int z, Materi
 	Vec3 *flow = nullptr;
 	if (m == Material::water) flow = ((LiquidTile *) Tile::water)->getFlow(level, x, y, z);
 	if (m == Material::lava) flow = ((LiquidTile *) Tile::lava)->getFlow(level, x, y, z);
+	if (m == Material::oil) flow = ((LiquidTile*)Tile::oil)->getFlow(level, x, y, z);
 	if (flow->x == 0 && flow->z == 0) return -1000;
 	return atan2(flow->z, flow->x) - PI / 2;
 }
@@ -371,13 +376,13 @@ void LiquidTile::updateLiquid(Level *level, int x, int y, int z)
 	if (level->getTile(x, y, z) != id) return;
 	if (material == Material::lava)
 	{
-		bool water = false;
-		if (water || level->getMaterial(x, y, z - 1) == Material::water) water = true;
-		if (water || level->getMaterial(x, y, z + 1) == Material::water) water = true;
-		if (water || level->getMaterial(x - 1, y, z) == Material::water) water = true;
-		if (water || level->getMaterial(x + 1, y, z) == Material::water) water = true;
-		if (water || level->getMaterial(x, y + 1, z) == Material::water) water = true;
-		if (water)
+		bool other = false;
+		if (other || level->getMaterial(x, y, z - 1) == Material::water || level->getMaterial(x, y, z - 1) == Material::oil) other = true;
+		if (other || level->getMaterial(x, y, z + 1) == Material::water || level->getMaterial(x, y, z + 1) == Material::oil) other = true;
+		if (other || level->getMaterial(x - 1, y, z) == Material::water || level->getMaterial(x - 1, y, z) == Material::oil) other = true;
+		if (other || level->getMaterial(x + 1, y, z) == Material::water || level->getMaterial(x + 1, y, z) == Material::oil) other = true;
+		if (other || level->getMaterial(x, y + 1, z) == Material::water || level->getMaterial(x, y + 1, z) == Material::oil) other = true;
+		if (other)
 		{
 			int data = level->getData(x, y, z);
 			if (data == 0)
@@ -391,7 +396,20 @@ void LiquidTile::updateLiquid(Level *level, int x, int y, int z)
 			fizz(level, x, y, z);
 		}
 	}
-
+	if (material == Material::oil)
+	{
+		bool other = false;
+		if (other || level->getMaterial(x, y, z - 1) == Material::water || level->getMaterial(x, y, z - 1) == Material::lava) other = true;
+		if (other || level->getMaterial(x, y, z + 1) == Material::water || level->getMaterial(x, y, z + 1) == Material::lava) other = true;
+		if (other || level->getMaterial(x - 1, y, z) == Material::water || level->getMaterial(x - 1, y, z) == Material::lava) other = true;
+		if (other || level->getMaterial(x + 1, y, z) == Material::water || level->getMaterial(x + 1, y, z) == Material::lava) other = true;
+		if (other || level->getMaterial(x, y + 1, z) == Material::water || level->getMaterial(x, y + 1, z) == Material::lava) other = true;
+		if (other)
+		{
+			int data = level->getData(x, y, z);
+			level->setTileAndUpdate(x, y, z, Tile::cobblestone_Id);
+		}
+	}
 }
 
 void LiquidTile::fizz(Level *level, int x, int y, int z)
@@ -411,8 +429,10 @@ void LiquidTile::registerIcons(IconRegister *iconRegister)
 	{
 		icons[0] = iconRegister->registerIcon(TEXTURE_LAVA_STILL);
 		icons[1] = iconRegister->registerIcon(TEXTURE_LAVA_FLOW);
-	}
-	else
+	}else if (material == Material::oil) {
+		icons[0] = iconRegister->registerIcon(TEXTURE_OIL_STILL);
+		icons[1] = iconRegister->registerIcon(TEXTURE_OIL_FLOW);
+	}else
 	{
 		icons[0] = iconRegister->registerIcon(TEXTURE_WATER_STILL);
 		icons[1] = iconRegister->registerIcon(TEXTURE_WATER_FLOW);
@@ -425,5 +445,7 @@ Icon *LiquidTile::getTexture(const wstring &name)
 	if (name.compare(TEXTURE_WATER_FLOW)==0) return Tile::water->icons[1];
 	if (name.compare(TEXTURE_LAVA_STILL)==0) return Tile::lava->icons[0];
 	if (name.compare(TEXTURE_LAVA_FLOW)==0) return Tile::lava->icons[1];
+	if (name.compare(TEXTURE_OIL_STILL) == 0) return Tile::oil->icons[0];
+	if (name.compare(TEXTURE_OIL_FLOW) == 0) return Tile::oil->icons[1];
 	return nullptr;
 }

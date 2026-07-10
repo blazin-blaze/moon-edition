@@ -66,7 +66,12 @@ UseAnim FoodItem::getUseAnimation(shared_ptr<ItemInstance> itemInstance)
 
 shared_ptr<ItemInstance> FoodItem::use(shared_ptr<ItemInstance> instance, Level *level, shared_ptr<Player> player)
 {
-	if (player->canEat(canAlwaysEat))
+	bool canEatMask = true;
+	if (player->inventory->getOxygenMask() && !isCannedFood()) {
+		canEatMask = false;
+	}
+
+	if (player->canEat(canAlwaysEat) && canEatMask)
 	{
 		player->startUsingItem(instance, getUseDuration(instance));
 	}
@@ -117,4 +122,9 @@ FoodItem *FoodItem::setCanAlwaysEat()
 bool FoodItem::canEat(shared_ptr<Player> player)
 {
 	return player->canEat(canAlwaysEat);
+}
+
+bool FoodItem::isCannedFood() {
+	int id = this->id;
+	return id == Item::dehydratedApple_Id || id == Item::dehydratedCarrot_Id || id == Item::dehydratedMelon_Id || id == Item::dehydratedPotato_Id || id == Item::cannedBeef_Id;
 }

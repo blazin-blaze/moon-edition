@@ -84,6 +84,8 @@
 #include "CaveSpiderRenderer.h"
 #include "RocketRenderer.h"
 #include "LunarRenderer.h"
+#include "AlienVillagerRenderer.h"
+#include "BuggyRenderer.h"
 
 double EntityRenderDispatcher::xOff = 0.0;
 double EntityRenderDispatcher::yOff = 0.0;
@@ -100,6 +102,7 @@ EntityRenderDispatcher::EntityRenderDispatcher()
 {
 	glEnable(GL_LIGHTING);
 	renderers[eTYPE_SPIDER] = new SpiderRenderer();
+	renderers[eTYPE_EVOLVEDSPIDER] = new SpiderRenderer();
 	renderers[eTYPE_CAVESPIDER] = new CaveSpiderRenderer();
 	renderers[eTYPE_PIG] = new PigRenderer(new PigModel(), new PigModel(0.5f), 0.7f);
 	renderers[eTYPE_SHEEP] = new SheepRenderer(new SheepModel(), new SheepFurModel(), 0.7f);
@@ -113,9 +116,11 @@ EntityRenderDispatcher::EntityRenderDispatcher()
 	renderers[eTYPE_ENDERMAN] = new EndermanRenderer();
 	renderers[eTYPE_SNOWMAN] = new SnowManRenderer();
 	renderers[eTYPE_SKELETON] = new SkeletonRenderer();
+	renderers[eTYPE_EVOLVEDSKELETON] = new SkeletonRenderer();
 	renderers[eTYPE_WITCH] = new WitchRenderer();
 	renderers[eTYPE_BLAZE] = new BlazeRenderer();
 	renderers[eTYPE_ZOMBIE] = new ZombieRenderer();
+	renderers[eTYPE_EVOLVEDZOMBIE] = new ZombieRenderer();
 	renderers[eTYPE_PIGZOMBIE] = new ZombieRenderer();
 	renderers[eTYPE_SLIME] = new SlimeRenderer(new SlimeModel(16), new SlimeModel(0), 0.25f);
 	renderers[eTYPE_LAVASLIME] = new LavaSlimeRenderer();
@@ -126,7 +131,8 @@ EntityRenderDispatcher::EntityRenderDispatcher()
 	renderers[eTYPE_VILLAGER] = new VillagerRenderer();
 	renderers[eTYPE_VILLAGERGOLEM] = new VillagerGolemRenderer();
 	renderers[eTYPE_ROCKET] = new RocketRenderer();
-	renderers[eTYPE_LUNAR] = new LunarRenderer();
+	renderers[eTYPE_BUGGY] = new BuggyRenderer();
+	renderers[eTYPE_LUNAR] = new AlienVillagerRenderer();
 	renderers[eTYPE_BAT] = new BatRenderer();
 
 	renderers[eTYPE_MOB] = new MobRenderer(new HumanoidModel(), 0.5f);

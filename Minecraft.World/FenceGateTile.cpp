@@ -4,14 +4,24 @@
 #include "net.minecraft.world.level.h"
 #include "net.minecraft.h"
 #include "LevelEvent.h"
+#include "QuartzBlockTile.h"
 
 FenceGateTile::FenceGateTile(int id) : DirectionalTile(id, Material::wood, isSolidRender() )
 {
 }
 
-Icon *FenceGateTile::getTexture(int face, int data)
+FenceGateTile::FenceGateTile(int id, Material* material) : DirectionalTile(id, material, isSolidRender())
 {
-	return Tile::wood->getTexture(face);
+}
+
+Icon* FenceGateTile::getTexture(int face, int data)
+{
+	if (this->id == 204) {
+		return Tile::quartzBlock->getTexture(face, QuartzBlockTile::TYPE_CHISELED);
+	}
+	else {
+		return Tile::wood->getTexture(face);
+	}
 }
 
 bool FenceGateTile::mayPlace(Level *level, int x, int y, int z)

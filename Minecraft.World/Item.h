@@ -92,6 +92,12 @@ public:
 		eMaterial_wheat,
 		eMaterial_artisan,
 		eMaterial_titanium,
+		eMaterial_sapphire,
+		eMaterial_copper,
+		eMaterial_tin,
+		eMaterial_aluminium,
+		eMaterial_silicon,
+		eMaterial_can,
 	}
 	eMaterial;
 
@@ -126,6 +132,7 @@ public:
 		eBaseItemType_piston,
 		eBaseItemType_devicetool,
 		eBaseItemType_fence,
+		eBaseItemType_fenceGate,
 		eBaseItemType_device,
 		eBaseItemType_treasure,
 		eBaseItemType_seed,
@@ -141,8 +148,11 @@ public:
 		eBaseItemType_fireworks,
 		eBaseItemType_lever,
 		eBaseItemType_paper,
-		eBaseItemType_MAXTYPES,
 		eBaseItemType_artisan,
+		eBaseItemType_mechanisms,
+		eBaseItemType_cannedFoods,
+		eBaseItemType_oxygenIngr,
+		eBaseItemType_MAXTYPES,
 	}
 	eBaseItemType;
 
@@ -161,6 +171,7 @@ public:
 		static const Tier *DIAMOND; //
 		static const Tier *GOLD;
 		static const Tier* TITANIUM;
+		static const Tier* SAPPHIRE;
 
 	private:
 		const int level;
@@ -436,6 +447,53 @@ public:
 	static Item* oxygenGear;
 	static Item* oxygenTank;
 
+	static Item* copperIngot;
+	static Item* aluminiumIngot;
+	static Item* tinIngot;
+	static Item* oilBucket;
+	static Item* compressedIron;
+	static Item* compressedBronze;
+	static Item* compressedAluminium;
+	static Item* compressedSteel;
+	static Item* compressedTin;
+	static Item* compressedCopper;
+	static Item* compressedHeavyDuty;
+	static Item* noseCone;
+	static Item* rocketFins;
+	static Item* rocketEngine;
+	static Item* tinCanister;
+	static Item* fuelCanister;
+	static Item* rawSilicon;
+	static Item* basicWafer;
+	static Item* advancedWafer;
+	static Item* quartzDoor;
+
+	static Item* buggy;
+	static Item* buggyBlueprint;
+	static Item* buggySeat;
+	static Item* buggyWheel;
+	static Item* buggyStorage;
+
+	static Item* dehydratedApple;
+	static Item* dehydratedCarrot;
+	static Item* dehydratedMelon;
+	static Item* dehydratedPotato;
+	static Item* cannedBeef;
+
+	static Item* sapphireHelmet;
+	static Item* sapphireChestplate;
+	static Item* sapphireLeggings;
+	static Item* sapphireBoots;
+	static Item* sapphireSword;
+	static Item* sapphireShovel;
+	static Item* sapphirePickaxe;
+	static Item* sapphireHatchet;
+	static Item* sapphireHoe;
+
+	//static Item* oxygenVent;
+	//static Item* oxygenFan;
+	//static Item* oxygenConcentrator;
+
 	static const int shovel_iron_Id			= 256;
 	static const int pickAxe_iron_Id		= 257;
 	static const int hatchet_iron_Id		= 258;
@@ -661,6 +719,53 @@ public:
 	static const int oxygenMask_Id = 439;
 	static const int oxygenGear_Id = 440;
 	static const int oxygenTank_Id = 441;
+
+	static const int copperIngot_Id = 442;
+	static const int aluminiumIngot_Id = 443;
+	static const int tinIngot_Id = 444;
+	static const int oilBucket_Id = 445;
+	static const int compressedIron_Id = 446;
+	static const int compressedBronze_Id = 447;
+	static const int compressedAluminium_Id = 448;
+	static const int compressedSteel_Id = 449;
+	static const int compressedTin_Id = 450;
+	static const int compressedCopper_Id = 451;
+	static const int compressedHeavyDuty_Id = 452;
+	static const int noseCone_Id = 453;
+	static const int rocketFins_Id = 454;
+	static const int rocketEngine_Id = 455;
+	static const int tinCanister_Id = 456;
+	static const int fuelCanister_Id = 457;
+	static const int rawSilicon_Id = 458;
+	static const int basicWafer_Id = 459;
+	static const int advancedWafer_Id = 460;
+	static const int quartzDoor_Id = 461;
+
+	static const int buggy_Id = 462;
+	static const int buggyBlueprint_Id = 463;
+	static const int buggySeat_Id = 464;
+	static const int buggyWheel_Id = 465;
+	static const int buggyStorage_Id = 466;
+
+	static const int dehydratedApple_Id = 467;
+	static const int dehydratedCarrot_Id = 468;
+	static const int dehydratedMelon_Id = 469;
+	static const int dehydratedPotato_Id = 470;
+	static const int cannedBeef_Id = 471;
+
+	static const int sapphireHelmet_Id = 472;
+	static const int sapphireChestplate_Id = 473;
+	static const int sapphireLeggings_Id = 474;
+	static const int sapphireBoots_Id = 475;
+	static const int sapphireSword_Id = 476;
+	static const int sapphireShovel_Id = 477;
+	static const int sapphirePickaxe_Id = 478;
+	static const int sapphireHatchet_Id = 479;
+	static const int sapphireHoe_Id = 480;
+
+	//static const int oxygenVent_Id = 481;
+	//static const int oxygenFan_Id = 482;
+	//static const int oxygenConcentrator_Id = 483;
 
 public:
 	const int id;

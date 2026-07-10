@@ -22,6 +22,9 @@ public:
     virtual void entityRemoved(shared_ptr<Entity> entity);
 	virtual void playerRemoved(shared_ptr<Entity> entity);		// 4J added - for when a player is removed from the level's player array, not just the entity storage
     virtual void playSound(int iSound, double x, double y, double z, float volume, float pitch, float fClipSoundDist);
+    virtual void playRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist);
+    virtual void moveRocketSound(double x, double y, double z, int rocketId);
+    virtual void removeRocketSound(double x, double y, double z, int rocketId);
 	virtual void playSoundExceptPlayer(shared_ptr<Player> player, int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist);
     virtual void setTilesDirty(int x0, int y0, int z0, int x1, int y1, int z1, Level *level);	// 4J - added level param
     virtual void skyColorChanged();

@@ -117,7 +117,7 @@ int FenceTile::getRenderShape()
 bool FenceTile::connectsTo(LevelSource *level, int x, int y, int z)
 {
 	int tile = level->getTile(x, y, z);
-	if (tile == id || tile == Tile::fenceGate_Id)
+	if (tile == id || tile == Tile::fenceGate_Id || tile == Tile::quartzFenceGate_Id)
 	{
 		return true;
 	}
@@ -134,7 +134,7 @@ bool FenceTile::connectsTo(LevelSource *level, int x, int y, int z)
 
 bool FenceTile::isFence(int tile)
 {
-	return tile == Tile::fence_Id || tile == Tile::netherFence_Id;
+	return tile == Tile::fence_Id || tile == Tile::netherFence_Id || tile == Tile::quartzFence_Id;
 }
 
 void FenceTile::registerIcons(IconRegister *iconRegister)

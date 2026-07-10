@@ -13,3 +13,4 @@
 #include "MinecartTNT.h"
 #include "PrimedTnt.h"
 #include "Rocket.h"
+#include "Buggy.h"

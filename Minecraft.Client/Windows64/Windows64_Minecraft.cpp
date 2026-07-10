@@ -766,7 +766,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
 
 	g_hWnd = CreateWindow(	"MinecraftClass",
-		"Minecraft",
+		"Minecraft (Moon Edition)", //changed name to include moon mod
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		0,

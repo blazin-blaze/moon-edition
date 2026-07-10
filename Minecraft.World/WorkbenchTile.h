@@ -12,9 +12,11 @@ class WorkbenchTile : public Tile
 private:
 	Icon *iconTop;
 	Icon *iconFront;
+	Icon* iconBottom;
 
 protected:
 	WorkbenchTile(int id);
+	WorkbenchTile(int id, Material* mat);
 
 public:
 	Icon *getTexture(int face, int data);

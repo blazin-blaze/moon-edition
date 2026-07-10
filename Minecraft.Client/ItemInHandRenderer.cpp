@@ -21,6 +21,7 @@
 ResourceLocation ItemInHandRenderer::ENCHANT_GLINT_LOCATION = ResourceLocation(TN__BLUR__MISC_GLINT);
 ResourceLocation ItemInHandRenderer::MAP_BACKGROUND_LOCATION = ResourceLocation(TN_MISC_MAPBG);
 ResourceLocation ItemInHandRenderer::UNDERWATER_LOCATION = ResourceLocation(TN_MISC_WATER);
+ResourceLocation ItemInHandRenderer::UNDEROIL_LOCATION = ResourceLocation(TN_MISC_OIL);
 
 int ItemInHandRenderer::listItem = -1;
 int ItemInHandRenderer::listTerrain = -1;
@@ -53,9 +54,9 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft *minecraft, bool optimisedMinim
 			for( int xp = 0; xp < 16; xp++ )
 			{
 				float u = (15-xp) / 256.0f;
-				float v = (15-yp) / 256.0f;
+				float v = (15-yp) / 512.0f;
 				u += 0.5f / 256.0f;
-				v += 0.5f / 256.0f;
+				v += 0.5f / 512.0f;
 				float x0 = xp / 16.0f;
 				float x1 = x0 + 1.0f/16.0f;
 				float y0 = yp / 16.0f;
@@ -775,8 +776,14 @@ void ItemInHandRenderer::renderScreenEffect(float a)
 		MemSect(31);
         minecraft->textures->bindTexture(&UNDERWATER_LOCATION);	// 4J was L"/misc/water.png"
 		MemSect(0);
-        renderWater(a);
-    }
+        renderWater(a, false);
+	}
+	else if (minecraft->player->isUnderLiquid(Material::oil)) {
+		MemSect(31);
+		minecraft->textures->bindTexture(&UNDEROIL_LOCATION);	
+		MemSect(0);
+		renderWater(a, true);
+	}
     glEnable(GL_ALPHA_TEST);
 
 }
@@ -817,14 +824,24 @@ void ItemInHandRenderer::renderTex(float a, Icon *slot)
 
 }
 
-void ItemInHandRenderer::renderWater(float a)
+void ItemInHandRenderer::renderWater(float a, bool isOil)
 {
-	minecraft->textures->bindTexture(&UNDERWATER_LOCATION);
+	if (isOil) {
+		minecraft->textures->bindTexture(&UNDEROIL_LOCATION);
+	}
+	else {
+		minecraft->textures->bindTexture(&UNDERWATER_LOCATION);
+	}
 
     Tesselator *t = Tesselator::getInstance();
 
     float br = minecraft->player->getBrightness(a);
-    glColor4f(br, br, br, 0.5f);
+	if (isOil) {
+		glColor4f(br, br, br, 0.95f);
+	}
+	else {
+		glColor4f(br, br, br, 0.5f);
+	}
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

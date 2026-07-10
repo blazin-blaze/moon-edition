@@ -43,6 +43,7 @@ void MinecraftWorld_RunStaticCtors()
 		Item::staticCtor();
 		FurnaceRecipes::staticCtor();
 		Recipes::staticCtor();	
+		SpaceRecipes::staticCtor();
 #ifdef _DURANGO
 		GenericStats::setInstance(new DurangoStats());
 #else
@@ -67,6 +68,7 @@ void MinecraftWorld_RunStaticCtors()
 			VillagePieces::Smithy::staticCtor();
 			VillageFeature::staticCtor();
 			RandomScatteredLargeFeature::staticCtor();
+			MoonMineShaftPieces::staticCtor();
 		}
 	}
 	EnderMan::staticCtor();
@@ -81,6 +83,7 @@ void MinecraftWorld_RunStaticCtors()
 	SparseDataStorage::staticCtor();
 	McRegionChunkStorage::staticCtor();
 	Villager::staticCtor();
+	AlienVillager::staticCtor();
 	GameType::staticCtor();
 	BeaconTileEntity::staticCtor();
 }

@@ -117,6 +117,8 @@ public:
 	Icon_SPU liquidTile_iconWaterFlow;
 	Icon_SPU liquidTile_iconLavaStill;
 	Icon_SPU liquidTile_iconLavaFlow;
+	Icon_SPU liquidTile_iconOilStill;
+	Icon_SPU liquidTile_iconOilFlow;
 
 	Icon_SPU fireTile_icons[2];
 	Icon_SPU sapling_icons[4];
@@ -453,6 +455,9 @@ public:
 	static const int moonTurf_Id = 174;
 	static const int moonDirt_Id = 175;
 	static const int moonStone_Id = 176;
+
+	static const int oil_Id = 199;
+	static const int calmOil_Id = 200;
 
 	static Tile_SPU m_tiles[256];
 

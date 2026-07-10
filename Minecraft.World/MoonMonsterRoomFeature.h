@@ -8,7 +8,7 @@ class MoonMonsterRoomFeature : public Feature
 {
 private:
 
-	static const int TREASURE_ITEMS_COUNT = 11;
+	static const int TREASURE_ITEMS_COUNT = 30;
 	static WeighedTreasure* monsterRoomTreasure[TREASURE_ITEMS_COUNT];
 
 public:

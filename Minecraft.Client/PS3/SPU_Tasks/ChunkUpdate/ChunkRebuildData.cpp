@@ -177,7 +177,8 @@ void ChunkRebuildData::buildMaterials()
 	buildMaterial(Material_SPU::web_Id,					Material::web);					
 	buildMaterial(Material_SPU::piston_Id,				Material::piston);				
 	buildMaterial(Material_SPU::buildable_glass_Id,		Material::buildable_glass);				
-	buildMaterial(Material_SPU::heavyMetal_Id,			Material::heavyMetal);				
+	buildMaterial(Material_SPU::heavyMetal_Id,			Material::heavyMetal);	
+	buildMaterial(Material_SPU::oil_Id, Material::oil);
 }
 
 int ChunkRebuildData::getMaterialID(Tile* pTile)
@@ -216,6 +217,7 @@ int ChunkRebuildData::getMaterialID(Tile* pTile)
 	if(m == Material::piston)  			return Material_SPU::piston_Id;					
 	if(m == Material::buildable_glass)	return Material_SPU::buildable_glass_Id;
 	if(m == Material::heavyMetal)		return Material_SPU::heavyMetal_Id;
+	if (m == Material::oil)		return Material_SPU::oil_Id;
 	assert(0);	
 	return Material_SPU::air_Id;
 }
@@ -325,6 +327,8 @@ void ChunkRebuildData::createTileData()
 	setIconSPUFromIcon(&m_tileData.liquidTile_iconWaterFlow, (Tile::water)->icons[1]);
 	setIconSPUFromIcon(&m_tileData.liquidTile_iconLavaStill, (Tile::lava)->icons[0]);
 	setIconSPUFromIcon(&m_tileData.liquidTile_iconLavaFlow, (Tile::lava)->icons[1]);
+	setIconSPUFromIcon(&m_tileData.liquidTile_iconOilStill, (Tile::oil)->icons[0]);
+	setIconSPUFromIcon(&m_tileData.liquidTile_iconOilFlow, (Tile::oil)->icons[1]);
 
 	//FireTile
 	for(int i=0;i<2;i++)

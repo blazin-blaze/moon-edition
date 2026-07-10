@@ -17,6 +17,7 @@ public:
 		eFeature_Temples,
 		eFeature_Stronghold,
 		eFeature_Village,
+		eFeature_MoonMineshaft,
 	};
 
 #ifdef ENABLE_STRUCTURE_SAVING

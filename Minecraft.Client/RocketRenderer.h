@@ -8,6 +8,7 @@ class RocketRenderer : public EntityRenderer
 private:
 	RocketModel* rocketModel;
 	static ResourceLocation ROCKET_LOCATION;
+	static ResourceLocation ROCKET_FUEL_LOCATION;
 
 public:
 	RocketRenderer();

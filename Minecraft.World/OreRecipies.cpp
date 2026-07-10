@@ -34,6 +34,21 @@ void OreRecipies::_init()
 
 	ADD_OBJECT(map[8], Tile::titaniumBlock);
 	ADD_OBJECT(map[8], new ItemInstance(Item::titaniumIngot, 9));
+
+	ADD_OBJECT(map[9], Tile::copperBlock);
+	ADD_OBJECT(map[9], new ItemInstance(Item::copperIngot, 9));
+
+	ADD_OBJECT(map[10], Tile::tinBlock);
+	ADD_OBJECT(map[10], new ItemInstance(Item::tinIngot, 9));
+
+	ADD_OBJECT(map[11], Tile::aluminiumBlock);
+	ADD_OBJECT(map[11], new ItemInstance(Item::aluminiumIngot, 9));
+
+	ADD_OBJECT(map[12], Tile::siliconBlock);
+	ADD_OBJECT(map[12], new ItemInstance(Item::rawSilicon, 9));
+
+	ADD_OBJECT(map[13], Tile::sapphireBlock);
+	ADD_OBJECT(map[13], new ItemInstance(Item::sapphire, 9));
 }
 void OreRecipies::addRecipes(Recipes *r) 
 {

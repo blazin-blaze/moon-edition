@@ -3,6 +3,8 @@
 #include "SkullTileRenderer.h"
 #include "HumanoidMobRenderer.h"
 #include "HumanoidModel.h"
+#include "OxygenSetupModel.h"
+#include "FrequencyModuleModel.h"
 #include "ModelPart.h"
 #include "LocalPlayer.h"
 #include "MultiPlayerLocalPlayer.h"
@@ -54,6 +56,8 @@ static unsigned int nametagColorForIndex(int index)
 }
 
 ResourceLocation PlayerRenderer::DEFAULT_LOCATION = ResourceLocation(TN_MOB_CHAR);
+ResourceLocation PlayerRenderer::OXYGEN_SETUP_LOCATION = ResourceLocation(TN_MOB_OXYGEN_SETUP);
+ResourceLocation PlayerRenderer::FREQUENCY_MODULE_LOCATION = ResourceLocation(TN_MOB_FREQUENCY_MODULE);
 
 PlayerRenderer::PlayerRenderer() : LivingEntityRenderer( new HumanoidModel(0), 0.5f )
 {
@@ -61,6 +65,9 @@ PlayerRenderer::PlayerRenderer() : LivingEntityRenderer( new HumanoidModel(0), 0
 
     armorParts1 = new HumanoidModel(1.0f);
     armorParts2 = new HumanoidModel(0.5f);
+	oxygenSetup = new OxygenSetupModel();
+	frequencyModule = new FrequencyModuleModel();
+	frequencyModRot = 0.0f;
 }
 
 unsigned int PlayerRenderer::getNametagColour(int index)
@@ -79,6 +86,10 @@ int PlayerRenderer::prepareArmor(shared_ptr<LivingEntity> _player, int layer, fl
 	unsigned int uiAnimOverrideBitmask=player->getAnimOverrideBitmask();
 	if(uiAnimOverrideBitmask&(1<<HumanoidModel::eAnim_DontRenderArmour))
 	{
+		return -1;
+	}
+
+	if (player->riding != nullptr && player->riding->GetType() == eTYPE_ROCKET) {
 		return -1;
 	}
 
@@ -237,6 +248,42 @@ void PlayerRenderer::render(shared_ptr<Entity> _mob, double x, double y, double 
 			pModelPart->visible=true;
 		}
 	}
+	
+	if (mob->inventory->getOxygenGear()) {
+		oxygenSetup->setup->visible = true;
+		if (mob->inventory->getOxygenTank()) {
+			oxygenSetup->tank->visible = true;
+		}
+		else {
+			oxygenSetup->tank->visible = false;
+		}
+	}
+	else {
+		oxygenSetup->setup->visible = false;
+		oxygenSetup->tank->visible = false;
+	}
+
+	if (mob->inventory->getFrequencyModule()) {
+		frequencyModule->base->visible = true;
+		frequencyModule->antenna->visible = true;
+	}
+	else {
+		frequencyModule->base->visible = false;
+		frequencyModule->antenna->visible = false;
+	}
+
+	if (mob->riding != nullptr && mob->riding->GetType() == eTYPE_ROCKET) {
+		humanoidModel->arm0->visible = false;
+		humanoidModel->arm1->visible = false;
+		humanoidModel->leg0->visible = false;
+		humanoidModel->leg1->visible = false;
+	}
+	else {
+		humanoidModel->arm0->visible = true;
+		humanoidModel->arm1->visible = true;
+		humanoidModel->leg0->visible = true;
+		humanoidModel->leg1->visible = true;
+	}
 
     LivingEntityRenderer::render(mob, x, yp, z, rot, a);
 
@@ -251,7 +298,6 @@ void PlayerRenderer::render(shared_ptr<Entity> _mob, double x, double y, double 
 	armorParts1->bowAndArrow = armorParts2->bowAndArrow = humanoidModel->bowAndArrow = false;
     armorParts1->sneaking = armorParts2->sneaking = humanoidModel->sneaking = false;
     armorParts1->holdingRightHand = armorParts2->holdingRightHand = humanoidModel->holdingRightHand = 0;
-
 }
 
 void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
@@ -307,7 +353,7 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 
 	shared_ptr<ItemInstance> oxygenMask = mob->inventory->getMask();
 	shared_ptr<ItemInstance> glassMask = mob->glassMask;
-	if (oxygenMask != nullptr && glassMask != nullptr)
+	if (oxygenMask != nullptr && glassMask != nullptr && (mob->riding == nullptr || mob->riding->GetType() != eTYPE_ROCKET))
 	{
 		glPushMatrix();
 		humanoidModel->head->translateTo(1 / 16.0f);
@@ -600,4 +646,36 @@ ResourceLocation *PlayerRenderer::getTextureLocation(shared_ptr<Entity> entity)
 {
 	shared_ptr<Player> player = dynamic_pointer_cast<Player>(entity);
 	return new ResourceLocation(static_cast<_TEXTURE_NAME>(player->getTexture()));
+}
+
+void PlayerRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+	if (entity->riding == nullptr || entity->riding->GetType() != eTYPE_ROCKET) {
+		glPushMatrix();
+
+		humanoidModel->body->translateTo(1 / 16.0f);
+
+		bindTexture(&OXYGEN_SETUP_LOCATION);
+		float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : entity->getBrightness(a);
+		glColor3f(brightness, brightness, brightness);
+		if (entity->getArmor(2)) {
+			glTranslatef(0.0f, 0.0f, 0.0325f);
+		}
+		oxygenSetup->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+		glPopMatrix();
+
+		glPushMatrix();
+
+		humanoidModel->head->translateTo(1 / 16.0f);
+
+		bindTexture(&FREQUENCY_MODULE_LOCATION);
+		glColor3f(brightness, brightness, brightness);
+		if (entity->getArmor(3)) {
+			glTranslatef(-0.0325f, 0.0f, 0.0f);
+		}
+		frequencyModule->antenna->yRot = sinf((entity->tickCount + a) * 0.1f) * (15.0f * (2 * acos(0.0)) / 180.0f);
+		frequencyModule->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+		glPopMatrix();
+	}
 }

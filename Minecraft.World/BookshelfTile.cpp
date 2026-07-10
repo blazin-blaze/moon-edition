@@ -7,9 +7,15 @@ BookshelfTile::BookshelfTile(int id) : Tile(id, Material::wood)
 {
 }
 
+BookshelfTile::BookshelfTile(int id, Material* mat) : Tile(id, mat)
+{
+}
+
 Icon *BookshelfTile::getTexture(int face, int data)
 {
-	if (face == Facing::UP || face == Facing::DOWN) return Tile::wood->getTexture(face);
+	if (face == Facing::UP || face == Facing::DOWN) {
+		return this->material == Material::quartz ? Tile::quartzBlock->getTexture(face) : Tile::wood->getTexture(face);
+	}
 	return Tile::getTexture(face, data);
 }
 

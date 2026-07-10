@@ -142,9 +142,15 @@ void EyeOfEnderSignal::tick()
 	float s = 1 / 4.0f;
 	if (isInWater())
 	{
+		bool isOil = level->checkAndHandleWater(bb->grow(0, -0.4f, 0)->shrink(0.001, 0.001, 0.001), Material::oil, shared_from_this());
 		for (int i = 0; i < 4; i++)
 		{
-			level->addParticle(eParticleType_bubble, x - xd * s, y - yd * s, z - zd * s, xd, yd, zd);
+			if (isOil) {
+				level->addParticle(eParticleType_oil_bubble, x - xd * s, y - yd * s, z - zd * s, xd, yd, zd);
+			}
+			else {
+				level->addParticle(eParticleType_bubble, x - xd * s, y - yd * s, z - zd * s, xd, yd, zd);
+			}
 		}
 	}
 	else

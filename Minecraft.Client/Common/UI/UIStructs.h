@@ -9,6 +9,7 @@ class Inventory;
 class BrewingStandTileEntity;
 class DispenserTileEntity;
 class FurnaceTileEntity;
+//class OxygenatorTileEntity;
 class SignTileEntity;
 class LevelGenerationOptions;
 class LocalPlayer;
@@ -90,6 +91,15 @@ typedef struct _FurnaceScreenInput
 	int iPad;
 	bool bSplitscreen;
 } FurnaceScreenInput;
+
+/*// Oxygenator
+typedef struct _OxygenatorScreenInput
+{
+	shared_ptr<Inventory> inventory;
+	shared_ptr<OxygenatorTileEntity> oxygenator;
+	int iPad;
+	bool bSplitscreen;
+} OxygenatorScreenInput;*/
 
 // Crafting
 typedef struct _CraftingPanelScreenInput

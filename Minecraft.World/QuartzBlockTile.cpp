@@ -18,7 +18,7 @@ const wstring QuartzBlockTile::TEXTURE_LINES_TOP = L"lines_top";
 const wstring QuartzBlockTile::TEXTURE_BOTTOM = L"bottom";
 const wstring QuartzBlockTile::TEXTURE_NAMES[QUARTZ_BLOCK_TEXTURES] = {	L"side", L"chiseled", L"lines", L"", L""};
 
-QuartzBlockTile::QuartzBlockTile(int id) : Tile(id, Material::stone)
+QuartzBlockTile::QuartzBlockTile(int id) : Tile(id, Material::quartz)
 {
 }
 

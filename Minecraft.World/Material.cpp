@@ -33,12 +33,17 @@ Material *Material::topSnow = nullptr;
 Material *Material::snow = nullptr;
 Material *Material::cactus = nullptr;
 Material *Material::clay = nullptr;
+Material* Material::cheese = nullptr;
 Material *Material::vegetable = nullptr;
 Material *Material::egg = nullptr;
 Material *Material::portal = nullptr;
 Material *Material::cake = nullptr;
 Material *Material::piston = nullptr;
 Material *Material::web = nullptr;
+Material* Material::oil = nullptr;
+Material* Material::moonTurf = nullptr;
+Material* Material::moonDirt = nullptr;
+Material* Material::quartz = nullptr;
 
 void Material::staticCtor()
 {
@@ -69,6 +74,7 @@ void Material::staticCtor()
 	Material::snow = (new Material(MaterialColor::snow))->notAlwaysDestroyable();
 	Material::cactus = (new Material(MaterialColor::plant))->neverBuildable()->destroyOnPush();
 	Material::clay = (new Material(MaterialColor::clay));
+	Material::cheese = (new Material(MaterialColor::clay))->notAlwaysDestroyable();
 	Material::vegetable = (new Material(MaterialColor::plant))->destroyOnPush();
 	Material::egg = ( new Material(MaterialColor::plant))->destroyOnPush();
 	Material::portal = (new PortalMaterial(MaterialColor::none))->notPushable();
@@ -76,6 +82,10 @@ void Material::staticCtor()
 	// 4J added WebMaterial, Java version just does a local alteration when instantiating the Material for webs to get the same thing
 	Material::web = (new WebMaterial(MaterialColor::cloth))->notAlwaysDestroyable()->destroyOnPush();
 	Material::piston  = (new Material(MaterialColor::stone))->notPushable();
+	Material::oil = (new LiquidMaterial(MaterialColor::oil))->destroyOnPush();
+	Material::moonTurf = new Material(MaterialColor::clay);
+	Material::moonDirt = new Material(MaterialColor::clay);
+	Material::quartz = (new Material(MaterialColor::quartz))->notAlwaysDestroyable();
 }
 
 Material::Material(MaterialColor *color)

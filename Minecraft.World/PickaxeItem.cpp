@@ -29,7 +29,29 @@ void PickaxeItem::staticCtor()
 	diggables.data[19] = Tile::rail;
 	diggables.data[20] = Tile::detectorRail;
 	diggables.data[21] = Tile::goldenRail;
-	diggables.data[21] = Tile::activatorRail;
+	diggables.data[22] = Tile::activatorRail;
+	diggables.data[23] = Tile::sapphireOre;
+	diggables.data[24] = Tile::moonQuartzOre;
+	diggables.data[25] = Tile::titaniumOre;
+	diggables.data[26] = Tile::copperOre;
+	diggables.data[27] = Tile::aluminiumOre;
+	diggables.data[28] = Tile::tinOre;
+	diggables.data[29] = Tile::siliconOre;
+	diggables.data[30] = Tile::moonStone;
+	diggables.data[31] = Tile::titaniumBlock;
+	diggables.data[32] = Tile::siliconBlock;
+	diggables.data[33] = Tile::copperBlock;
+	diggables.data[34] = Tile::aluminiumBlock;
+	diggables.data[35] = Tile::tinBlock;
+	diggables.data[36] = Tile::sapphireBlock;
+	diggables.data[37] = Tile::spaceWorkbench;
+	diggables.data[38] = Tile::moonDungeonBricks;
+	diggables.data[39] = Tile::moonDungeonCrackedBricks;
+	diggables.data[40] = Tile::moonDungeonMossyBricks;
+	diggables.data[41] = Tile::quartzFence;
+	diggables.data[42] = Tile::quartzFenceGate;
+	diggables.data[43] = Tile::quartzDoor;
+	diggables.data[44] = Tile::quartzBookshelf;
 }
 
 PickaxeItem::PickaxeItem(int id, const Tier *tier) : DiggerItem(id, 2, tier, &diggables)
@@ -45,7 +67,15 @@ bool PickaxeItem::canDestroySpecial(Tile *tile)
 	if (tile == Tile::ironBlock || tile == Tile::ironOre) return tier->getLevel() >= 1;
 	if (tile == Tile::lapisBlock || tile == Tile::lapisOre) return tier->getLevel() >= 1;
 	if (tile == Tile::redStoneOre || tile == Tile::redStoneOre_lit) return tier->getLevel() >= 2;
+	if (tile == Tile::aluminiumOre || tile == Tile::aluminiumBlock) return tier->getLevel() >= 1;
+	if (tile == Tile::copperOre || tile == Tile::copperBlock) return tier->getLevel() >= 1;
+	if (tile == Tile::tinOre || tile == Tile::tinBlock) return tier->getLevel() >= 1;
+	if (tile == Tile::siliconOre || tile == Tile::siliconBlock) return tier->getLevel() >= 2;
+	if (tile == Tile::titaniumOre || tile == Tile::titaniumBlock) return tier->getLevel() >= 3;
+	if (tile == Tile::moonQuartzOre) return tier->getLevel() >= 1;
+	if (tile == Tile::sapphireOre || tile == Tile::sapphireBlock) return tier->getLevel() >= 1;
 	if (tile->material == Material::stone) return true;
+	if (tile->material == Material::quartz) return true;
 	if (tile->material == Material::metal) return true;
 	if (tile->material == Material::heavyMetal) return true;
 	return false;
@@ -54,7 +84,7 @@ bool PickaxeItem::canDestroySpecial(Tile *tile)
 // 4J - brought forward from 1.2.3
 float PickaxeItem::getDestroySpeed(shared_ptr<ItemInstance> itemInstance, Tile *tile)
 {
-	if (tile != nullptr && (tile->material == Material::metal || tile->material == Material::heavyMetal || tile->material == Material::stone))
+	if (tile != nullptr && (tile->material == Material::metal || tile->material == Material::heavyMetal || tile->material == Material::stone || tile->material == Material::quartz))
 	{
 		return speed;
 	}

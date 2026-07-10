@@ -91,7 +91,9 @@ typedef struct
 	#endif
 	int iSound;
 	bool bIs3D;	
-	bool bUseSoundsPitchVal;	
+	bool bUseSoundsPitchVal;
+	bool removeRocketSound = false;
+	int rocketId;
 #ifdef _DEBUG
 	char chName[64];
 #endif
@@ -119,6 +121,7 @@ public:
 	void GetSoundName(char *szSoundName,int iSound);
 #endif
     void play(int iSound, float x, float y, float z, float volume, float pitch) override;
+	void playR(int iSound, float x, float y, float z, float volume, float pitch, int rocketId);
     void playStreaming(const wstring& name, float x, float y , float z, float volume, float pitch, bool bMusicDelay=true) override;
     void playUI(int iSound, float volume, float pitch) override;
     void playMusicTick() override;

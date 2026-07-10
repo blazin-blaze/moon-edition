@@ -18,6 +18,9 @@ void ShovelItem::staticCtor()
 	diggables->data[7] = Tile::farmland;
 	diggables->data[8] = Tile::soulsand;
 	diggables->data[9] = Tile::mycel;
+	diggables->data[10] = Tile::moonTurf;
+	diggables->data[11] = Tile::moonDirt;
+	diggables->data[12] = Tile::cheeseOre;
 }
 
 ShovelItem::ShovelItem(int id, const Tier *tier) : DiggerItem(id, 1, tier, diggables)
@@ -26,6 +29,7 @@ ShovelItem::ShovelItem(int id, const Tier *tier) : DiggerItem(id, 1, tier, digga
 
 bool ShovelItem::canDestroySpecial(Tile *tile)
 {
+	if (tile == Tile::cheeseOre) return tier->getLevel() >= 1;
 	if (tile == Tile::topSnow) return true;
 	if (tile == Tile::snow) return true;
 	return false;

@@ -8,7 +8,7 @@
 #include "net.minecraft.world.h"
 #include "net.minecraft.h"
 
-const wstring DoorTile::TEXTURES[] = { L"doorWood_lower", L"doorWood_upper", L"doorIron_lower", L"doorIron_upper" };
+const wstring DoorTile::TEXTURES[] = { L"doorWood_lower", L"doorWood_upper", L"doorIron_lower", L"doorIron_upper", L"doorQuartz_upper", L"doorQuartz_lower"};
 
 DoorTile::DoorTile(int id, Material *material) : Tile(id, material,isSolidRender())
 {
@@ -289,6 +289,7 @@ int DoorTile::getResource(int data, Random *random, int playerBonusLevel)
 {
 	if ((data & 8) != 0) return 0;
 	if (material == Material::metal) return Item::door_iron->id;
+	if (material == Material::quartz) return Item::quartzDoor->id;
 	return Item::door_wood->id;
 }
 
@@ -339,7 +340,15 @@ int DoorTile::getCompositeData(LevelSource *level, int x, int y, int z)
 
 int DoorTile::cloneTileId(Level *level, int x, int y, int z)
 {
-	return material == Material::metal ? Item::door_iron_Id : Item::door_wood_Id;
+	if (material == Material::metal) {
+		return Item::door_iron_Id;
+	}
+	else if (material == Material::quartz) {
+		return Item::quartzDoor_Id;
+	}
+	else {
+		return Item::door_wood_Id;
+	}
 }
 
 void DoorTile::playerWillDestroy(Level *level, int x, int y, int z, int data, shared_ptr<Player> player)

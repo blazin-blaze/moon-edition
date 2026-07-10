@@ -22,10 +22,17 @@ McRegionChunkStorage::McRegionChunkStorage(ConsoleSaveFile *saveFile, const wstr
 		m_saveFile->createFile(ConsoleSavePath(L"DIM-1r.0.-1.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"DIM-1r.0.0.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"DIM-1r.-1.0.mcr"));
+
 		m_saveFile->createFile(ConsoleSavePath(L"DIM1/r.-1.-1.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"DIM1/r.0.-1.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"DIM1/r.0.0.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"DIM1/r.-1.0.mcr"));
+
+		m_saveFile->createFile(ConsoleSavePath(L"DIM2/r.-1.-1.mcr"));
+		m_saveFile->createFile(ConsoleSavePath(L"DIM2/r.0.-1.mcr"));
+		m_saveFile->createFile(ConsoleSavePath(L"DIM2/r.0.0.mcr"));
+		m_saveFile->createFile(ConsoleSavePath(L"DIM2/r.-1.0.mcr"));
+
 		m_saveFile->createFile(ConsoleSavePath(L"r.-1.-1.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"r.0.-1.mcr"));
 		m_saveFile->createFile(ConsoleSavePath(L"r.0.0.mcr"));

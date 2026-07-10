@@ -227,35 +227,45 @@ void TorchTile::animateTick(Level *level, int xt, int yt, int zt, Random *random
 	double r = 0.27f;
 	if (dir == 1)
 	{
-		level->addParticle(eParticleType_smoke, x - r, y + h, z, 0, 0, 0);
+		if (isFlaming || burntOut) {
+			level->addParticle(eParticleType_smoke, x - r, y + h, z, 0, 0, 0);
+		}
 		if (isFlaming) {
 			level->addParticle(eParticleType_flame, x - r, y + h, z, 0, 0, 0);
 		}
 	}
 	else if (dir == 2)
 	{
-		level->addParticle(eParticleType_smoke, x + r, y + h, z, 0, 0, 0);
+		if (isFlaming || burntOut) {
+			level->addParticle(eParticleType_smoke, x + r, y + h, z, 0, 0, 0);
+		}
 		if (isFlaming) {
 			level->addParticle(eParticleType_flame, x + r, y + h, z, 0, 0, 0);
 		}
 	}
 	else if (dir == 3)
 	{
-		level->addParticle(eParticleType_smoke, x, y + h, z - r, 0, 0, 0);
+		if (isFlaming || burntOut) {
+			level->addParticle(eParticleType_smoke, x, y + h, z - r, 0, 0, 0);
+		}
 		if (isFlaming) {
 			level->addParticle(eParticleType_flame, x, y + h, z - r, 0, 0, 0);
 		}
 	}
 	else if (dir == 4)
 	{
-		level->addParticle(eParticleType_smoke, x, y + h, z + r, 0, 0, 0);
+		if (isFlaming || burntOut) {
+			level->addParticle(eParticleType_smoke, x, y + h, z + r, 0, 0, 0);
+		}
 		if (isFlaming) {
 			level->addParticle(eParticleType_flame, x, y + h, z + r, 0, 0, 0);
 		}
 	}
 	else
 	{
-		level->addParticle(eParticleType_smoke, x, y, z, 0, 0, 0);
+		if (isFlaming || burntOut) {
+			level->addParticle(eParticleType_smoke, x, y, z, 0, 0, 0);
+		}
 		if (isFlaming) {
 			level->addParticle(eParticleType_flame, x, y, z, 0, 0, 0);
 		}
@@ -269,9 +279,14 @@ bool TorchTile::shouldTileTick(Level *level, int x,int y,int z)
 
 bool TorchTile::use(Level* level, int x, int y, int z, shared_ptr<Player> player, int clickedFace, float clickX, float clickY, float clickZ, bool soundOnly) {
 	shared_ptr<ItemInstance> usedItem = player->getCarriedItem();
+	if (usedItem != nullptr && usedItem->id == 259 && burntOut && soundOnly) {
+		level->playSound(x, y, z, eSoundType_FIRE_IGNITE, 1.0F, 1.0F, false);
+		return false;
+	}
 	if (usedItem != nullptr && usedItem->id == 259 && burntOut) {
+		usedItem->hurtAndBreak(1, player);
 		level->setTileAndData(x, y, z, 50, this->cloneTileData(level, x, y, z), Tile::UPDATE_CLIENTS);
-		level->levelEvent(player, LevelEvent::SOUND_CLICK, x, y, z, 0);
+		level->playSound(x, y, z, eSoundType_FIRE_IGNITE, 1.0F, 1.0F, false);
 	}
 	return true;
 }

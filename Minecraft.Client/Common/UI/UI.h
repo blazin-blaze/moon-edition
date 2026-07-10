@@ -124,5 +124,7 @@
 #include "UIScene_EndPoem.h"
 #include "UIScene_EULA.h"
 #include "UIScene_NewUpdateMessage.h"
+#include "UIScene_SpaceCraftingMenu.h"
+//#include "UIScene_OxygenatorMenu.h"
 
 extern ConsoleUIController ui;

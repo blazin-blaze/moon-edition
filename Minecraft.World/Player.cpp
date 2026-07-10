@@ -1,4 +1,5 @@
 // 4J TODO
+// 4J TODO
 
 // All the instanceof s from Java have been converted to dynamic_cast in this file
 // Once all the classes are finished it may be that we do not need to use dynamic_cast
@@ -36,13 +37,13 @@
 #include "Inventory.h"
 #include "Player.h"
 #include "ParticleTypes.h"
+#include "LevelData.h"
 
 #include "..\Minecraft.Client\Textures.h"
 
 #include "..\Minecraft.Client\LocalPlayer.h"
 #include "..\Minecraft.Client\HumanoidModel.h"
 #include "SoundTypes.h"
-
 
 
 void Player::_init()
@@ -78,7 +79,7 @@ void Player::_init()
 
 	fishing = nullptr;
 
-	distanceWalk = distanceSwim = distanceFall = distanceClimb = distanceMinecart = distanceBoat = distancePig = 0;
+	distanceWalk = distanceSwim = distanceFall = distanceClimb = distanceMinecart = distanceBoat = distancePig = distanceStep = lastStep = 0;
 
 	m_uiDebugOptions=0L;
 
@@ -951,7 +952,11 @@ void Player::rideTick()
 {
 	if (!level->isClientSide && isSneaking())
 	{
-		if (riding == nullptr || (riding->GetType() & eTYPE_ROCKET) != eTYPE_ROCKET) {
+		shared_ptr<Rocket> rocket = dynamic_pointer_cast<Rocket>(riding);
+		if (rocket != nullptr && rocket->getLaunched() && rocket->getPrelaunchTime() <= 0) {
+			setSneaking(false);
+		}
+		else {
 			ride(nullptr);
 			setSneaking(false);
 			return;
@@ -1070,7 +1075,7 @@ void Player::aiStep()
 
 	if (tickCount % 20 == 0 && level->dimension->id == 2) {
 		if (!inventory->getOxygenSetup()) {
-			hurt(DamageSource::inWall, 1);
+			hurt(DamageSource::genericSource, 1);
 		}
 	}
 }
@@ -1255,7 +1260,8 @@ float Player::getDestroySpeed(Tile *tile, bool hasProperTool)
 		speed *= 1.0f - (getEffect(MobEffect::digSlowdown)->getAmplifier() + 1) * .2f;
 	}
 
-	if (isUnderLiquid(Material::water) && !EnchantmentHelper::hasWaterWorkerBonus(dynamic_pointer_cast<LivingEntity>(shared_from_this()))) speed /= 5;
+	if ((isUnderLiquid(Material::water)) && !EnchantmentHelper::hasWaterWorkerBonus(dynamic_pointer_cast<LivingEntity>(shared_from_this()))) speed /= 5;
+	if ((isUnderLiquid(Material::oil)) && !EnchantmentHelper::hasWaterWorkerBonus(dynamic_pointer_cast<LivingEntity>(shared_from_this()))) speed /= 7;
 
 	// 4J Stu - onGround is set to true on the client when we are flying, which means
 	// the dig speed is out of sync with the server. Removing this speed change when
@@ -1375,6 +1381,11 @@ bool Player::startCrafting(int x, int y, int z)
 	return true;
 }
 
+bool Player::startSpaceCrafting(int x, int y, int z)
+{
+	return true;
+}
+
 bool Player::openFireworks(int x, int y, int z)
 {
 	return true;
@@ -1394,6 +1405,7 @@ void Player::setDefaultHeadHeight()
 bool Player::hurt(DamageSource *source, float dmg)
 {
 	if (isInvulnerable()) return false;
+	if (riding != nullptr && riding->GetType() == eTYPE_ROCKET) return false;
 	if ( hasInvulnerablePrivilege() || (abilities.invulnerable && !source->isBypassInvul()) )	return false;
 
 	// 4J-JEV: Fix for PSVita: #3987 - [IN GAME] The user can take damage/die, when attempting to re-enter fly mode when falling from a height.
@@ -1497,6 +1509,11 @@ bool Player::openFurnace(shared_ptr<FurnaceTileEntity> container)
 {
 	return true;
 }
+
+/*bool Player::openOxygenator(shared_ptr<OxygenatorTileEntity> container)
+{
+	return true;
+}*/
 
 bool Player::openTrap(shared_ptr<DispenserTileEntity> container)
 {
@@ -2126,7 +2143,7 @@ void Player::travel(float xa, float ya)
 		LivingEntity::travel(xa, ya);
 	}
 
-	if (preY >= 400) {
+	if (preY >= 500) {
 		//this->moveTo(x, level->getHeightmap(x, z), z, yRot, xRot);
 		if (this->isRiding() && dynamic_cast<Rocket*>(riding.get())) {
 			Rocket* rocket = dynamic_cast<Rocket*>(riding.get());
@@ -2137,6 +2154,7 @@ void Player::travel(float xa, float ya)
 			this->setSneaking(false);
 			if (this->level->dimension->id == 2) {
 				this->changeDimension(0);
+				this->addEffect(new MobEffectInstance(24, 30*20));
 			}
 			else {
 				this->changeDimension(2);
@@ -2162,7 +2180,7 @@ void Player::checkMovementStatistiscs(double dx, double dy, double dz)
 	{
 		return;
 	}
-	if (isUnderLiquid(Material::water))
+	if (isUnderLiquid(Material::water) || isUnderLiquid(Material::oil))
 	{
 		int distance = static_cast<int>(Math::round(sqrt(dx * dx + dy * dy + dz * dz) * 100.0f));
 		if (distance > 0)
@@ -2204,6 +2222,7 @@ void Player::checkMovementStatistiscs(double dx, double dy, double dz)
 		int horizontalDistance = static_cast<int>(Math::round(sqrt(dx * dx + dz * dz) * 100.0f));
 		if (horizontalDistance > 0)
 		{
+			distanceStep += horizontalDistance;
 			distanceWalk += horizontalDistance;
 			if( distanceWalk >= 100 )
 			{
@@ -2218,6 +2237,93 @@ void Player::checkMovementStatistiscs(double dx, double dy, double dz)
 			else
 			{
 				causeFoodExhaustion(FoodConstants::EXHAUSTION_WALK * horizontalDistance * .01f);
+			}
+			if (distanceStep >= 2.0) {
+				if (level->getTile(Mth::floor(x), Mth::floor(bb->y0) - 1, Mth::floor(z)) == Tile::moonTurf_Id || (level->getTile(Mth::floor(x), Mth::floor(bb->y0) - 1, Mth::floor(z)) == Tile::moonDirt_Id)) {
+					float partY = Mth::floor(bb->y0) + this->random->nextFloat() / 100.0F; //z-fighting
+					float partX = Mth::floor(x);
+					float partZ = Mth::floor(z);
+
+					if (lastStep == 0) {
+						partX += std::sin((-this->yRot + 90) * (PI / 180)) * 0.25;
+						partZ += std::cos((-this->yRot + 90) * (PI / 180)) * 0.25;
+					}
+					else {
+						partX += std::sin((-this->yRot - 90) * (PI / 180)) * 0.25;
+						partZ += std::cos((-this->yRot - 90) * (PI / 180)) * 0.25;
+					}
+
+					float partRot = this->yRot - 180;
+					if (level->getTile(Mth::floor(partX), Mth::floor(partY) - 1, Mth::floor(partZ)) == 0) {
+						partX += (x - partX);
+						partZ += (z - partZ);
+						if (level->getTile(Mth::floor(partX), Mth::floor(partY) - 1, Mth::floor(partZ)) == 0) {
+							for (int i = 0; i < 4; i++) {
+								float refX = partX;
+								float refZ = partZ;
+								switch (i) {
+								case 0:
+									refX -= 1;
+									break;
+								case 1:
+									refX += 1;
+									break;
+								case 2:
+									refZ -= 1;
+									break;
+								case 3:
+									refZ += 1;
+									break;
+								}
+								if (level->getTile(Mth::floor(refX), Mth::floor(partY) - 1, Mth::floor(refZ)) != 0) {
+									partX = refX;
+									partZ = refZ;
+									break;
+								}
+							}
+						}
+					}
+
+					double x0 = (std::sin((45 - partRot) / (180.0 / PI)) * 0.375f) + partX;
+					double x1 = (std::sin((135 - partRot) / (180.0 / PI)) * 0.375f) + partX;
+					double x2 = (std::sin((225 - partRot) / (180.0 / PI)) * 0.375f) + partX;
+					double x3 = (std::sin((315 - partRot) / (180.0 / PI)) * 0.375f) + partX;
+					double z0 = (std::cos((45 - partRot) / (180.0 / PI)) * 0.375f) + partZ;
+					double z1 = (std::cos((135 - partRot) / (180.0 / PI)) * 0.375f) + partZ;
+					double z2 = (std::cos((225 - partRot) / (180.0 / PI)) * 0.375f) + partZ;
+					double z3 = (std::cos((315 - partRot) / (180.0 / PI)) * 0.375f) + partZ;
+
+					double xMin = Math::_min(Math::_min((float)x0, (float)x1), Math::_min((float)x2, (float)x3));
+					double xMax = Math::_max(Math::_max((float)x0, (float)x1), Math::_max((float)x2, (float)x3));
+					double zMin = Math::_min(Math::_min((float)z0, (float)z1), Math::_min((float)z2, (float)z3));
+					double zMax = Math::_max(Math::_max((float)z0, (float)z1), Math::_max((float)z2, (float)z3));
+
+					if (xMin < partX)
+					{
+						partX += partX - xMin;
+					}
+
+					if (xMax > partX + 1)
+					{
+						partX -= xMax - (partX + 1);
+					}
+
+					if (zMin < partZ)
+					{
+						partZ += partZ - zMin;
+					}
+
+					if (zMax > partZ + 1)
+					{
+						partZ -= zMax - (partZ + 1);
+					}
+
+					if (level->getTile(Mth::floor(partX), Mth::floor(partY) - 1, Mth::floor(partZ)) != 0) {
+						level->addParticle(eParticleType_footstep, partX, partY, partZ, 0, 0, 0);
+					}
+					distanceStep = 0;
+					lastStep = (lastStep + 1) % 2;
+				}
 			}
 		}
 	}
@@ -2846,10 +2952,12 @@ bool Player::isAllowedToUse(Tile *tile)
 			switch(tile->id)
 			{
 			case Tile::door_wood_Id:
+			case Tile::quartzDoor_Id:
 			case Tile::button_stone_Id:
 			case Tile::button_wood_Id:
 			case Tile::lever_Id:
 			case Tile::fenceGate_Id:
+			case Tile::quartzFenceGate_Id:
 			case Tile::trapdoor_Id:
 				allowed = true;
 				break;
@@ -2883,6 +2991,7 @@ bool Player::isAllowedToUse(Tile *tile)
 			case Tile::button_wood_Id:
 			case Tile::lever_Id:
 			case Tile::fenceGate_Id:
+			case Tile::quartzFenceGate_Id:
 			case Tile::trapdoor_Id:
 			case Tile::chest_Id:
 			case Tile::furnace_Id:

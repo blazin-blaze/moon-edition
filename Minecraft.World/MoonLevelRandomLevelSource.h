@@ -8,6 +8,7 @@ class LargeFeature;
 class StrongholdFeature;
 class VillageFeature;
 class MineShaftFeature;
+class MoonMineShaftFeature;
 class PerlinNoise;
 class RandomScatteredLargeFeature;
 
@@ -65,7 +66,7 @@ private:
 	LargeFeature* caveFeature;
 	//StrongholdFeature* strongholdFeature;
 	VillageFeature* villageFeature;
-	//MineShaftFeature* mineShaftFeature;
+	MoonMineShaftFeature* mineShaftFeature;
 	//RandomScatteredLargeFeature* scatteredFeature;
 	LargeFeature* canyonFeature;
 private:

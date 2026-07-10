@@ -32,14 +32,27 @@ public:
 	virtual bool isPickable();
 	virtual bool getLaunched();
 	virtual void setLaunched(bool launched);
-
+	virtual bool getFueled();
+	virtual void setFueled(bool isFueled);
+	virtual int getPrelaunchTime();
 private:
 	int lSteps;
 	double lx, ly, lz, lyr, lxr;
 	double lxd, lyd, lzd;
+	static const int DATA_FUELED = 14;
+	static const int DATA_PRE_LAUNCH = 15;
 	static const int DATA_HAS_LAUNCHED = 16;
 	static const int DATA_ID_DAMAGE = 17;
+	static const int DATA_ROCKET_ID = 18;
+	static const int DATA_COOLDOWN = 19;
 	int launchingCooldown;
+	int ticksUntilNextSound;
+	bool hasPlayedLaunchSound;
+	bool doLerp;
+	wstring customName;
+	virtual void setPrelaunchTime(int preLaunch);
+	bool shouldFall(int tile);
+	bool isLaunchBlocked();
 
 public:
 	virtual void tick();
@@ -52,7 +65,23 @@ protected:
 public:
 	virtual void setDamage(float damage);
 	virtual float getDamage();
+	void setRocketId(int rocketId);
+	int getRocketId();
+	void setCooldown(int cooldown);
+	int getCooldown();
 	virtual float getShadowHeightOffs();
-	wstring getName();
+	virtual wstring getName();
+	virtual wstring getAName();
+	wstring getCustomName();
+	void setCustomName(wstring name);
+	bool hasCustomName();
 	virtual bool interact(shared_ptr<Player> player);
+	virtual void lerpTo(double x, double y, double z, float yRot, float xRot, int steps);
+	virtual void lerpMotion(double xd, double yd, double zd);
+
+	bool getDoLerp();
+	void setDoLerp(bool doLerp);
+
+public:
+	virtual void remove();
 };

@@ -128,6 +128,11 @@ protected:
 		eSectionFireworksResult,
 		eSectionFireworksIngredients,
 		eSectionFireworksMax,
+
+		//eSectionOxygenatorUsing,
+		//eSectionOxygenatorInventory,
+		//eSectionOxygenatorIngredient,
+		//eSectionOxygenatorMax,
 	};
 
 	AbstractContainerMenu* m_menu;

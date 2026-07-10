@@ -47,6 +47,7 @@
 #include "..\Minecraft.World\compression.h"
 #include "PS3\PS3Extras\ShutdownManager.h"
 #include "BossMobGuiInfo.h"
+#include "..\Minecraft.World\LevelData.h"
 
 #include "TexturePackRepository.h"
 #include "TexturePack.h"
@@ -404,6 +405,7 @@ float GameRenderer::getFov(float a, bool applyEffects)
 
 	int t = Camera::getBlockAt(mc->level, player, a);
 	if (t != 0 && Tile::tiles[t]->material == Material::water) fov = fov * 60 / 70;
+	if (t != 0 && Tile::tiles[t]->material == Material::oil) fov = fov * 60 / 70;
 
 	return fov + fovOffsetO + (fovOffset - fovOffsetO) * a;
 
@@ -1455,7 +1457,7 @@ void GameRenderer::renderLevel(float a, int64_t until)
 #endif
 
 
-		if (cameraEntity->y < Level::genDepth)
+		if (cameraEntity->y < Level::genDepth && mc->cameraTargetPlayer->y < 300)
 		{
 			prepareAndRenderClouds(levelRenderer, a);
 		}
@@ -1502,7 +1504,7 @@ void GameRenderer::renderLevel(float a, int64_t until)
 			PIXEndNamedEvent();
 			turnOffLightLayer(a);		// 4J - brought forward from 1.8.2
 
-			if ( (mc->hitResult != nullptr) && cameraEntity->isUnderLiquid(Material::water) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
+			if ( (mc->hitResult != nullptr) && (cameraEntity->isUnderLiquid(Material::water) || cameraEntity->isUnderLiquid(Material::oil)) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
 			{
 				shared_ptr<Player> player = dynamic_pointer_cast<Player>(cameraEntity);
 				glDisable(GL_ALPHA_TEST);
@@ -1571,7 +1573,7 @@ void GameRenderer::renderLevel(float a, int64_t until)
 
 		if ( (zoom == 1) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
 		{
-			if (mc->hitResult != nullptr && !cameraEntity->isUnderLiquid(Material::water))
+			if (mc->hitResult != nullptr && !(cameraEntity->isUnderLiquid(Material::water) || cameraEntity->isUnderLiquid(Material::oil)))
 			{
 				shared_ptr<Player> player = dynamic_pointer_cast<Player>(cameraEntity);
 				glDisable(GL_ALPHA_TEST);
@@ -1592,19 +1594,24 @@ void GameRenderer::renderLevel(float a, int64_t until)
 		levelRenderer->renderDestroyAnimation(Tesselator::getInstance(), dynamic_pointer_cast<Player>(cameraEntity), a);
 		glDisable(GL_BLEND);
 
-		if (cameraEntity->y >= Level::genDepth)
+		if (cameraEntity->y >= Level::genDepth && mc->cameraTargetPlayer->y < 300)
 		{
 			prepareAndRenderClouds(levelRenderer, a);
+		}
+
+		if (cameraEntity->y >= 300) {
+			levelRenderer->renderEarth(a);
 		}
 
 		// 4J - rain rendering moved here so that it renders after clouds & can blend properly onto them
 		setupFog(0, a);
 		glEnable(GL_FOG);
 		PIXBeginNamedEvent(0,"Rendering snow and rain");
-		renderSnowAndRain(a);
+		if (mc->cameraTargetPlayer->y < 300) {
+			renderSnowAndRain(a);
+		}
 		PIXEndNamedEvent();
 		glDisable(GL_FOG);
-
 
 		if (zoom == 1)
 		{
@@ -1941,19 +1948,34 @@ void GameRenderer::setupClearColor(float a)
 	float sg = static_cast<float>(skyColor->y);
 	float sb = static_cast<float>(skyColor->z);
 
-	Vec3 *fogColor = level->getFogColor(a);
+	Vec3 *fogColor = level->getFogColor(player, a);
 	fr = static_cast<float>(fogColor->x);
 	fg = static_cast<float>(fogColor->y);
 	fb = static_cast<float>(fogColor->z);
 
 	if (mc->options->viewDistance < 2)
 	{
-		Vec3 *sunAngle = Mth::sin(level->getSunAngle(a)) > 0 ? Vec3::newTemp(-1, 0, 0) : Vec3::newTemp(1, 0, 0);
+		Vec3 *sunAngle = Mth::sin(level->getSunAngle(player, a)) > 0 ? Vec3::newTemp(-1, 0, 0) : Vec3::newTemp(1, 0, 0);
 		float d = static_cast<float>(player->getViewVector(a)->dot(sunAngle));
 		if (d < 0) d = 0;
 		if (d > 0)
 		{
-			float *c = level->dimension->getSunriseColor(level->getTimeOfDay(a), a);
+			float td = level->getTimeOfDay(a);
+
+			if (mc->cameraTargetPlayer->y >= 250 && mc->cameraTargetPlayer->dimension == 0) {
+				float worldTime = level->getLevelData()->getDayTime();
+				float yh = mc->cameraTargetPlayer->y - 250;
+				float yp = yh / 50;
+				if (yp > 1.0f) { yp = 1.0f; }
+				float targetTime = worldTime + (18000.0f - worldTime) * yp;
+				td = level->dimension->getTimeOfDay(targetTime, a);
+			}
+
+			if (mc->cameraTargetPlayer->dimension == 2) {
+				td = level->dimension->getTimeOfDay(18000, a);
+			}
+
+			float *c = level->dimension->getSunriseColor(td, a);
 			if (c != nullptr)
 			{
 				d *= c[3];
@@ -2006,6 +2028,19 @@ void GameRenderer::setupClearColor(float a)
 		fr = static_cast<float>(redComponent)/256 + clearness;//0.02f;
 		fg = static_cast<float>(greenComponent)/256 + clearness;//0.02f;
 		fb = static_cast<float>(blueComponent)/256 + clearness;//0.2f;
+	}
+	else if (t != 0 && Tile::tiles[t]->material == Material::oil)
+	{
+		float clearness = EnchantmentHelper::getOxygenBonus(player) * 0.2f;
+
+		unsigned int colour = Minecraft::GetInstance()->getColourTable()->getColor(eMinecraftColour_Under_Oil_Clear_Colour);
+		byte redComponent = ((colour >> 16) & 0xFF);
+		byte greenComponent = ((colour >> 8) & 0xFF);
+		byte blueComponent = ((colour) & 0xFF);
+
+		fr = static_cast<float>(redComponent) / 256;//0.02f;
+		fg = static_cast<float>(greenComponent) / 256;//0.02f;
+		fb = static_cast<float>(blueComponent) / 256;//0.2f;
 	}
 	else if (t != 0 && Tile::tiles[t]->material == Material::lava)
 	{
@@ -2161,7 +2196,7 @@ void GameRenderer::setupFog(int i, float alpha)
 		glFogi(GL_FOG_MODE, GL_EXP);
 		glFogf(GL_FOG_DENSITY, 0.1f); // was 0.06
 	}
-	else if (t > 0 && Tile::tiles[t]->material == Material::water)
+	else if (t > 0 && (Tile::tiles[t]->material == Material::water || Tile::tiles[t]->material == Material::oil))
 	{
 		glFogi(GL_FOG_MODE, GL_EXP);
 		if (player->hasEffect(MobEffect::waterBreathing))

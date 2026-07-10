@@ -143,6 +143,10 @@ void Packet::staticCtor()
 	map(207, true, false, true, false, typeid(SetScorePacket), SetScorePacket::create);
 	map(208, true, false, true, false, typeid(SetDisplayObjectivePacket), SetDisplayObjectivePacket::create);
 	map(209, true, false, true, false, typeid(SetPlayerTeamPacket), SetPlayerTeamPacket::create);
+	map(210, false, true, false, false, typeid(SpaceCraftItemPacket), SpaceCraftItemPacket::create);
+	map(211, true, false, true, false, typeid(LevelRocketSoundPacket), LevelRocketSoundPacket::create);
+	map(212, true, false, true, false, typeid(LevelRocketSoundMovePacket), LevelRocketSoundMovePacket::create);
+	map(213, true, false, true, false, typeid(LevelRocketSoundRemovePacket), LevelRocketSoundRemovePacket::create);
 
 	map(250, true, true, true, false, typeid(CustomPayloadPacket), CustomPayloadPacket::create);
 	// 4J Stu - These added 1.3.2, but don't think we need them

@@ -69,15 +69,3 @@ bool MoonDimension::isFoggyAt(int x, int z)
 {
 	return false;
 }
-
-float MoonDimension::getTimeOfDay(int64_t time, float a) const
-{
-	int dayStep = static_cast<int>(14000 % Level::TICKS_PER_DAY);
-	float td = (dayStep + a) / Level::TICKS_PER_DAY - 0.25f;
-	if (td < 0) td += 1;
-	if (td > 1) td -= 1;
-	float tdo = td;
-	td = 1 - (float)((cos(td * PI) + 1) / 2);
-	td = tdo + (td - tdo) / 3.0f;
-	return td;
-}

@@ -63,4 +63,5 @@ public:
 	virtual bool hurt(DamageSource *source, float damage);
 	bool isCreepy();
 	void setCreepy(bool creepy);
+	virtual MobGroupData* finalizeMobSpawn(MobGroupData* groupData, int extraData = 0); // 4J Added extraData param
 };

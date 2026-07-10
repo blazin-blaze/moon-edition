@@ -5,25 +5,49 @@
 #include "net.minecraft.h"
 #include "WorkbenchTile.h"
 
+WorkbenchTile::WorkbenchTile(int id, Material* mat) : Tile(id, mat)
+{
+	iconTop = nullptr;
+	iconFront = nullptr;
+	iconBottom = nullptr;
+}
+
 WorkbenchTile::WorkbenchTile(int id) : Tile(id, Material::wood)
 {
 	iconTop = nullptr;
 	iconFront = nullptr;
+	iconBottom = nullptr;
 }
 
 Icon *WorkbenchTile::getTexture(int face, int data)
 {
 	if (face == Facing::UP) return iconTop;
-	if (face == Facing::DOWN) return Tile::wood->getTexture(face);
+	if (face == Facing::DOWN) {
+		if (this->material == Material::metal) {
+			return iconBottom;
+		}
+		else {
+			return Tile::wood->getTexture(face);
+		}
+	}
 	if (face == Facing::NORTH || face == Facing::WEST) return iconFront;
 	return icon;
 }
 
 void WorkbenchTile::registerIcons(IconRegister *iconRegister)
 {
-	icon = iconRegister->registerIcon(L"workbench_side");
-	iconTop = iconRegister->registerIcon(L"workbench_top");
-	iconFront = iconRegister->registerIcon(L"workbench_front");
+	if(this->material == Material::metal) {
+		icon = iconRegister->registerIcon(L"spaceWorkbench_side");
+		iconTop = iconRegister->registerIcon(L"spaceWorkbench_top");
+		iconFront = iconRegister->registerIcon(L"spaceWorkbench_front");
+		iconBottom = iconRegister->registerIcon(L"spaceWorkbench_bottom");
+	}
+	else {
+		icon = iconRegister->registerIcon(L"workbench_side");
+		iconTop = iconRegister->registerIcon(L"workbench_top");
+		iconFront = iconRegister->registerIcon(L"workbench_front");
+		iconBottom = nullptr;
+	}
 }
 
 // 4J-PB - Adding a TestUse for tooltip display
@@ -39,7 +63,12 @@ bool WorkbenchTile::use(Level *level, int x, int y, int z, shared_ptr<Player> pl
 	{
 		return true;
 	}
-	player->startCrafting(x, y, z);
+	if (this->material == Material::metal) {
+		player->startSpaceCrafting(x, y, z);
+	}
+	else {
+		player->startCrafting(x, y, z);
+	}
 	//player->openFireworks(x, y, z);
 	return true;
 }

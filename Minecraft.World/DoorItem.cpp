@@ -26,6 +26,7 @@ bool DoorItem::useOn(shared_ptr<ItemInstance> instance, shared_ptr<Player> playe
 	Tile *tile;
 
 	if (material == Material::wood) tile = Tile::door_wood;
+	else if (material == Material::stone) tile = Tile::quartzDoor;
 	else tile = Tile::door_iron;
 
 	if (!player->mayUseItemAt(x, y, z, face, instance) || !player->mayUseItemAt(x, y + 1, z, face, instance)) return false;

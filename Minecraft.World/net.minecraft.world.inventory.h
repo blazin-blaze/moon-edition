@@ -8,6 +8,7 @@
 #include "ContainerMenu.h"
 #include "CraftingContainer.h"
 #include "CraftingMenu.h"
+#include "SpaceCraftingMenu.h"
 #include "FireworksMenu.h"
 #include "FurnaceMenu.h"
 #include "FurnaceResultSlot.h"
@@ -30,3 +31,4 @@
 #include "AnvilMenu.h"
 #include "RepairContainer.h"
 #include "RepairResultSlot.h"
+//#include "OxygenatorMenu.h"

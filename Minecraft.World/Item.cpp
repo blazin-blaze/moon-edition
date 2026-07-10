@@ -28,6 +28,7 @@ const _Tier *_Tier::IRON = new _Tier(2, 250, 6, 2, 14); //
 const _Tier *_Tier::DIAMOND = new _Tier(3, 1561, 8, 3, 10); //
 const _Tier *_Tier::GOLD = new _Tier(0, 32, 12, 0, 22);
 const _Tier* _Tier::TITANIUM = new _Tier(3, 2061, 8, 5, 15);
+const _Tier* _Tier::SAPPHIRE = new _Tier(2, 500, 6, 2, 22);
 
 Random *Item::random = new Random();
 
@@ -273,6 +274,53 @@ Item* Item::oxygenMask = nullptr;
 Item* Item::oxygenGear = nullptr;
 Item* Item::oxygenTank = nullptr;
 
+Item* Item::copperIngot = nullptr;
+Item* Item::aluminiumIngot = nullptr;
+Item* Item::tinIngot = nullptr;
+Item* Item::oilBucket = nullptr;
+Item* Item::compressedIron = nullptr;
+Item* Item::compressedBronze = nullptr;
+Item* Item::compressedAluminium = nullptr;
+Item* Item::compressedSteel = nullptr;
+Item* Item::compressedTin = nullptr;
+Item* Item::compressedCopper = nullptr;
+Item* Item::compressedHeavyDuty = nullptr;
+Item* Item::noseCone = nullptr;
+Item* Item::rocketFins = nullptr;
+Item* Item::rocketEngine = nullptr;
+Item* Item::tinCanister = nullptr;
+Item* Item::fuelCanister = nullptr;
+Item* Item::rawSilicon = nullptr;
+Item* Item::basicWafer = nullptr;
+Item* Item::advancedWafer = nullptr;
+Item* Item::quartzDoor = nullptr;
+
+Item* Item::buggy = nullptr;
+Item* Item::buggyBlueprint = nullptr;
+Item* Item::buggySeat = nullptr;
+Item* Item::buggyWheel = nullptr;
+Item* Item::buggyStorage = nullptr;
+
+Item* Item::dehydratedApple = nullptr;
+Item* Item::dehydratedCarrot = nullptr;
+Item* Item::dehydratedMelon = nullptr;
+Item* Item::dehydratedPotato = nullptr;
+Item* Item::cannedBeef = nullptr;
+
+Item* Item::sapphireHelmet = nullptr;
+Item* Item::sapphireChestplate = nullptr;
+Item* Item::sapphireLeggings = nullptr;
+Item* Item::sapphireBoots = nullptr;
+Item* Item::sapphireSword = nullptr;
+Item* Item::sapphireShovel = nullptr;
+Item* Item::sapphirePickaxe = nullptr;
+Item* Item::sapphireHatchet = nullptr;
+Item* Item::sapphireHoe = nullptr;
+
+//Item* Item::oxygenVent = nullptr;
+//Item* Item::oxygenFan = nullptr;
+//Item* Item::oxygenConcentrator = nullptr;
+
 void Item::staticCtor()
 {
 	Item::sword_wood		= ( new WeaponItem(12, _Tier::WOOD) )		->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_wood)		->setIconName(L"swordWood")->setDescriptionId(IDS_ITEM_SWORD_WOOD)->setUseDescriptionId(IDS_DESC_SWORD);
@@ -359,7 +407,7 @@ void Item::staticCtor()
 	Item::stick = ( new Item(24) )													->setIconName(L"stick")->handEquipped()->setDescriptionId(IDS_ITEM_STICK)->setUseDescriptionId(IDS_DESC_STICK);
 	Item::mushroomStew = ( new BowlFoodItem(26, 6) )								->setIconName(L"mushroomStew")->setDescriptionId(IDS_ITEM_MUSHROOM_STEW)->setUseDescriptionId(IDS_DESC_MUSHROOMSTEW);
 
-	Item::string = ( new TilePlanterItem(31, Tile::tripWire) )						->setIconName(L"string")->setDescriptionId(IDS_ITEM_STRING)->setUseDescriptionId(IDS_DESC_STRING);
+	Item::string = ( new StringItem(31) )						->setIconName(L"string")->setDescriptionId(IDS_ITEM_STRING)->setUseDescriptionId(IDS_DESC_STRING);
 	Item::feather = ( new Item(32) )												->setIconName(L"feather")->setDescriptionId(IDS_ITEM_FEATHER)->setUseDescriptionId(IDS_DESC_FEATHER);
 	Item::gunpowder = ( new Item(33) )												->setIconName(L"sulphur")->setDescriptionId(IDS_ITEM_SULPHUR)->setUseDescriptionId(IDS_DESC_SULPHUR)->setPotionBrewingFormula(PotionBrewing::MOD_GUNPOWDER);
 
@@ -515,7 +563,7 @@ void Item::staticCtor()
 	Item::horseArmorDiamond = (new Item(163))														->setIconName(L"diamond_horse_armor")->setMaxStackSize(1)->setDescriptionId(IDS_ITEM_DIAMOND_HORSE_ARMOR)->setUseDescriptionId(IDS_DESC_DIAMOND_HORSE_ARMOR);
 	Item::lead = (new LeashItem(164))																->setBaseItemTypeAndMaterial(eBaseItemType_pockettool,	eMaterial_undefined)->setIconName(L"lead")->setDescriptionId(IDS_ITEM_LEAD)->setUseDescriptionId(IDS_DESC_LEAD);
 	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);
-	Item::rocket = (new RocketItem(166))->setIconName(L"rocket_item")->setDescriptionId(IDS_ITEM_ROCKET)->setUseDescriptionId(IDS_DESC_ROCKET);
+	Item::rocket = (new RocketItem(166))->setIconName(L"rocket_item")->setDescriptionId(IDS_ITEM_ROCKET)->setUseDescriptionId(IDS_DESC_ROCKET)->setMaxStackSize(1);
 	Item::cheese = (new FoodItem(167, 2, FoodConstants::FOOD_SATURATION_LOW, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"cheese")->setDescriptionId(IDS_ITEM_CHEESE)->setUseDescriptionId(IDS_DESC_CHEESE);
 
 	Item::moonDungeonKey = (new Item(168))->setIconName(L"moonDungeonKey")->setDescriptionId(IDS_ITEM_MOON_DUNGEON_KEY)->setUseDescriptionId(IDS_DESC_MOON_DUNGEON_KEY);
@@ -531,12 +579,60 @@ void Item::staticCtor()
 	Item::titaniumHoe = (new HoeItem(178, _Tier::TITANIUM))->setBaseItemTypeAndMaterial(eBaseItemType_hoe, eMaterial_titanium)->setIconName(L"titaniumHoe")->setDescriptionId(IDS_ITEM_HOE_TITANIUM)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::sapphire = (new Item(179))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_emerald)->setIconName(L"sapphire")->setDescriptionId(IDS_ITEM_SAPPHIRE)->setUseDescriptionId(IDS_DESC_SAPPHIRE);
 	Item::cheeseburger = (new FoodItem(180, 12, FoodConstants::FOOD_SATURATION_GOOD, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"cheeseburger")->setDescriptionId(IDS_ITEM_CHEESEBURGER)->setUseDescriptionId(IDS_DESC_CHEESEBURGER);
-	Item::poutine = (new FoodItem(181, 10, FoodConstants::FOOD_SATURATION_GOOD, false))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"poutine")->setDescriptionId(IDS_ITEM_POUTINE)->setUseDescriptionId(IDS_DESC_POUTINE);
+	Item::poutine = (new BowlFoodItem(181, 10))->setBaseItemTypeAndMaterial(eBaseItemType_artisan, eMaterial_artisan)->setIconName(L"poutine")->setDescriptionId(IDS_ITEM_POUTINE)->setUseDescriptionId(IDS_DESC_POUTINE)->setMaxStackSize(1);
 
-	Item::frequencyModule = (new Item(182))->setIconName(L"frequencyModule")->setDescriptionId(IDS_ITEM_FREQUENCY_MODULE)->setUseDescriptionId(IDS_DESC_FREQUENCY_MODULE);
-	Item::oxygenMask = (new Item(183))->setIconName(L"oxygenMask")->setDescriptionId(IDS_ITEM_OXYGEN_MASK)->setUseDescriptionId(IDS_DESC_OXYGEN_MASK);
-	Item::oxygenGear = (new Item(184))->setIconName(L"oxygenGear")->setDescriptionId(IDS_ITEM_OXYGEN_GEAR)->setUseDescriptionId(IDS_DESC_OXYGEN_GEAR);
-	Item::oxygenTank = (new Item(185))->setIconName(L"oxygenTank")->setDescriptionId(IDS_ITEM_OXYGEN_TANK)->setUseDescriptionId(IDS_DESC_OXYGEN_TANK)->setMaxDamage(500);
+	Item::frequencyModule = (new Item(182))->setIconName(L"frequencyModule")->setDescriptionId(IDS_ITEM_FREQUENCY_MODULE)->setUseDescriptionId(IDS_DESC_FREQUENCY_MODULE)->setMaxStackSize(1);
+	Item::oxygenMask = (new Item(183))->setIconName(L"oxygenMask")->setDescriptionId(IDS_ITEM_OXYGEN_MASK)->setUseDescriptionId(IDS_DESC_OXYGEN_MASK)->setMaxStackSize(1);
+	Item::oxygenGear = (new Item(184))->setIconName(L"oxygenGear")->setDescriptionId(IDS_ITEM_OXYGEN_GEAR)->setUseDescriptionId(IDS_DESC_OXYGEN_GEAR)->setMaxStackSize(1);
+	Item::oxygenTank = (new Item(185))->setIconName(L"oxygenTank")->setDescriptionId(IDS_ITEM_OXYGEN_TANK)->setUseDescriptionId(IDS_DESC_OXYGEN_TANK)->setMaxDamage(1200)->setMaxStackSize(1);
+
+	Item::copperIngot = (new Item(186))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_copper)->setIconName(L"copperIngot")->setDescriptionId(IDS_ITEM_COPPER_INGOT)->setUseDescriptionId(IDS_DESC_SPACE_RECIPE);
+	Item::aluminiumIngot = (new Item(187))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_aluminium)->setIconName(L"aluminiumIngot")->setDescriptionId(IDS_ITEM_ALUMINIUM_INGOT)->setUseDescriptionId(IDS_DESC_SPACE_RECIPE);
+	Item::tinIngot = (new Item(188))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_tin)->setIconName(L"tinIngot")->setDescriptionId(IDS_ITEM_TIN_INGOT)->setUseDescriptionId(IDS_DESC_SPACE_RECIPE);
+	Item::oilBucket = (new BucketItem(189, Tile::oil_Id))->setIconName(L"oilBucket")->setDescriptionId(IDS_ITEM_BUCKET_OIL)->setCraftingRemainingItem(Item::bucket_empty)->setUseDescriptionId(IDS_DESC_BUCKET_OIL);
+	Item::compressedIron = (new Item(190))->setIconName(L"slot_empty_boots")->setDescriptionId(IDS_ITEM_COMPRESSED_IRON)->setUseDescriptionId(IDS_DESC_COMPRESSED_IRON);
+	Item::compressedBronze = (new Item(191))->setIconName(L"compressedBronze")->setDescriptionId(IDS_ITEM_COMPRESSED_BRONZE)->setUseDescriptionId(IDS_DESC_COMPRESSED_BRONZE);
+	Item::compressedAluminium = (new Item(192))->setIconName(L"compressedAluminium")->setDescriptionId(IDS_ITEM_COMPRESSED_ALUMINIUM)->setUseDescriptionId(IDS_DESC_COMPRESSED_ALUMINIUM);
+	Item::compressedSteel = (new Item(193))->setIconName(L"compressedSteel")->setDescriptionId(IDS_ITEM_COMPRESSED_STEEL)->setUseDescriptionId(IDS_DESC_COMPRESSED_STEEL);
+	Item::compressedTin = (new Item(194))->setIconName(L"slot_empty_helmet")->setDescriptionId(IDS_ITEM_COMPRESSED_TIN)->setUseDescriptionId(IDS_DESC_COMPRESSED_TIN);
+	Item::compressedCopper = (new Item(195))->setIconName(L"slot_empty_chestplate")->setDescriptionId(IDS_ITEM_COMPRESSED_COPPER)->setUseDescriptionId(IDS_DESC_COMPRESSED_COPPER);
+	Item::compressedHeavyDuty = (new Item(196))->setIconName(L"compressedHeavyDuty")->setDescriptionId(IDS_ITEM_COMPRESSED_HEAVY_DUTY)->setUseDescriptionId(IDS_DESC_COMPRESSED_HEAVY_DUTY);
+	Item::noseCone = (new Item(197))->setIconName(L"slot_empty_leggings")->setDescriptionId(IDS_ITEM_NOSE_CONE)->setUseDescriptionId(IDS_DESC_NOSE_CONE)->setMaxStackSize(1);
+	Item::rocketFins = (new Item(198))->setIconName(L"rocketFins")->setDescriptionId(IDS_ITEM_ROCKET_FINS)->setUseDescriptionId(IDS_DESC_ROCKET_FINS)->setMaxStackSize(16);
+	Item::rocketEngine = (new Item(199))->setIconName(L"rocketEngine")->setDescriptionId(IDS_ITEM_ROCKET_ENGINE)->setUseDescriptionId(IDS_DESC_ROCKET_ENGINE)->setMaxStackSize(1);
+	Item::tinCanister = (new Item(200))->setIconName(L"tinCanister")->setDescriptionId(IDS_ITEM_TIN_CANISTER)->setUseDescriptionId(IDS_DESC_SPACE_RECIPE);
+	Item::fuelCanister = (new Item(201))->setIconName(L"fuelCanister")->setDescriptionId(IDS_ITEM_FUEL_CANISTER)->setUseDescriptionId(IDS_DESC_FUEL_CANISTER)->setMaxStackSize(1);
+	Item::rawSilicon = (new Item(202))->setBaseItemTypeAndMaterial(eBaseItemType_treasure, eMaterial_silicon)->setIconName(L"rawSilicon")->setDescriptionId(IDS_ITEM_RAW_SILICON)->setUseDescriptionId(IDS_DESC_RAW_SILICON);
+	Item::basicWafer = (new Item(203))->setBaseItemTypeAndMaterial(Item::eBaseItemType_mechanisms, Item::eMaterial_silicon)->setIconName(L"basicWafer")->setDescriptionId(IDS_ITEM_BASIC_WAFER)->setUseDescriptionId(IDS_DESC_BASIC_WAFER);
+	Item::advancedWafer = (new Item(204))->setBaseItemTypeAndMaterial(Item::eBaseItemType_mechanisms, Item::eMaterial_silicon)->setIconName(L"advancedWafer")->setDescriptionId(IDS_ITEM_ADVANCED_WAFER)->setUseDescriptionId(IDS_DESC_ADVANCED_WAFER);
+	Item::quartzDoor = (new DoorItem(205, Material::stone))->setBaseItemTypeAndMaterial(eBaseItemType_door, eMaterial_quartz)->setIconName(L"doorQuartz")->setDescriptionId(IDS_ITEM_DOOR_QUARTZ)->setUseDescriptionId(IDS_DESC_DOOR_QUARTZ)->setMaxStackSize(1);
+
+	Item::buggy = (new BuggyItem(206))->setIconName(L"buggy")->setDescriptionId(IDS_BUGGY)->setUseDescriptionId(IDS_DESC_BUGGY)->setMaxStackSize(1);
+	Item::buggyBlueprint = (new Item(207))->setIconName(L"buggyBlueprint")->setDescriptionId(IDS_BUGGY_BLUEPRINT)->setUseDescriptionId(IDS_DESC_BUGGY_BLUEPRINT)->setMaxStackSize(1);
+	buggyBlueprint->setCraftingRemainingItem(Item::buggyBlueprint);
+	Item::buggySeat = (new Item(208))->setIconName(L"buggySeat")->setDescriptionId(IDS_BUGGY_SEAT)->setUseDescriptionId(IDS_DESC_BUGGY_CRAFT)->setMaxStackSize(1);
+	Item::buggyWheel = (new Item(209))->setIconName(L"buggyWheel")->setDescriptionId(IDS_BUGGY_WHEEL)->setUseDescriptionId(IDS_DESC_BUGGY_CRAFT)->setMaxStackSize(16);
+	Item::buggyStorage = (new Item(210))->setIconName(L"buggyStorage")->setDescriptionId(IDS_BUGGY_STORAGE)->setUseDescriptionId(IDS_DESC_BUGGY_STORAGE)->setMaxStackSize(1);
+
+	Item::dehydratedApple = (new CannedFoodItem(211, 5, FoodConstants::FOOD_SATURATION_NORMAL, false))->setBaseItemTypeAndMaterial(eBaseItemType_cannedFoods, eMaterial_can)->setIconName(L"dehydratedApple")->setDescriptionId(IDS_ITEM_DEHYDRATED_APPLE)->setUseDescriptionId(IDS_DESC_CANNED);
+	Item::dehydratedCarrot = (new CannedFoodItem(212, 5, FoodConstants::FOOD_SATURATION_NORMAL, false))->setBaseItemTypeAndMaterial(eBaseItemType_cannedFoods, eMaterial_can)->setIconName(L"dehydratedCarrot")->setDescriptionId(IDS_ITEM_DEHYDRATED_CARROT)->setUseDescriptionId(IDS_DESC_CANNED);
+	Item::dehydratedMelon = (new CannedFoodItem(213, 2, FoodConstants::FOOD_SATURATION_LOW, false))->setBaseItemTypeAndMaterial(eBaseItemType_cannedFoods, eMaterial_can)->setIconName(L"dehydratedMelon")->setDescriptionId(IDS_ITEM_DEHYDRATED_MELON)->setUseDescriptionId(IDS_DESC_CANNED);
+	Item::dehydratedPotato = (new CannedFoodItem(214, 3, FoodConstants::FOOD_SATURATION_NORMAL, false))->setBaseItemTypeAndMaterial(eBaseItemType_cannedFoods, eMaterial_can)->setIconName(L"dehydratedPotato")->setDescriptionId(IDS_ITEM_DEHYDRATED_POTATO)->setUseDescriptionId(IDS_DESC_CANNED);
+	Item::cannedBeef = (new CannedFoodItem(215, 4, FoodConstants::FOOD_SATURATION_NORMAL, true))->setBaseItemTypeAndMaterial(eBaseItemType_cannedFoods, eMaterial_can)->setIconName(L"cannedBeef")->setDescriptionId(IDS_ITEM_CANNED_BEEF)->setUseDescriptionId(IDS_DESC_CANNED);
+
+	Item::sapphireHelmet = static_cast<ArmorItem*>((new ArmorItem(216, ArmorItem::ArmorMaterial::SAPPHIRE, 6, ArmorItem::SLOT_HEAD))->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_sapphire)->setIconName(L"sapphireHelmet")->setDescriptionId(IDS_ITEM_HELMET_SAPPHIRE)->setUseDescriptionId(IDS_DESC_HELMET_IRON));
+	Item::sapphireChestplate = static_cast<ArmorItem*>((new ArmorItem(217, ArmorItem::ArmorMaterial::SAPPHIRE, 6, ArmorItem::SLOT_TORSO))->setBaseItemTypeAndMaterial(eBaseItemType_chestplate, eMaterial_sapphire)->setIconName(L"sapphireChestplate")->setDescriptionId(IDS_ITEM_CHESTPLATE_SAPPHIRE)->setUseDescriptionId(IDS_DESC_CHESTPLATE_IRON));
+	Item::sapphireLeggings = static_cast<ArmorItem*>((new ArmorItem(218, ArmorItem::ArmorMaterial::SAPPHIRE, 6, ArmorItem::SLOT_LEGS))->setBaseItemTypeAndMaterial(eBaseItemType_leggings, eMaterial_sapphire)->setIconName(L"sapphireLeggings")->setDescriptionId(IDS_ITEM_LEGGINGS_SAPPHIRE)->setUseDescriptionId(IDS_DESC_LEGGINGS_IRON));
+	Item::sapphireBoots = static_cast<ArmorItem*>((new ArmorItem(219, ArmorItem::ArmorMaterial::SAPPHIRE, 6, ArmorItem::SLOT_FEET))->setBaseItemTypeAndMaterial(eBaseItemType_boots, eMaterial_sapphire)->setIconName(L"sapphireBoots")->setDescriptionId(IDS_ITEM_BOOTS_SAPPHIRE)->setUseDescriptionId(IDS_DESC_BOOTS_IRON));
+	Item::sapphireSword = (new WeaponItem(220, _Tier::SAPPHIRE))->setBaseItemTypeAndMaterial(eBaseItemType_sword, eMaterial_sapphire)->setIconName(L"sapphireSword")->setDescriptionId(IDS_ITEM_SWORD_SAPPHIRE)->setUseDescriptionId(IDS_DESC_SWORD);
+	Item::sapphireShovel = (new ShovelItem(221, _Tier::SAPPHIRE))->setBaseItemTypeAndMaterial(eBaseItemType_shovel, eMaterial_sapphire)->setIconName(L"sapphireShovel")->setDescriptionId(IDS_ITEM_SHOVEL_SAPPHIRE)->setUseDescriptionId(IDS_DESC_SHOVEL);
+	Item::sapphirePickaxe = (new PickaxeItem(222, _Tier::SAPPHIRE))->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe, eMaterial_sapphire)->setIconName(L"sapphirePickaxe")->setDescriptionId(IDS_ITEM_PICKAXE_SAPPHIRE)->setUseDescriptionId(IDS_DESC_PICKAXE);
+	Item::sapphireHatchet = (new HatchetItem(223, _Tier::SAPPHIRE))->setBaseItemTypeAndMaterial(eBaseItemType_hatchet, eMaterial_sapphire)->setIconName(L"sapphireHatchet")->setDescriptionId(IDS_ITEM_HATCHET_SAPPHIRE)->setUseDescriptionId(IDS_DESC_HATCHET);
+	Item::sapphireHoe = (new HoeItem(224, _Tier::SAPPHIRE))->setBaseItemTypeAndMaterial(eBaseItemType_hoe, eMaterial_sapphire)->setIconName(L"sapphireHoe")->setDescriptionId(IDS_ITEM_HOE_SAPPHIRE)->setUseDescriptionId(IDS_DESC_HOE);
+
+	//Item::oxygenVent = (new Item(225))->setBaseItemTypeAndMaterial(eBaseItemType_oxygenIngr, eMaterial_iron)->setIconName(L"oxygenVent")->setDescriptionId(IDS_ITEM_OXYGEN_VENT)->setUseDescriptionId(IDS_DESC_OXYGEN_INGREDIENT);
+	//Item::oxygenFan = (new Item(226))->setBaseItemTypeAndMaterial(eBaseItemType_oxygenIngr, eMaterial_iron)->setIconName(L"oxygenFan")->setDescriptionId(IDS_ITEM_OXYGEN_FAN)->setUseDescriptionId(IDS_DESC_OXYGEN_INGREDIENT);
+	//Item::oxygenConcentrator = (new Item(227))->setBaseItemTypeAndMaterial(eBaseItemType_oxygenIngr, eMaterial_iron)->setIconName(L"oxygenConcentrator")->setDescriptionId(IDS_ITEM_OXYGEN_CONCENTRATOR)->setUseDescriptionId(IDS_DESC_OXYGEN_INGREDIENT);
 }
 
 

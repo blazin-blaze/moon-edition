@@ -46,4 +46,5 @@ public:
 
 	// 4J Added
 	bool canEat(shared_ptr<Player> player);
+	bool isCannedFood();
 };

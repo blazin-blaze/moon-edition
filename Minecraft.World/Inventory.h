@@ -88,6 +88,9 @@ public:
 	shared_ptr<ItemInstance> getArmor(int layer);
 	shared_ptr<ItemInstance> getMask();
 	bool getOxygenSetup();
+	bool getOxygenTank();
+	bool getOxygenGear();
+	bool getOxygenMask();
 	bool getFrequencyModule();
 	int getArmorValue();
 	void hurtArmor(float dmg);

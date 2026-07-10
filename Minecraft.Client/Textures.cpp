@@ -43,10 +43,12 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"misc/mapbg",
 	L"misc/mapicons",
 	L"misc/water",
+	L"misc/oil",
 	L"misc/footprint",
 	L"mob/saddle",
 	L"mob/sheep_fur",
 	L"mob/spider_eyes",
+	L"mob/evolved_spider_eyes",
 	L"particles",
 	L"mob/chicken",
 	L"mob/cow",
@@ -60,10 +62,13 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"mob/ghast",
 	L"mob/ghast_fire",
 	L"mob/zombie",
+	L"mob/evolved_zombie",
 	L"mob/pigzombie",
 	L"mob/skeleton",
+	L"mob/evolved_skeleton",
 	L"mob/slime",
 	L"mob/spider",
+	L"mob/evolved_spider",
 	L"mob/char",
 	L"mob/char1",
 	L"mob/char2",
@@ -75,6 +80,8 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"terrain/moon",
 	L"terrain/sun",
 	L"armor/power",
+	L"mob/oxygen_setup",
+	L"mob/frequency_module",
 
 	// 1.8.2
 	L"mob/cavespider",
@@ -102,6 +109,9 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"mob/villager/priest",
 	L"mob/villager/smith",
 	L"mob/villager/butcher",
+	L"mob/villager/alien_villager",
+	L"mob/villager/alien_villager_smith",
+	L"mob/villager/alien_villager_tinkerer",
 	L"mob/enderdragon/crystal",
 	L"mob/enderdragon/shuffle",
 	L"mob/enderdragon/beam",
@@ -112,6 +122,7 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"misc/particlefield",
 	L"terrain/moon_phases",
 	L"terrain/earth_phases",
+	L"terrain/earth",
 
 	// 1.2.3
 	L"mob/ozelot",
@@ -120,6 +131,8 @@ const wchar_t *Textures::preLoaded[TN_COUNT] =
 	L"mob/cat_siamese",
 	L"mob/villager_golem",
 	L"mob/rocket",
+	L"mob/rocket_fuel",
+	L"mob/buggy",
 	L"mob/lunar_friend",
 	L"mob/skeleton_wither",
 
@@ -602,7 +615,8 @@ int Textures::loadTexture(TEXTURE_NAME texId, const wstring& resourceName)
 		(resourceName == L"%clamp%misc/shadow.png") ||
 		(resourceName == L"gui/icons.png" ) ||
 		(resourceName == L"gui/gui.png" ) ||
-		(resourceName == L"misc/footprint.png") )
+		(resourceName == L"misc/footprint.png") ||
+		(resourceName == L"misc/gc_footprint.png"))
 	{
 		MIPMAP = false;
 	}

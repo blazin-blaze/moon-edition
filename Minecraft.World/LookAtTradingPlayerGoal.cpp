@@ -6,14 +6,25 @@
 LookAtTradingPlayerGoal::LookAtTradingPlayerGoal(Villager *villager) : LookAtPlayerGoal(static_cast<Mob *>(villager), typeid(Player), 8)
 {
 	this->villager = villager;
+	this->alienVillager = nullptr;
+}
+
+LookAtTradingPlayerGoal::LookAtTradingPlayerGoal(AlienVillager* alienVillager) : LookAtPlayerGoal(static_cast<Mob*>(alienVillager), typeid(Player), 8)
+{
+	this->alienVillager = alienVillager;
+	this->villager = nullptr;
 }
 
 bool LookAtTradingPlayerGoal::canUse()
 {
-	if (villager->isTrading())
-	{
+	if (villager != nullptr && villager->isTrading()) {
 		lookAt = weak_ptr<Entity>(dynamic_pointer_cast<Entity>(villager->getTradingPlayer()));
 		return true;
 	}
+	else if (alienVillager != nullptr && alienVillager->isTrading()) {
+		lookAt = weak_ptr<Entity>(dynamic_pointer_cast<Entity>(alienVillager->getTradingPlayer()));
+		return true;
+	}
+	
 	return false;
 }

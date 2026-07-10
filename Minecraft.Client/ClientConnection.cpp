@@ -596,6 +596,9 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 	case AddEntityPacket::ROCKET:
 		e = std::make_shared<Rocket>(level, x, y, z);
 		break;
+	case AddEntityPacket::BUGGY:
+		e = std::make_shared<Buggy>(level, x, y, z);
+		break;
 #ifndef _FINAL_BUILD
 	default:
 		// Not a known entity (?)
@@ -1270,7 +1273,9 @@ void ClientConnection::handleChunkTilesUpdate(shared_ptr<ChunkTilesUpdatePacket>
 				  ( ( prevTile == Tile::calmWater_Id )  && ( tile == Tile::water_Id ) )		||
 				  ( ( prevTile == Tile::lava_Id )		&& ( tile == Tile::calmLava_Id ) )	||
 				  ( ( prevTile == Tile::calmLava_Id )	&& ( tile == Tile::calmLava_Id ) ) ||
-				  ( ( prevTile == Tile::calmLava_Id )	&& ( tile == Tile::lava_Id ) ) ) )
+				  ( ( prevTile == Tile::calmLava_Id )	&& ( tile == Tile::lava_Id ) ) ||
+				((prevTile == Tile::oil_Id) && (tile == Tile::calmOil_Id)) ||
+				((prevTile == Tile::calmOil_Id) && (tile == Tile::oil_Id)) ) )
 			{
 				dimensionLevel->setTilesDirty(x + xo, y, z + zo, x + xo, y, z + zo);
 			}
@@ -1417,7 +1422,6 @@ void ClientConnection::handleDisconnect(shared_ptr<DisconnectPacket> packet)
 	app.SetAction(m_userIndex,eAppAction_ExitWorld,(void *)TRUE);
 	//minecraft->setLevel(nullptr);
    //minecraft->setScreen(new DisconnectedScreen(L"disconnect.disconnected", L"disconnect.genericReason", &packet->reason));
-
 }
 
 void ClientConnection::onDisconnect(DisconnectPacket::eDisconnectReason reason, void *reasonObjects)
@@ -2580,6 +2584,8 @@ void ClientConnection::handleEntityLinkPacket(shared_ptr<SetEntityLinkPacket> pa
 			sourceEntity = Minecraft::GetInstance()->localplayers[m_userIndex];
 
 			if (destEntity != nullptr && destEntity->instanceof(eTYPE_BOAT)) (dynamic_pointer_cast<Boat>(destEntity))->setDoLerp(false);
+			if (destEntity != nullptr && destEntity->instanceof(eTYPE_ROCKET)) (dynamic_pointer_cast<Rocket>(destEntity))->setDoLerp(false);
+			//if (destEntity != nullptr && destEntity->instanceof(eTYPE_BUGGY)) (dynamic_pointer_cast<Buggy>(destEntity))->setDoLerp(false);
 
 			displayMountMessage = (sourceEntity->riding == nullptr && destEntity != nullptr);
 		}
@@ -2587,6 +2593,12 @@ void ClientConnection::handleEntityLinkPacket(shared_ptr<SetEntityLinkPacket> pa
 		{
 			(dynamic_pointer_cast<Boat>(destEntity))->setDoLerp(true);
 		}
+		else if (destEntity != nullptr && destEntity->instanceof(eTYPE_ROCKET)) {
+			(dynamic_pointer_cast<Rocket>(destEntity))->setDoLerp(true);
+		}
+		/*else if (destEntity != nullptr && destEntity->instanceof(eTYPE_BUGGY)) {
+			(dynamic_pointer_cast<Buggy>(destEntity))->setDoLerp(true);
+		}*/
 
 		if (sourceEntity == nullptr) return;
 
@@ -3028,11 +3040,13 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 	case ContainerOpenPacket::ENDER_CHEST:
 	case ContainerOpenPacket::CONTAINER:
 	case ContainerOpenPacket::MINECART_CHEST:
+	case ContainerOpenPacket::BUGGY_STORAGE:
 		{
 			int chestString;
 			switch (packet->type)
 			{
 			case ContainerOpenPacket::MINECART_CHEST:	chestString = IDS_ITEM_MINECART;	break;
+			case ContainerOpenPacket::BUGGY_STORAGE:	chestString = IDS_BUGGY;	break;
 			case ContainerOpenPacket::BONUS_CHEST:		chestString = IDS_BONUS_CHEST;		break;
 			case ContainerOpenPacket::LARGE_CHEST:		chestString = IDS_CHEST_LARGE;		break;
 			case ContainerOpenPacket::ENDER_CHEST:		chestString = IDS_TILE_ENDERCHEST;	break;
@@ -3078,6 +3092,20 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 			}
 		}
 		break;
+	/*case ContainerOpenPacket::OXYGENATOR:
+	{
+		shared_ptr<OxygenatorTileEntity> oxygenator = std::make_shared<OxygenatorTileEntity>();
+		if (packet->customName) oxygenator->setCustomName(packet->title);
+		if (player->openOxygenator(oxygenator))
+		{
+			player->containerMenu->containerId = packet->containerId;
+		}
+		else
+		{
+			failed = true;
+		}
+	}
+	break;*/
 	case ContainerOpenPacket::BREWING_STAND:
 		{
 			shared_ptr<BrewingStandTileEntity> brewingStand = std::make_shared<BrewingStandTileEntity>();
@@ -3135,6 +3163,18 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 			}
 		}
 		break;
+	case ContainerOpenPacket::SPACE_WORKBENCH:
+	{
+		if (player->startSpaceCrafting(Mth::floor(player->x), Mth::floor(player->y), Mth::floor(player->z)))
+		{
+			player->containerMenu->containerId = packet->containerId;
+		}
+		else
+		{
+			failed = true;
+		}
+	}
+	break;
 	case ContainerOpenPacket::ENCHANTMENT:
 		{
 			if( player->startEnchanting(Mth::floor(player->x), Mth::floor(player->y), Mth::floor(player->z), packet->customName ? packet->title : L"") )
@@ -3737,6 +3777,21 @@ void ClientConnection::handlePlayerAbilities(shared_ptr<PlayerAbilitiesPacket> p
 void ClientConnection::handleSoundEvent(shared_ptr<LevelSoundPacket> packet)
 {
 	minecraft->level->playLocalSound(packet->getX(), packet->getY(), packet->getZ(), packet->getSound(), packet->getVolume(), packet->getPitch(), false);
+}
+
+void ClientConnection::handleRocketSoundEvent(shared_ptr<LevelRocketSoundPacket> packet)
+{
+	minecraft->level->playRocketLocalSound(packet->getX(), packet->getY(), packet->getZ(), packet->getRocketId());
+}
+
+void ClientConnection::handleRocketSoundMoveEvent(shared_ptr<LevelRocketSoundMovePacket> packet)
+{
+	minecraft->level->moveRocketSound(packet->getX(), packet->getY(), packet->getZ(), packet->getRocketId());
+}
+
+void ClientConnection::handleRocketSoundRemoveEvent(shared_ptr<LevelRocketSoundRemovePacket> packet)
+{
+	minecraft->level->removeRocketSound(packet->getRocketId());
 }
 
 void ClientConnection::handleCustomPayload(shared_ptr<CustomPayloadPacket> customPayloadPacket)

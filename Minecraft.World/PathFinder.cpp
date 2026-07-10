@@ -222,7 +222,7 @@ int PathFinder::isFree(Entity *entity, int x, int y, int z, Node *size, bool avo
 					if (avoidWater) return TYPE_WATER;
 					else walkable = true;
 				}
-				else if (!canPassDoors && tileId == Tile::door_wood_Id)
+				else if (!canPassDoors && (tileId == Tile::door_wood_Id || tileId == Tile::quartzDoor_Id))
 				{
 					return TYPE_BLOCKED;
 				}
@@ -247,10 +247,10 @@ int PathFinder::isFree(Entity *entity, int x, int y, int z, Node *size, bool avo
 				}
 
 				if (tile->isPathfindable(entity->level, xx, yy, zz)) continue;
-				if (canOpenDoors && tileId == Tile::door_wood_Id) continue;
+				if (canOpenDoors && (tileId == Tile::door_wood_Id || tileId == Tile::quartzDoor_Id)) continue;
 
 				int renderShape = tile->getRenderShape();
-				if (renderShape == Tile::SHAPE_FENCE || tileId == Tile::fenceGate_Id || renderShape == Tile::SHAPE_WALL) return TYPE_FENCE;
+				if (renderShape == Tile::SHAPE_FENCE || tileId == Tile::fenceGate_Id || tileId == Tile::quartzFenceGate_Id || renderShape == Tile::SHAPE_WALL) return TYPE_FENCE;
 				if (tileId == Tile::trapdoor_Id) return TYPE_TRAP;
 				Material *m = tile->material;
 				if (m == Material::lava)

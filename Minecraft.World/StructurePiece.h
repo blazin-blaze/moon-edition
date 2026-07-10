@@ -135,4 +135,5 @@ public:
 
 protected:
 	void createDoor(Level *level, BoundingBox *chunkBB, Random *random, int x, int y, int z, int orientation);
+	void createQuartzDoor(Level* level, BoundingBox* chunkBB, Random* random, int x, int y, int z, int orientation);
 };

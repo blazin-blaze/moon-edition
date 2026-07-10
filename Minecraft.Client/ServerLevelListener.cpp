@@ -66,6 +66,21 @@ void ServerLevelListener::playSound(int iSound, double x, double y, double z, fl
 	}
 }
 
+void ServerLevelListener::playRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist)
+{
+	server->getPlayers()->broadcast(x, y, z, 16, level->dimension->id, std::make_shared<LevelRocketSoundPacket>(x, y, z, rocketId));
+}
+
+void ServerLevelListener::moveRocketSound(double x, double y, double z, int rocketId)
+{
+	server->getPlayers()->broadcast(x, y, z, 16, level->dimension->id, std::make_shared<LevelRocketSoundMovePacket>(x, y, z, rocketId));
+}
+
+void ServerLevelListener::removeRocketSound(double x, double y, double z, int rocketId)
+{
+	server->getPlayers()->broadcastAll(std::make_shared<LevelRocketSoundRemovePacket>(rocketId));
+}
+
 void ServerLevelListener::playSoundExceptPlayer(shared_ptr<Player> player, int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist)
 {
 	if(iSound < 0)

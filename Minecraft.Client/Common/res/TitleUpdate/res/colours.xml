@@ -135,6 +135,9 @@
   <colour name="Material_Water" value="4040ff"/>
   <colour name="Material_Wood" value="685332"/>
   <colour name="Material_Emerald" value="ffffff"/> <!-- TODO -->
+  <colour name="Material_Fuel" value="e9e338"/>
+  <colour name="Material_Oil" value="3b3b3b"/>
+  <colour name="Material_Quartz" value="EFEDE6"/>
   
   <!-- Noteblock note particle colours -->  
 <!--
@@ -273,13 +276,16 @@ if __name__=="__main__": notecolors()
   <colour name="Mob_Witch_Colour2" value="51a03e"/>
   <colour name="Mob_Horse_Colour1" value="C09E7D"/>
   <colour name="Mob_Horse_Colour2" value="EEE500"/>
-  <colour name="Mob_Lunar_Colour1" value="191919"/>
-  <colour name="Mob_Lunar_Colour2" value="E9E9E9"/>
+  <colour name="Mob_Lunar_Colour1" value="6791B5"/>
+  <colour name="Mob_Lunar_Colour2" value="B93211"/>
+  <colour name="Mob_Evolved_Colour1" value="080f08"/>
+  <colour name="Mob_Evolved_Colour2" value="17b317"/>
 
   <colour name="Armour_Default_Leather_Colour" value="A06540"/>
 
   <colour name="Under_Water_Clear_Colour" value="050533"/>
   <colour name="Under_Lava_Clear_Colour" value="991900"/>
+  <colour name="Under_Oil_Clear_Colour" value="050505"/>
   <colour name="In_Cloud_Base_Colour" value="FFFFFF"/>
 
   <colour name="Under_Water_Fog_Colour" value="6666E6"/>

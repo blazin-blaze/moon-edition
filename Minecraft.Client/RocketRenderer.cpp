@@ -7,6 +7,7 @@
 #include "..\Minecraft.World\Rocket.h"
 
 ResourceLocation RocketRenderer::ROCKET_LOCATION = ResourceLocation(TN_MOB_ROCKET);
+ResourceLocation RocketRenderer::ROCKET_FUEL_LOCATION = ResourceLocation(TN_MOB_ROCKET_FUEL);
 
 RocketRenderer::RocketRenderer() : EntityRenderer()
 {
@@ -35,5 +36,11 @@ void RocketRenderer::render(shared_ptr<Entity> mob, double x, double y, double z
 
 ResourceLocation* RocketRenderer::getTextureLocation(shared_ptr<Entity> mob)
 {
-	return &ROCKET_LOCATION;
+	shared_ptr<Rocket> rocket = dynamic_pointer_cast<Rocket>(mob);
+	if (rocket != nullptr && rocket->getFueled()) {
+		return &ROCKET_FUEL_LOCATION;
+	}
+	else {
+		return &ROCKET_LOCATION;
+	}
 }

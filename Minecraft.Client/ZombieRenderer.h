@@ -3,15 +3,19 @@
 
 class VillagerZombieModel;
 class Zombie;
+class OxygenSetupModel;
 
 class ZombieRenderer : public HumanoidMobRenderer
 {
 private:
 	static ResourceLocation ZOMBIE_PIGMAN_LOCATION;
     static ResourceLocation ZOMBIE_LOCATION;
+	static ResourceLocation EVOLVED_ZOMBIE_LOCATION;
     static ResourceLocation ZOMBIE_VILLAGER_LOCATION;
+	static ResourceLocation OXYGEN_SETUP_LOCATION;
 
 	HumanoidModel *defaultModel;
+	OxygenSetupModel *oxygenSetup;
 	VillagerZombieModel *villagerModel;
 
 protected:
@@ -27,6 +31,7 @@ public:
 	ZombieRenderer();
 
 protected:
+	virtual void scale(shared_ptr<LivingEntity> mob, float a);
 	virtual void createArmorParts();
 	virtual int prepareArmor(shared_ptr<LivingEntity> _mob, int layer, float a);
 
@@ -42,4 +47,5 @@ private:
 
 protected:
 	virtual void setupRotations(shared_ptr<LivingEntity> _mob, float bob, float bodyRot, float a);
+	virtual void renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a);
 };

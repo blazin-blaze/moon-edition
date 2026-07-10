@@ -17,10 +17,12 @@ MaterialColor *MaterialColor::dirt = nullptr;
 MaterialColor *MaterialColor::stone = nullptr;
 MaterialColor *MaterialColor::water = nullptr;
 MaterialColor *MaterialColor::wood = nullptr;
+MaterialColor* MaterialColor::oil = nullptr;
+MaterialColor* MaterialColor::quartz = nullptr;
 
 void MaterialColor::staticCtor()
 {
-	MaterialColor::colors = new MaterialColor *[16];
+	MaterialColor::colors = new MaterialColor *[20];
 
 	MaterialColor::none = new MaterialColor(0, eMinecraftColour_Material_None);
 	MaterialColor::grass = new MaterialColor(1, eMinecraftColour_Material_Grass);
@@ -36,6 +38,8 @@ void MaterialColor::staticCtor()
 	MaterialColor::stone = new MaterialColor(11, eMinecraftColour_Material_Stone);
 	MaterialColor::water = new MaterialColor(12, eMinecraftColour_Material_Water);
 	MaterialColor::wood = new MaterialColor(13, eMinecraftColour_Material_Wood);
+	MaterialColor::oil = new MaterialColor(14, eMinecraftColour_Material_Oil);
+	MaterialColor::quartz = new MaterialColor(17, eMinecraftColour_Material_Quartz);
 }
 
 MaterialColor::MaterialColor(int id, eMinecraftColour col)

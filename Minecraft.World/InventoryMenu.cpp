@@ -53,9 +53,6 @@ void InventoryMenu::_init(shared_ptr<Inventory> inventory, bool active)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		// 4J Stu I removed an anonymous class that was here whose only purpose seemed to be a way of using the
-		// loop counter i within the functions, rather than making it a member of the object. I have moved all that
-		// out to the ArmorSlot class
 		addSlot(new SpaceSlot(i, inventory, inventory->getContainerSize() - 1 - i, 8 + 18, 8 + i * 18));
 	}
 	for (int y = 0; y < 3; y++)
@@ -110,6 +107,10 @@ shared_ptr<ItemInstance> InventoryMenu::quickMoveStack(shared_ptr<Player> player
 	Slot *LeggingsSlot = slots.at(ARMOR_SLOT_START+2);
 	Slot *BootsSlot = slots.at(ARMOR_SLOT_START+3);
 
+	Slot* FrequencyModSlot = slots.at(SPACE_SLOT_START);
+	Slot* OxygenMaskSlot = slots.at(SPACE_SLOT_START+1);
+	Slot* OxygenGearSlot = slots.at(SPACE_SLOT_START+2);
+	Slot* OxygenTankSlot = slots.at(SPACE_SLOT_START+3);
 
 	if (slot != nullptr && slot->hasItem())
 	{
@@ -156,6 +157,34 @@ shared_ptr<ItemInstance> InventoryMenu::quickMoveStack(shared_ptr<Player> player
 					return nullptr;
 				}
 			}
+			else if (stack->id == Item::frequencyModule_Id && (!FrequencyModSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START, SPACE_SLOT_START + 1, false))
+				{
+					return nullptr;
+				}
+			}
+			else if (stack->id == Item::oxygenMask_Id && (!OxygenMaskSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 1, SPACE_SLOT_START + 2, false))
+				{
+					return nullptr;
+				}
+			}
+			else if (stack->id == Item::oxygenGear_Id && (!OxygenGearSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 2, SPACE_SLOT_START + 3, false))
+				{
+					return nullptr;
+				}
+			}
+			else if (stack->id == Item::oxygenTank_Id && (!OxygenTankSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 3, SPACE_SLOT_START + 4, false))
+				{
+					return nullptr;
+				}
+			}
 			// 4J Stu - Brought forward change from 1.2
 			else if(!moveItemStackTo(stack, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false))
 			{
@@ -193,7 +222,35 @@ shared_ptr<ItemInstance> InventoryMenu::quickMoveStack(shared_ptr<Player> player
 				{
 					return nullptr;
 				}
+			}else if (stack->id == Item::frequencyModule_Id && (!FrequencyModSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START, SPACE_SLOT_START + 1, false))
+				{
+					return nullptr;
+				}
 			}
+			else if (stack->id == Item::oxygenMask_Id && (!OxygenMaskSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 1, SPACE_SLOT_START + 2, false))
+				{
+					return nullptr;
+				}
+			}
+			else if (stack->id == Item::oxygenGear_Id && (!OxygenGearSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 2, SPACE_SLOT_START + 3, false))
+				{
+					return nullptr;
+				}
+			}
+			else if (stack->id == Item::oxygenTank_Id && (!OxygenTankSlot->hasItem()))
+			{
+				if (!moveItemStackTo(stack, SPACE_SLOT_START + 3, SPACE_SLOT_START + 4, false))
+				{
+					return nullptr;
+				}
+			}
+
 			// 4J Stu - Brought forward change from 1.2
 			else if(!moveItemStackTo(stack, INV_SLOT_START, INV_SLOT_END, false))
 			{

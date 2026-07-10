@@ -87,3 +87,6 @@
 #include "HtmlString.h"
 
 #include "RocketItem.h"
+#include "BuggyItem.h"
+#include "CannedFoodItem.h"
+#include "StringItem.h"

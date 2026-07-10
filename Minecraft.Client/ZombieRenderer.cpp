@@ -3,16 +3,21 @@
 #include "VillagerZombieModel.h"
 #include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
 #include "ZombieRenderer.h"
+#include "ModelPart.h"
+#include "OxygenSetupModel.h"
 
 ResourceLocation ZombieRenderer::ZOMBIE_PIGMAN_LOCATION(TN_MOB_PIGZOMBIE);
 ResourceLocation ZombieRenderer::ZOMBIE_LOCATION(TN_MOB_ZOMBIE);
+ResourceLocation ZombieRenderer::EVOLVED_ZOMBIE_LOCATION(TN_MOB_EVOLVED_ZOMBIE);
 ResourceLocation ZombieRenderer::ZOMBIE_VILLAGER_LOCATION(TN_MOB_ZOMBIE_VILLAGER);
+ResourceLocation ZombieRenderer::OXYGEN_SETUP_LOCATION(TN_MOB_OXYGEN_SETUP);
 
 ZombieRenderer::ZombieRenderer() : HumanoidMobRenderer(new ZombieModel(), .5f, 1.0f)
 {
 	modelVersion = 1;
 	defaultModel = humanoidModel;
 	villagerModel = new VillagerZombieModel();
+	oxygenSetup = nullptr;
 
 	defaultArmorParts1 = nullptr;
 	defaultArmorParts2 = nullptr;
@@ -62,6 +67,11 @@ ResourceLocation *ZombieRenderer::getTextureLocation(shared_ptr<Entity> entity)
         return &ZOMBIE_PIGMAN_LOCATION;
     }
 
+	if (entity->instanceof(eTYPE_EVOLVEDZOMBIE))
+	{
+		return &EVOLVED_ZOMBIE_LOCATION;
+	}
+
     if (mob->isVillager())
 	{
         return &ZOMBIE_VILLAGER_LOCATION;
@@ -109,4 +119,34 @@ void ZombieRenderer::setupRotations(shared_ptr<LivingEntity> _mob, float bob, fl
 		bodyRot += static_cast<float>(cos(mob->tickCount * 3.25) * PI * .25f);
 	}
 	HumanoidMobRenderer::setupRotations(mob, bob, bodyRot, a);
+}
+
+void ZombieRenderer::scale(shared_ptr<LivingEntity> mob, float a)
+{
+	if (mob->instanceof(eTYPE_EVOLVEDZOMBIE))
+	{
+		glScalef(1.2f, 1.2f, 1.2f);
+	}
+}
+
+void ZombieRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+	if (entity->dimension == 2 && !entity->instanceof(eTYPE_EVOLVEDZOMBIE)) {
+		if (oxygenSetup == nullptr) {
+			oxygenSetup = new OxygenSetupModel();
+		}
+
+		glPushMatrix();
+
+		defaultModel->body->translateTo(1 / 16.0f);
+
+		bindTexture(&OXYGEN_SETUP_LOCATION);
+		float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : entity->getBrightness(a);
+		glColor3f(brightness, brightness, brightness);
+		if (entity->getArmor(2)) {
+			glTranslatef(0.0f, 0.0f, 0.0325f);
+		}
+		oxygenSetup->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+		glPopMatrix();
+	}
 }

@@ -134,11 +134,13 @@ public:
 	bool			LoadCreativeMenu(int iPad,shared_ptr<LocalPlayer> player,bool bNavigateBack=false);
 	bool			LoadEnchantingMenu(int iPad,shared_ptr<Inventory> inventory, int x, int y, int z, Level *level, const wstring &name);
 	bool			LoadFurnaceMenu(int iPad,shared_ptr<Inventory> inventory, shared_ptr<FurnaceTileEntity> furnace);
+	//bool			LoadOxygenatorMenu(int iPad, shared_ptr<Inventory> inventory, shared_ptr<OxygenatorTileEntity> furnace);
 	bool			LoadBrewingStandMenu(int iPad,shared_ptr<Inventory> inventory, shared_ptr<BrewingStandTileEntity> brewingStand);
 	bool			LoadContainerMenu(int iPad,shared_ptr<Container> inventory, shared_ptr<Container> container);
 	bool			LoadTrapMenu(int iPad,shared_ptr<Container> inventory, shared_ptr<DispenserTileEntity> trap);
 	bool			LoadCrafting2x2Menu(int iPad,shared_ptr<LocalPlayer> player);
 	bool			LoadCrafting3x3Menu(int iPad,shared_ptr<LocalPlayer> player, int x, int y, int z);
+	bool			LoadSpaceCrafting3x3Menu(int iPad, shared_ptr<LocalPlayer> player, int x, int y, int z);
 	bool			LoadFireworksMenu(int iPad,shared_ptr<LocalPlayer> player, int x, int y, int z);
 	bool			LoadSignEntryMenu(int iPad,shared_ptr<SignTileEntity> sign);
 	bool			LoadRepairingMenu(int iPad,shared_ptr<Inventory> inventory, Level *level, int x, int y, int z);

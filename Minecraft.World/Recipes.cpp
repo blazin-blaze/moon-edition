@@ -138,6 +138,14 @@ Recipes::Recipes()
 		L'#', Item::stick, L'W', Tile::wood,
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Tile::quartzFenceGate, 1), //
+		L"ssciczg",
+		L"#W#", //
+		L"#W#", //
+
+		L'#', Item::netherQuartz, L'W', new ItemInstance(Tile::quartzBlock, 1, QuartzBlockTile::TYPE_CHISELED),
+		L'S');
+
 	addShapedRecipy(new ItemInstance(Tile::fence, 2), //
 		L"sscig",
 		L"###", //
@@ -152,6 +160,14 @@ Recipes::Recipes()
 		L"###", //
 
 		L'#', Tile::netherBrick,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::quartzFence, 6), //
+		L"ssczg",
+		L"###", //
+		L"###", //
+
+		L'#', new ItemInstance(Tile::quartzBlock, 1, QuartzBlockTile::TYPE_CHISELED),
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::ironFence, 16), //
@@ -194,6 +210,15 @@ Recipes::Recipes()
 		L"##", //
 
 		L'#', Item::ironIngot,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Item::quartzDoor, 1), //
+		L"ssscig",
+		L"##", //
+		L"##", //
+		L"##", //
+
+		L'#', Item::netherQuartz,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::stairs_wood, 4), //
@@ -575,9 +600,9 @@ Recipes::Recipes()
 
 	addShapedRecipy(new ItemInstance(Item::cheeseburger, 1), //
 		L"ssscicicig",
-		L"BBB", //
+		L" B ", //
 		L"CSC", //
-		L"BBB", //
+		L" B ", //
 
 		L'B', Item::bread,//
 		L'C', Item::cheese,//
@@ -716,6 +741,22 @@ Recipes::Recipes()
 		L"#", //
 
 		L'#', Item::stick, L'X', Item::redStone,
+		L'M');
+
+	addShapedRecipy(new ItemInstance(Item::basicWafer, 3), //
+		L"sscicictcig",
+		L"DST",
+		L" SR",
+
+		L'S', Item::rawSilicon, L'R', Item::redStone, L'T', Tile::redstoneTorch_on, L'D', Item::diamond,
+		L'M');
+
+	addShapedRecipy(new ItemInstance(Item::advancedWafer, 1), //
+		L"sscicicicig",
+		L"DST",
+		L" SR",
+
+		L'S', Item::rawSilicon, L'R', Item::redStone, L'T', Item::repeater, L'D', Item::diamond,
 		L'M');
 
 	addShapedRecipy(new ItemInstance(Item::repeater, 1), //
@@ -931,6 +972,15 @@ Recipes::Recipes()
 		L"###", //
 
 		L'#', Tile::wood, L'X', Item::book,
+		L'D');
+
+	addShapedRecipy(new ItemInstance(Tile::quartzBookshelf, 1), //
+		L"sssctcig",
+		L"###", //
+		L"XXX", //
+		L"###", //
+
+		L'#', Tile::quartzBlock, L'X', Item::book,
 		L'D');
 
 	addShapedRecipy(new ItemInstance(Item::painting, 1), //

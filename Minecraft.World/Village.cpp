@@ -22,6 +22,7 @@ Village::Village()
 	stableSince = 0;
 	_tick = 0;
 	populationSize = 0;
+	alienPopulationSize = 0;
 	golemCount = 0;
 	noBreedTimer = 0;
 
@@ -36,6 +37,7 @@ Village::Village(Level *level)
 	stableSince = 0;
 	_tick = 0;
 	populationSize = 0;
+	alienPopulationSize = 0;
 	golemCount = 0;
 	noBreedTimer = 0;
 
@@ -132,9 +134,12 @@ void Village::countPopulation()
 {
 	vector<shared_ptr<Entity> > *villagers = level->getEntitiesOfClass(typeid(Villager), AABB::newTemp(center->x - radius, center->y - 4, center->z - radius, center->x + radius, center->y + 4, center->z + radius));
 	populationSize = villagers->size();
+	vector<shared_ptr<Entity> >* alienVillagers = level->getEntitiesOfClass(typeid(AlienVillager), AABB::newTemp(center->x - radius, center->y - 4, center->z - radius, center->x + radius, center->y + 4, center->z + radius));
+	alienPopulationSize = alienVillagers->size();
+	delete alienVillagers;
 	delete villagers;
 
-	if (populationSize == 0)
+	if (populationSize == 0 && alienPopulationSize == 0)
 	{
 		// forget standing
 		playerStanding.clear();
@@ -164,6 +169,11 @@ int Village::getStableAge()
 int Village::getPopulationSize()
 {
 	return populationSize;
+}
+
+int Village::getAlienPopulationSize()
+{
+	return alienPopulationSize;
 }
 
 bool Village::isInside(int xx, int yy, int zz)
@@ -346,7 +356,7 @@ bool Village::isDoor(int x, int y, int z)
 {
 	int tileId = level->getTile(x, y, z);
 	if (tileId <= 0) return false;
-	return tileId == Tile::door_wood_Id;
+	return tileId == Tile::door_wood_Id || tileId == Tile::quartzDoor_Id;
 }
 
 void Village::calcInfo()
@@ -405,6 +415,7 @@ bool Village::isVeryBadStanding(const wstring playerName)
 void Village::readAdditionalSaveData(CompoundTag *tag)
 {
 	populationSize = tag->getInt(L"PopSize");
+	alienPopulationSize = tag->getInt(L"AlienPopSize");
 	radius = tag->getInt(L"Radius");
 	golemCount = tag->getInt(L"Golems");
 	stableSince = tag->getInt(L"Stable");
@@ -437,6 +448,7 @@ void Village::readAdditionalSaveData(CompoundTag *tag)
 void Village::addAdditonalSaveData(CompoundTag *tag)
 {
 	tag->putInt(L"PopSize", populationSize);
+	tag->putInt(L"AlienPopSize", alienPopulationSize);
 	tag->putInt(L"Radius", radius);
 	tag->putInt(L"Golems", golemCount);
 	tag->putInt(L"Stable", stableSince);

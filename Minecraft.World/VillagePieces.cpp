@@ -273,7 +273,7 @@ VillagePieces::VillagePiece::VillagePiece()
 	// for reflection
 }
 
-VillagePieces::VillagePiece::VillagePiece(StartPiece *startPiece, int genDepth) : StructurePiece(genDepth)
+VillagePieces::VillagePiece::VillagePiece(StartPiece *startPiece, int genDepth, BiomeSource *biomeSource, int west, int north) : StructurePiece(genDepth)
 {
 	heightPosition = -1;
 	isDesertVillage = false;
@@ -284,6 +284,10 @@ VillagePieces::VillagePiece::VillagePiece(StartPiece *startPiece, int genDepth) 
 	{
 		this->isDesertVillage = startPiece->isDesertVillage;
 		this->isLunarVillage = startPiece->isLunarVillage;
+	}
+	else if(biomeSource != nullptr){
+		Biome* biome = biomeSource->getBiome(west, north);
+		this->isLunarVillage = biome == Biome::moon;
 	}
 }
 
@@ -397,9 +401,9 @@ void VillagePieces::VillagePiece::spawnVillagers(Level *level, BoundingBox *chun
 			spawnedVillagerCount++;
 
 			if (isLunarVillage) {
-				shared_ptr<LunarFriend> lunarFriend = std::make_shared<LunarFriend>(level);
-				lunarFriend->moveTo(worldX + 0.5, worldY, worldZ + 0.5, 0, 0);
-				level->addEntity(lunarFriend);
+				shared_ptr<AlienVillager> alienVillager = std::make_shared<AlienVillager>(level, getVillagerProfession(i));
+				alienVillager->moveTo(worldX + 0.5, worldY, worldZ + 0.5, 0, 0);
+				level->addEntity(alienVillager);
 			}
 			else {
 				shared_ptr<Villager> villager = std::make_shared<Villager>(level, getVillagerProfession(i));
@@ -417,7 +421,12 @@ void VillagePieces::VillagePiece::spawnVillagers(Level *level, BoundingBox *chun
 
 int VillagePieces::VillagePiece::getVillagerProfession(int villagerNumber)
 {
-	return Villager::PROFESSION_FARMER;
+	if (isLunarVillage) {
+		return AlienVillager::PROFESSION_BUTCHER;
+	}
+	else {
+		return Villager::PROFESSION_FARMER;
+	}
 }
 
 int VillagePieces::VillagePiece::biomeBlock(int tile, int data)
@@ -473,7 +482,7 @@ int VillagePieces::VillagePiece::biomeBlock(int tile, int data)
 		}
 		else if (tile == Tile::gravel_Id)
 		{
-			return Tile::moonStone_Id;
+			return Tile::quartzBlock_Id;
 		}
 		else if (tile == Tile::dirt_Id)
 		{
@@ -481,7 +490,11 @@ int VillagePieces::VillagePiece::biomeBlock(int tile, int data)
 		}
 		else if (tile == Tile::fence_Id)
 		{
-			return Tile::ironFence_Id;
+			return Tile::quartzFence_Id;
+		}
+		else if (tile == Tile::ironFence_Id)
+		{
+			return Tile::quartzFence_Id;
 		}
 		else if (tile == Tile::thinGlass_Id)
 		{
@@ -494,6 +507,18 @@ int VillagePieces::VillagePiece::biomeBlock(int tile, int data)
 		else if (tile == Tile::torch_Id)
 		{
 			return Tile::glowstoneTorch_Id;
+		}
+		else if (tile == Tile::pressurePlate_wood_Id) {
+			return Tile::weightedPlate_heavy_Id;
+		}
+		else if (tile == Tile::pressurePlate_stone_Id) {
+			return Tile::weightedPlate_heavy_Id;
+		}
+		else if (tile == Tile::workBench_Id) {
+			return Tile::spaceWorkbench_Id;
+		}
+		else if (tile == Tile::bookshelf_Id) {
+			return Tile::quartzBookshelf_Id;
 		}
 	}
 	return tile;
@@ -534,6 +559,15 @@ int VillagePieces::VillagePiece::biomeData(int tile, int data)
 		{
 			return 8;
 		}
+		else if (tile == Tile::stoneSlabHalf_Id) {
+			return StoneSlabTile::QUARTZ_SLAB;
+		}
+		else if (tile == Tile::stoneSlab_Id) {
+			return StoneSlabTile::QUARTZ_SLAB;
+		}
+		else if (tile == Tile::gravel_Id) {
+			return QuartzBlockTile::TYPE_CHISELED;
+		}
 	}
 	return data;
 }
@@ -564,9 +598,10 @@ void VillagePieces::VillagePiece::fillColumnDown(Level *level, int block, int da
 VillagePieces::Well::Well()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::Well::Well(StartPiece *startPiece, int genDepth, Random *random, int west, int north) : VillagePiece(startPiece, genDepth)
+VillagePieces::Well::Well(StartPiece *startPiece, int genDepth, Random *random, int west, int north, BiomeSource *biomeSource) : VillagePiece(startPiece, genDepth, biomeSource, west, north)
 {
 	orientation = random->nextInt(4);
 
@@ -580,9 +615,11 @@ VillagePieces::Well::Well(StartPiece *startPiece, int genDepth, Random *random, 
 		boundingBox = new BoundingBox(west, 64, north, west + depth - 1, 64 + height - 1, north + width - 1);
 		break;
 	}
+	Biome* biome = biomeSource->getBiome(west, north);
+	this->isLunarVillage = biome == Biome::moon;
 }
 
-VillagePieces::Well::Well(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::Well::Well(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	orientation = direction;
 	boundingBox = stairsBox;
@@ -647,7 +684,7 @@ VillagePieces::StartPiece::StartPiece()
 	// for reflection
 }
 
-VillagePieces::StartPiece::StartPiece(BiomeSource *biomeSource, int genDepth, Random *random, int west, int north, list<PieceWeight *> *pieceSet, int villageSize, Level *level) : Well(nullptr, 0, random, west, north)
+VillagePieces::StartPiece::StartPiece(BiomeSource *biomeSource, int genDepth, Random *random, int west, int north, list<PieceWeight *> *pieceSet, int villageSize, Level *level) : Well(nullptr, 0, random, west, north, biomeSource)
 {
 	isLibraryAdded = false;		// 4J - added initialiser
 	previousPiece = nullptr;		// 4J - added initialiser
@@ -658,7 +695,7 @@ VillagePieces::StartPiece::StartPiece(BiomeSource *biomeSource, int genDepth, Ra
 
 	Biome *biome = biomeSource->getBiome(west, north);
 	isDesertVillage = biome == Biome::desert || biome == Biome::desertHills;
-	isLunarVillage = biome == Biome::moon;
+	this->isLunarVillage = biome == Biome::moon;
 }
 
 VillagePieces::StartPiece::~StartPiece()
@@ -795,8 +832,12 @@ bool VillagePieces::StraightRoad::postProcess(Level *level, Random *random, Boun
 		{
 			if (chunkBB->isInside(x, 64, z))
 			{
+				int data = 0;
+				if (random->nextBoolean()) {
+					data = biomeData(Tile::gravel_Id, 0);
+				}
 				int y = level->getTopSolidBlock(x, z) - 1;
-				level->setTileAndData(x, y, z,tile, 0, Tile::UPDATE_CLIENTS);
+				level->setTileAndData(x, y, z,tile, data, Tile::UPDATE_CLIENTS);
 			}
 		}
 	}
@@ -810,7 +851,7 @@ VillagePieces::SimpleHouse::SimpleHouse()
 	// for reflection
 }
 
-VillagePieces::SimpleHouse::SimpleHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth), hasTerrace(random->nextBoolean())
+VillagePieces::SimpleHouse::SimpleHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0), hasTerrace(random->nextBoolean())
 {
 	orientation = direction;
 	boundingBox = stairsBox;
@@ -946,13 +987,19 @@ bool VillagePieces::SimpleHouse::postProcess(Level *level, Random *random, Bound
 VillagePieces::SmallTemple::SmallTemple()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::SmallTemple::SmallTemple(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::SmallTemple::SmallTemple(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	heightPosition = -1; // 4J added initialiser
 	orientation = direction;
 	boundingBox = stairsBox;
+
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 VillagePieces::SmallTemple *VillagePieces::SmallTemple::createPiece(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int footX, int footY, int footZ, int direction, int genDepth)
@@ -1058,7 +1105,12 @@ bool VillagePieces::SmallTemple::postProcess(Level *level, Random *random, Bound
 	// entrance
 	placeBlock(level, 0, 0, 2, 1, 0, chunkBB);
 	placeBlock(level, 0, 0, 2, 2, 0, chunkBB);
-	createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	}
 	if (getBlock(level, 2, 0, -1, chunkBB) == 0 && getBlock(level, 2, -1, -1, chunkBB) != 0)
 	{
 		placeBlock(level, Tile::stairs_stone_Id, getOrientationData(Tile::stairs_stone_Id, 3), 2, 0, -1, chunkBB);
@@ -1082,19 +1134,29 @@ bool VillagePieces::SmallTemple::postProcess(Level *level, Random *random, Bound
 
 int VillagePieces::SmallTemple::getVillagerProfession(int villagerNumber)
 {
-	return Villager::PROFESSION_PRIEST;
+	if (isLunarVillage) {
+		return AlienVillager::PROFESSION_TINKERER;
+	}
+	else {
+		return Villager::PROFESSION_PRIEST;
+	}
 }
 
 VillagePieces::BookHouse::BookHouse()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::BookHouse::BookHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::BookHouse::BookHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	heightPosition = -1; // 4J added initialiser
 	orientation = direction;
 	boundingBox = stairsBox;
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 VillagePieces::BookHouse *VillagePieces::BookHouse::createPiece(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int footX, int footY, int footZ, int direction, int genDepth)
@@ -1200,7 +1262,12 @@ bool VillagePieces::BookHouse::postProcess(Level *level, Random *random, Boundin
 	// entrance
 	placeBlock(level, 0, 0, 1, 1, 0, chunkBB);
 	placeBlock(level, 0, 0, 1, 2, 0, chunkBB);
-	createDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	}
 	if (getBlock(level, 1, 0, -1, chunkBB) == 0 && getBlock(level, 1, -1, -1, chunkBB) != 0)
 	{
 		placeBlock(level, Tile::stairs_stone_Id, getOrientationData(Tile::stairs_stone_Id, 3), 1, 0, -1, chunkBB);
@@ -1223,20 +1290,30 @@ bool VillagePieces::BookHouse::postProcess(Level *level, Random *random, Boundin
 
 int VillagePieces::BookHouse::getVillagerProfession(int villagerNumber)
 {
-	return Villager::PROFESSION_LIBRARIAN;
+	if (isLunarVillage) {
+		return AlienVillager::PROFESSION_TINKERER;
+	}
+	else {
+		return Villager::PROFESSION_LIBRARIAN;
+	}
 }
 
 VillagePieces::SmallHut::SmallHut()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::SmallHut::SmallHut(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth), lowCeiling(random->nextBoolean()), tablePlacement(random->nextInt(3))
+VillagePieces::SmallHut::SmallHut(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0), lowCeiling(random->nextBoolean()), tablePlacement(random->nextInt(3))
 {
 	heightPosition = -1; // 4J added initialiser
 
 	orientation = direction;
 	boundingBox = stairsBox;
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 void VillagePieces::SmallHut::addAdditonalSaveData(CompoundTag *tag)
@@ -1326,7 +1403,12 @@ bool VillagePieces::SmallHut::postProcess(Level *level, Random *random, Bounding
 	// entrance
 	placeBlock(level, 0, 0, 1, 1, 0, chunkBB);
 	placeBlock(level, 0, 0, 1, 2, 0, chunkBB);
-	createDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 1, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	}
 	if (getBlock(level, 1, 0, -1, chunkBB) == 0 && getBlock(level, 1, -1, -1, chunkBB) != 0)
 	{
 		placeBlock(level, Tile::stairs_stone_Id, getOrientationData(Tile::stairs_stone_Id, 3), 1, 0, -1, chunkBB);
@@ -1350,12 +1432,17 @@ bool VillagePieces::SmallHut::postProcess(Level *level, Random *random, Bounding
 VillagePieces::PigHouse::PigHouse()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::PigHouse::PigHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::PigHouse::PigHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	orientation = direction;
 	boundingBox = stairsBox;
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 VillagePieces::PigHouse *VillagePieces::PigHouse::createPiece(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int footX, int footY, int footZ, int direction, int genDepth)
@@ -1455,7 +1542,12 @@ bool VillagePieces::PigHouse::postProcess(Level *level, Random *random, Bounding
 	placeBlock(level, 0, 0, 2, 1, 0, chunkBB);
 	placeBlock(level, 0, 0, 2, 2, 0, chunkBB);
 	placeBlock(level, Tile::torch_Id, 0, 2, 3, 1, chunkBB);
-	createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	}
 	if (getBlock(level, 2, 0, -1, chunkBB) == 0 && getBlock(level, 2, -1, -1, chunkBB) != 0)
 	{
 		placeBlock(level, Tile::stairs_stone_Id, getOrientationData(Tile::stairs_stone_Id, 3), 2, 0, -1, chunkBB);
@@ -1465,7 +1557,12 @@ bool VillagePieces::PigHouse::postProcess(Level *level, Random *random, Bounding
 	placeBlock(level, 0, 0, 6, 1, 5, chunkBB);
 	placeBlock(level, 0, 0, 6, 2, 5, chunkBB);
 	placeBlock(level, Tile::torch_Id, 0, 6, 3, 4, chunkBB);
-	createDoor(level, chunkBB, random, 6, 1, 5, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 6, 1, 5, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 6, 1, 5, getOrientationData(Tile::door_wood_Id, 1));
+	}
 
 	for (int z = 0; z < 5; z++)
 	{
@@ -1484,6 +1581,9 @@ bool VillagePieces::PigHouse::postProcess(Level *level, Random *random, Bounding
 
 int VillagePieces::PigHouse::getVillagerProfession(int villagerNumber)
 {
+	if (isLunarVillage) {
+		return Villager::PROFESSION_BUTCHER;
+	}
 	if (villagerNumber == 0)
 	{
 		return Villager::PROFESSION_BUTCHER;
@@ -1494,14 +1594,19 @@ int VillagePieces::PigHouse::getVillagerProfession(int villagerNumber)
 VillagePieces::TwoRoomHouse::TwoRoomHouse()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::TwoRoomHouse::TwoRoomHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::TwoRoomHouse::TwoRoomHouse(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	heightPosition = -1;	// 4J added initialiser
 
 	orientation = direction;
 	boundingBox = stairsBox;
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 VillagePieces::TwoRoomHouse *VillagePieces::TwoRoomHouse::createPiece(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int footX, int footY, int footZ, int direction, int genDepth)
@@ -1628,7 +1733,12 @@ bool VillagePieces::TwoRoomHouse::postProcess(Level *level, Random *random, Boun
 	placeBlock(level, 0, 0, 2, 1, 0, chunkBB);
 	placeBlock(level, 0, 0, 2, 2, 0, chunkBB);
 	placeBlock(level, Tile::torch_Id, 0, 2, 3, 1, chunkBB);
-	createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	if (isLunarVillage) {
+		createQuartzDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+	}
+	else {
+		createDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::door_wood_Id, 1));
+	}
 	generateBox(level, chunkBB, 1, 0, -1, 3, 2, -1, 0, 0, false);
 	if (getBlock(level, 2, 0, -1, chunkBB) == 0 && getBlock(level, 2, -1, -1, chunkBB) != 0) {
 		placeBlock(level, Tile::stairs_stone_Id, getOrientationData(Tile::stairs_stone_Id, 3), 2, 0, -1, chunkBB);
@@ -1684,14 +1794,19 @@ void VillagePieces::Smithy::staticCtor()
 VillagePieces::Smithy::Smithy()
 {
 	// for reflection
+	isLunarVillage = false;
 }
 
-VillagePieces::Smithy::Smithy(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::Smithy::Smithy(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	hasPlacedChest = false;
 
 	orientation = direction;
 	boundingBox = stairsBox;
+	if (startPiece != nullptr)
+	{
+		this->isLunarVillage = startPiece->isLunarVillage;
+	}
 }
 
 VillagePieces::Smithy *VillagePieces::Smithy::createPiece(StartPiece *startPiece, list<StructurePiece *> *pieces, Random *random, int footX, int footY, int footZ, int direction, int genDepth)
@@ -1819,7 +1934,12 @@ bool VillagePieces::Smithy::postProcess(Level *level, Random *random, BoundingBo
 
 int VillagePieces::Smithy::getVillagerProfession(int villagerNumber)
 {
-	return Villager::PROFESSION_SMITH;
+	if (isLunarVillage) {
+		return AlienVillager::PROFESSION_SMITH;
+	}
+	else {
+		return Villager::PROFESSION_SMITH;
+	}
 }
 
 VillagePieces::Farmland::Farmland()
@@ -1830,7 +1950,7 @@ VillagePieces::Farmland::Farmland()
 	// for reflection
 }
 
-VillagePieces::Farmland::Farmland(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::Farmland::Farmland(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	orientation = direction;
 	boundingBox = stairsBox;
@@ -1910,8 +2030,11 @@ bool VillagePieces::Farmland::postProcess(Level* level, Random* random, Bounding
 		generateBox(level, chunkBB, 0, 1, 0, 0, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
 		generateBox(level, chunkBB, 6, 1, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
 		generateBox(level, chunkBB, 1, 1, 0, 5, 3, 0, Tile::glass_Id, Tile::glass_Id, false);
-		generateBox(level, chunkBB, 1, 1, 8, 5, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
-		generateBox(level, chunkBB, 0, 3, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		generateBox(level, chunkBB, 1, 1, 8, 5, 3, 8, Tile::glass_Id, Tile::glass_Id, false); 
+		generateBox(level, chunkBB, 0, 3, 0, 6, 3, 8, Tile::glass_Id, Tile::glass_Id, false); 
+		placeBlock(level, 0, 0, 2, 1, 0, chunkBB); 
+		placeBlock(level, 0, 0, 2, 2, 0, chunkBB); 
+		createQuartzDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1)); 
 	}
 	// water
 	generateBox(level, chunkBB, 3, 0, 1, 3, 0, 7, Tile::water_Id, Tile::water_Id, false);
@@ -1947,7 +2070,7 @@ VillagePieces::DoubleFarmland::DoubleFarmland()
 	// for reflection
 }
 
-VillagePieces::DoubleFarmland::DoubleFarmland(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::DoubleFarmland::DoubleFarmland(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *stairsBox, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	heightPosition = -1;	// 4J added initialiser
 	orientation = direction;
@@ -2040,6 +2163,12 @@ bool VillagePieces::DoubleFarmland::postProcess(Level *level, Random *random, Bo
 		generateBox(level, chunkBB, 1, 1, 0, 11, 3, 0, Tile::glass_Id, Tile::glass_Id, false);
 		generateBox(level, chunkBB, 1, 1, 8, 11, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
 		generateBox(level, chunkBB, 0, 3, 0, 12, 3, 8, Tile::glass_Id, Tile::glass_Id, false);
+		placeBlock(level, 0, 0, 2, 1, 0, chunkBB);
+		placeBlock(level, 0, 0, 2, 2, 0, chunkBB);
+		createQuartzDoor(level, chunkBB, random, 2, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
+		placeBlock(level, 0, 0, 8, 1, 0, chunkBB);
+		placeBlock(level, 0, 0, 8, 2, 0, chunkBB);
+		createQuartzDoor(level, chunkBB, random, 8, 1, 0, getOrientationData(Tile::quartzDoor_Id, 1));
 	}
 	// water
 	generateBox(level, chunkBB, 3, 0, 1, 3, 0, 7, Tile::water_Id, Tile::water_Id, false);
@@ -2076,7 +2205,7 @@ VillagePieces::LightPost::LightPost()
 	// for reflection
 }
 
-VillagePieces::LightPost::LightPost(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *box, int direction) : VillagePiece(startPiece, genDepth)
+VillagePieces::LightPost::LightPost(StartPiece *startPiece, int genDepth, Random *random, BoundingBox *box, int direction) : VillagePiece(startPiece, genDepth, nullptr, 0, 0)
 {
 	heightPosition = -1;	// 4J - added initialiser
 	orientation = direction;

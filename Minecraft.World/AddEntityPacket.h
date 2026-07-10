@@ -28,6 +28,7 @@ public:
 	static const int LEASH_KNOT = 77;
 	static const int FISH_HOOK = 90;
 	static const int ROCKET = 91;
+	static const int BUGGY = 92;
 
 	// 4J Added TU9
 	static const int DRAGON_FIRE_BALL = 200;

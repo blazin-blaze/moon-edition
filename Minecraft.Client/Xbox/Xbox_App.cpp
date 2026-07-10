@@ -1671,7 +1671,9 @@ HRESULT CConsoleMinecraftApp::NavigateToScene(int iPad,EUIScene eScene, void *in
 		case eUIScene_PauseMenu:
 		case eUIScene_Crafting2x2Menu:
 		case eUIScene_Crafting3x3Menu:
+		case eUIScene_SpaceCrafting3x3Menu:
 		case eUIScene_FurnaceMenu:
+		//case eUIScene_OxygenatorMenu:
 		case eUIScene_ContainerMenu:
 		case eUIScene_LargeContainerMenu:
 		case eUIScene_InventoryMenu:
@@ -1854,7 +1856,9 @@ HRESULT CConsoleMinecraftApp::NavigateToScene(int iPad,EUIScene eScene, void *in
 		break;
 	case eUIScene_Crafting2x2Menu:
 	case eUIScene_Crafting3x3Menu:
+	case eUIScene_SpaceCrafting3x3Menu:
 	case eUIScene_FurnaceMenu:
+	//case eUIScene_OxygenatorMenu:
 	case eUIScene_ContainerMenu:
 	case eUIScene_LargeContainerMenu:
 	case eUIScene_InventoryMenu:

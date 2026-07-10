@@ -65,15 +65,21 @@ void BiomeDecorator::_init()
 	sandFeature = new SandFeature(7, Tile::sand_Id);
 	gravelFeature = new SandFeature(6, Tile::gravel_Id);
 	dirtOreFeature = new OreFeature(Tile::dirt_Id, 32);
+	moonDirtOreFeature = new OreFeature(Tile::moonDirt_Id, 32, Tile::moonStone_Id);
+	cheeseOreFeature = new OreFeature(Tile::cheeseOre_Id, 8, Tile::moonDirt_Id);
 	gravelOreFeature = new OreFeature(Tile::gravel_Id, 32);
 	coalOreFeature = new OreFeature(Tile::coalOre_Id, 16);
 	ironOreFeature = new OreFeature(Tile::ironOre_Id, 8);
+	copperOreFeature = new OreFeature(Tile::copperOre_Id, 8);
+	tinOreFeature = new OreFeature(Tile::tinOre_Id, 8);
+	aluminiumOreFeature = new OreFeature(Tile::aluminiumOre_Id, 8);
 	moonQuartzOreFeature = new OreFeature(Tile::moonQuartzOre_Id, 10, Tile::moonStone_Id);
 	goldOreFeature = new OreFeature(Tile::goldOre_Id, 8);
+	siliconOreFeature = new OreFeature(Tile::siliconOre_Id, 8);
 	sapphireOreFeature = new OreFeature(Tile::sapphireOre_Id, 8, Tile::moonStone_Id);
 	redStoneOreFeature = new OreFeature(Tile::redStoneOre_Id, 7);
 	diamondOreFeature = new OreFeature(Tile::diamondOre_Id, 7);
-	titaniumOreFeature = new OreFeature(Tile::titaniumOre_Id, 8, Tile::moonStone_Id);
+	titaniumOreFeature = new OreFeature(Tile::titaniumOre_Id, 7, Tile::moonStone_Id);
 	lapisOreFeature = new OreFeature(Tile::lapisOre_Id, 6);
 	yellowFlowerFeature = new FlowerFeature(Tile::flower_Id);
 	roseFlowerFeature = new FlowerFeature(Tile::rose_Id);
@@ -304,6 +310,16 @@ void BiomeDecorator::decorate()
 			lavaSpringFeature->place(level, random, x, y, z);
 		}
 		delete lavaSpringFeature;
+
+		SpringFeature* oilSpringFeature = new SpringFeature(Tile::oil_Id);
+		for (int i = 0; i < 10; i++)
+		{
+			int x = xo + random->nextInt(16) + 8;
+			int y = random->nextInt(random->nextInt(Level::genDepth - 8) + 8);
+			int z = zo + random->nextInt(16) + 8;
+			oilSpringFeature->place(level, random, x, y, z);
+		}
+		delete oilSpringFeature;
 	}
 	PIXEndNamedEvent();
 }
@@ -349,7 +365,11 @@ void BiomeDecorator::decorateOres()
 	decorateDepthSpan(10, gravelOreFeature, 0, Level::genDepth);
 	decorateDepthSpan(20, coalOreFeature, 0, Level::genDepth);
 	decorateDepthSpan(20, ironOreFeature, 0, Level::genDepth / 2);
+	decorateDepthSpan(20, copperOreFeature, 0, Level::genDepth / 2);
+	decorateDepthSpan(20, tinOreFeature, 0, Level::genDepth / 2);
+	decorateDepthSpan(20, aluminiumOreFeature, 0, Level::genDepth / 2);
 	decorateDepthSpan(2, goldOreFeature, 0, Level::genDepth / 4);
+	decorateDepthSpan(2, siliconOreFeature, 0, Level::genDepth / 4);
 	decorateDepthSpan(8, redStoneOreFeature, 0, Level::genDepth / 8);
 	decorateDepthSpan(1, diamondOreFeature, 0, Level::genDepth / 8);
 	decorateDepthAverage(1, lapisOreFeature, Level::genDepth / 8, Level::genDepth / 8);
@@ -359,8 +379,10 @@ void BiomeDecorator::decorateOres()
 void BiomeDecorator::decorateMoonOres()
 {
 	level->setInstaTick(true);		// 4J - optimisation
+	decorateDepthSpan(20, moonDirtOreFeature, 0, Level::genDepth);
+	decorateDepthSpan(30, cheeseOreFeature, 0, Level::genDepth / 2);
 	decorateDepthSpan(10, moonQuartzOreFeature, 0, Level::genDepth / 2);
-	decorateDepthSpan(2, sapphireOreFeature, 0, Level::genDepth / 4);
+	decorateDepthSpan(8, sapphireOreFeature, 0, Level::genDepth / 2);
 	decorateDepthSpan(1, titaniumOreFeature, 0, Level::genDepth / 4);
 	level->setInstaTick(false);
 }

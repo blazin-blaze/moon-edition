@@ -86,7 +86,7 @@ bool VillageSiege::tryToSetupSiege()
 		if (_village == nullptr) continue;
 		if (_village->getDoorCount() < 10) continue;
 		if (_village->getStableAge() < 20) continue;
-		if (_village->getPopulationSize() < 20) continue;
+		if (_village->getPopulationSize() < 20 && _village->getAlienPopulationSize() < 20) continue;
 
 		// setup siege origin
 		Pos *center = _village->getCenter();

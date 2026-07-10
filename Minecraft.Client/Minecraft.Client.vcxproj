@@ -5666,6 +5666,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="AbstractTexturePack.h" />
     <ClInclude Include="AchievementPopup.h" />
     <ClInclude Include="AchievementScreen.h" />
+    <ClInclude Include="AlienVillagerModel.h" />
+    <ClInclude Include="AlienVillagerRenderer.h" />
     <ClInclude Include="AllowAllCuller.h" />
     <ClInclude Include="ArchiveFile.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Xbox 360'">false</ExcludedFromBuild>
@@ -5689,6 +5691,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="BreakingItemParticle.h" />
     <ClInclude Include="BubbleParticle.h" />
     <ClInclude Include="BufferedImage.h" />
+    <ClInclude Include="BuggyModel.h" />
+    <ClInclude Include="BuggyRenderer.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CaveSpiderRenderer.h" />
@@ -6166,6 +6170,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="Common\UI\IUIScene_HUD.h" />
     <ClInclude Include="Common\UI\IUIScene_InventoryMenu.h" />
     <ClInclude Include="Common\UI\IUIScene_PauseMenu.h" />
+    <ClInclude Include="Common\UI\IUIScene_SpaceCraftingMenu.h" />
     <ClInclude Include="Common\UI\IUIScene_StartGame.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage|PSVita'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage_NO_TU|PSVita'">false</ExcludedFromBuild>
@@ -7860,6 +7865,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|PSVita'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='CONTENTPACKAGE_SYMBOLS|PSVita'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Common\UI\UIScene_SpaceCraftingMenu.h" />
     <ClInclude Include="Common\UI\UIScene_TeleportMenu.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Xbox 360'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage|Xbox 360'">true</ExcludedFromBuild>
@@ -10648,6 +10654,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="ExplodeParticle.h" />
     <ClInclude Include="extraX64client.h" />
     <ClInclude Include="FallingTileRenderer.h" />
+    <ClInclude Include="FierySmokeParticle.h" />
     <ClInclude Include="FileTexturePack.h" />
     <ClInclude Include="FireballRenderer.h" />
     <ClInclude Include="FireworksParticles.h" />
@@ -10656,6 +10663,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClInclude Include="FolderTexturePack.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FootstepParticle.h" />
+    <ClInclude Include="FrequencyModuleModel.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="FrustumCuller.h" />
     <ClInclude Include="FrustumData.h" />
@@ -10885,6 +10893,9 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage_Vita|Durango'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MushroomCowRenderer.h" />
+    <ClInclude Include="OilBubbleParticle.h" />
+    <ClInclude Include="OilDropParticle.h" />
+    <ClInclude Include="OilSplashParticle.h" />
     <ClInclude Include="Orbis\4JLibs\inc\4J_Input.h" />
     <ClInclude Include="Orbis\4JLibs\inc\4J_Profile.h" />
     <ClInclude Include="Orbis\4JLibs\inc\4J_Render.h" />
@@ -12758,6 +12769,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     </ClInclude>
     <ClInclude Include="OcelotModel.h" />
     <ClInclude Include="OcelotRenderer.h" />
+    <ClInclude Include="OxygenSetupModel.h" />
     <ClInclude Include="PendingConnection.h" />
     <ClInclude Include="PistonPieceRenderer.h" />
     <ClInclude Include="PlayerCloudParticle.h" />
@@ -28408,6 +28420,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="AbstractTexturePack.cpp" />
     <ClCompile Include="AchievementPopup.cpp" />
     <ClCompile Include="AchievementScreen.cpp" />
+    <ClCompile Include="AlienVillagerModel.cpp" />
+    <ClCompile Include="AlienVillagerRenderer.cpp" />
     <ClCompile Include="AllowAllCuller.cpp" />
     <ClCompile Include="ArchiveFile.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Xbox 360'">false</ExcludedFromBuild>
@@ -28431,6 +28445,8 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="BreakingItemParticle.cpp" />
     <ClCompile Include="BubbleParticle.cpp" />
     <ClCompile Include="BufferedImage.cpp" />
+    <ClCompile Include="BuggyModel.cpp" />
+    <ClCompile Include="BuggyRenderer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CaveSpiderRenderer.cpp" />
@@ -28908,6 +28924,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="Common\UI\IUIScene_HUD.cpp" />
     <ClCompile Include="Common\UI\IUIScene_InventoryMenu.cpp" />
     <ClCompile Include="Common\UI\IUIScene_PauseMenu.cpp" />
+    <ClCompile Include="Common\UI\IUIScene_SpaceCraftingMenu.cpp" />
     <ClCompile Include="Common\UI\IUIScene_StartGame.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage|PSVita'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage_NO_TU|PSVita'">false</ExcludedFromBuild>
@@ -30583,6 +30600,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|PSVita'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='CONTENTPACKAGE_SYMBOLS|PSVita'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Common\UI\UIScene_SpaceCraftingMenu.cpp" />
     <ClCompile Include="Common\UI\UIScene_TeleportMenu.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Xbox 360'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage|Xbox 360'">true</ExcludedFromBuild>
@@ -33720,6 +33738,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ContentPackage_NO_TU|Xbox 360'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="FallingTileRenderer.cpp" />
+    <ClCompile Include="FierySmokeParticle.cpp" />
     <ClCompile Include="FileTexturePack.cpp" />
     <ClCompile Include="FireballRenderer.cpp" />
     <ClCompile Include="FireworksParticles.cpp" />
@@ -33728,6 +33747,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="FolderTexturePack.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FootstepParticle.cpp" />
+    <ClCompile Include="FrequencyModuleModel.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="FrustumCuller.cpp" />
     <ClCompile Include="FrustumData.cpp" />
@@ -33995,6 +34015,9 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     <ClCompile Include="NameEntryScreen.cpp" />
     <ClCompile Include="NoteParticle.cpp" />
     <ClCompile Include="OffsettedRenderList.cpp" />
+    <ClCompile Include="OilBubbleParticle.cpp" />
+    <ClCompile Include="OilDropParticle.cpp" />
+    <ClCompile Include="OilSplashParticle.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="OptionsScreen.cpp" />
     <ClCompile Include="Orbis\Iggy\gdraw\gdraw_orbis.cpp">
@@ -34909,6 +34932,7 @@ xcopy /q /y /i /s /e $(ProjectDir)Durango\CU  $(LayoutDir)Image\Loose\CU</Comman
     </ClCompile>
     <ClCompile Include="OcelotModel.cpp" />
     <ClCompile Include="OcelotRenderer.cpp" />
+    <ClCompile Include="OyxgenSetupModel.cpp" />
     <ClCompile Include="PaintingRenderer.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEngine.cpp" />

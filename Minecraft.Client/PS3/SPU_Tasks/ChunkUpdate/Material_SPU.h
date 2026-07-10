@@ -40,7 +40,8 @@ public:
 	static const int buildable_glass_Id = 30;
 	static const int heavyMetal_Id = 31;
 	static const int clothDecoration_Id = 32;
-	static const int num_Ids = 32;
+	static const int oil_Id = 33;
+	static const int num_Ids = 33;
 
 	enum Flags
 	{

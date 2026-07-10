@@ -28,4 +28,5 @@ public:
 
 protected:
 	bool isSilkTouchable();
+	virtual int getSpawnResourcesAuxValue(int data);
 };

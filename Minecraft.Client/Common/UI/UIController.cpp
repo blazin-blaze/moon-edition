@@ -1922,6 +1922,7 @@ bool UIController::NavigateToScene(int iPad, EUIScene scene, void *initData, EUI
 		case eUIScene_PauseMenu:
 		case eUIScene_Crafting2x2Menu:
 		case eUIScene_Crafting3x3Menu:
+		case eUIScene_SpaceCrafting3x3Menu:
 		case eUIScene_FurnaceMenu:
 		case eUIScene_ContainerMenu:
 		case eUIScene_LargeContainerMenu:
@@ -1936,6 +1937,7 @@ bool UIController::NavigateToScene(int iPad, EUIScene scene, void *initData, EUI
 		case eUIScene_TradingMenu:
 		case eUIScene_BeaconMenu:
 		case eUIScene_HorseMenu:
+		//case eUIScene_OxygenatorMenu:
 			app.DebugPrintf("IGNORING NAVIGATE - we're trying to navigate to a user selected scene when there's already a scene up: pad:%d, scene:%d\n", iPad, scene);
 			return false;
 			break;

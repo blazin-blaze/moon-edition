@@ -746,6 +746,9 @@ void Tile_SPU::initTilePointers()
 	CREATE_TILE_TYPE(calmLava_Id, LiquidTile_SPU);		// LiquidTileStatic
 	CREATE_TILE_TYPE(calmWater_Id, LiquidTile_SPU);		// LiquidTileStatic
 
+	CREATE_TILE_TYPE(oil_Id, LiquidTile_SPU);
+	CREATE_TILE_TYPE(calmOil_Id, LiquidTile_SPU);		// LiquidTileStatic
+
 	CREATE_TILE_TYPE(fire_Id, FireTile_SPU);
 
 	CREATE_TILE_TYPE(sapling_Id, Sapling_SPU);

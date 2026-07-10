@@ -260,6 +260,13 @@ void SoundEngine::updateMiniAudio()
             continue;
         }
 
+		if (s->info.removeRocketSound) {
+			ma_sound_uninit(&s->sound);
+			delete s;
+			it = m_activeSounds.erase(it);
+			continue;
+		}
+
         float finalVolume = s->info.volume * m_MasterEffectsVolume * SFX_VOLUME_MULTIPLIER;
         if (finalVolume > SFX_MAX_GAIN)
             finalVolume = SFX_MAX_GAIN;
@@ -572,6 +579,137 @@ void SoundEngine::play(int iSound, float x, float y, float z, float volume, floa
     ma_sound_start(&s->sound);
 
     m_activeSounds.push_back(s);
+}
+
+void SoundEngine::playR(int iSound, float x, float y, float z, float volume, float pitch, int rocketId) {
+	U8 szSoundName[256];
+
+	if (iSound == -1)
+	{
+		app.DebugPrintf(6, "PlaySound with sound of -1 !!!!!!!!!!!!!!!\n");
+		return;
+	}
+
+	strcpy((char*)szSoundName, "Minecraft/");
+
+	wstring name = wchSoundNames[iSound];
+
+	char* SoundName = (char*)ConvertSoundPathToName(name);
+	strcat((char*)szSoundName, SoundName);
+
+	app.DebugPrintf(6,
+		"PlaySound - %d - %s - %s (%f %f %f, vol %f, pitch %f)\n",
+		iSound, SoundName, szSoundName, x, y, z, volume, pitch);
+
+	char basePath[256];
+	sprintf_s(basePath, "Windows64Media/Sound/%s", (char*)szSoundName);
+
+	char finalPath[256];
+	sprintf_s(finalPath, "%s.wav", basePath);
+
+	const char* extensions[] = { ".ogg", ".wav", ".mp3" };
+	size_t extCount = sizeof(extensions) / sizeof(extensions[0]);
+	bool found = false;
+
+	for (size_t extIdx = 0; extIdx < extCount; extIdx++)
+	{
+		char basePlusExt[256];
+		sprintf_s(basePlusExt, "%s%s", basePath, extensions[extIdx]);
+
+		DWORD attr = GetFileAttributesA(basePlusExt);
+		if (attr != INVALID_FILE_ATTRIBUTES && !(attr & FILE_ATTRIBUTE_DIRECTORY))
+		{
+			sprintf_s(finalPath, "%s", basePlusExt);
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
+	{
+		int count = 0;
+
+		for (size_t extIdx = 0; extIdx < extCount; extIdx++)
+		{
+			for (size_t i = 1; i < 32; i++)
+			{
+				char numberedPath[256];
+				sprintf_s(numberedPath, "%s%d%s", basePath, i, extensions[extIdx]);
+
+				DWORD attr = GetFileAttributesA(numberedPath);
+				if (attr != INVALID_FILE_ATTRIBUTES && !(attr & FILE_ATTRIBUTE_DIRECTORY))
+				{
+					count = i;
+				}
+			}
+		}
+
+		if (count > 0)
+		{
+			int chosen = (rand() % count) + 1;
+			for (size_t extIdx = 0; extIdx < extCount; extIdx++)
+			{
+				char numberedPath[256];
+				sprintf_s(numberedPath, "%s%d%s", basePath, chosen, extensions[extIdx]);
+
+				DWORD attr = GetFileAttributesA(numberedPath);
+				if (attr != INVALID_FILE_ATTRIBUTES && !(attr & FILE_ATTRIBUTE_DIRECTORY))
+				{
+					sprintf_s(finalPath, "%s", numberedPath);
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+			{
+				sprintf_s(finalPath, "%s%d.wav", basePath, chosen);
+			}
+		}
+	}
+
+	MiniAudioSound* s = new MiniAudioSound();
+	memset(&s->info, 0, sizeof(AUDIO_INFO));
+
+	s->info.x = x;
+	s->info.y = y;
+	s->info.z = z;
+
+	s->info.volume = volume;
+	s->info.pitch = pitch;
+	s->info.bIs3D = true;
+	s->info.bUseSoundsPitchVal = false;
+	s->info.iSound = iSound + eSFX_MAX;
+	s->info.rocketId = rocketId;
+
+	if (ma_sound_init_from_file(
+		&m_engine,
+		finalPath,
+		MA_SOUND_FLAG_ASYNC,
+		nullptr,
+		nullptr,
+		&s->sound) != MA_SUCCESS)
+	{
+		app.DebugPrintf("Failed to initialize sound from file: %s\n", finalPath);
+		delete s;
+		return;
+	}
+
+	ma_sound_set_spatialization_enabled(&s->sound, MA_TRUE);
+	ma_sound_set_min_distance(&s->sound, SFX_3D_MIN_DISTANCE);
+	ma_sound_set_max_distance(&s->sound, SFX_3D_MAX_DISTANCE);
+	ma_sound_set_rolloff(&s->sound, SFX_3D_ROLLOFF);
+
+	float finalVolume = volume * m_MasterEffectsVolume * SFX_VOLUME_MULTIPLIER;
+	if (finalVolume > SFX_MAX_GAIN)
+		finalVolume = SFX_MAX_GAIN;
+
+	ma_sound_set_volume(&s->sound, finalVolume);
+	ma_sound_set_pitch(&s->sound, pitch);
+	ma_sound_set_position(&s->sound, x, y, z);
+
+	ma_sound_start(&s->sound);
+
+	m_activeSounds.push_back(s);
 }
 
 /////////////////////////////////////////////

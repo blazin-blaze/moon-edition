@@ -288,6 +288,9 @@ public:
 	virtual void playEntitySound(shared_ptr<Entity> entity, int iSound, float volume, float pitch);
 	virtual void playPlayerSound(shared_ptr<Player> entity, int iSound, float volume, float pitch);
 	virtual void playSound(double x, double y, double z, int iSound, float volume, float pitch, float fClipSoundDist=16.0f);
+	virtual void playRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist = 16.0f);
+	virtual void moveRocketSound(double x, double y, double z, int rocketId);
+	virtual void removeRocketSound(double x, double y, double z, int rocketId);
 
 	virtual void playLocalSound(double x, double y, double z, int iSound, float volume, float pitch, bool distanceDelay, float fClipSoundDist=16.0f);
 
@@ -321,15 +324,15 @@ public:
 	float getTimeOfDay(float a);
 	int getMoonPhase();
 	float getMoonBrightness();
-	float getSunAngle(float a);
+	float getSunAngle(shared_ptr<Entity> source, float a);
 	Vec3 *getCloudColor(float a);
-	Vec3 *getFogColor(float a);
+	Vec3 *getFogColor(shared_ptr<Entity> source, float a);
 	int getTopRainBlock(int x, int z);
 	int getTopSolidBlock(int x, int z);
 	bool biomeHasRain(int x, int z);	// 4J added
 	bool biomeHasSnow(int x, int z);	// 4J added
 	int getLightDepth(int x, int z);
-	float getStarBrightness(float a);
+	float getStarBrightness(shared_ptr<Entity> source, float a);
 	virtual void addToTickNextTick(int x, int y, int z, int tileId, int tickDelay);
 	virtual void addToTickNextTick(int x, int y, int z, int tileId, int tickDelay, int priorityTilt);
 	virtual void forceAddTileTick(int x, int y, int z, int tileId, int tickDelay, int prioTilt);

@@ -24,3 +24,7 @@
 #include "RangedAttackMob.h"
 #include "SharedMonsterAttributes.h"
 #include "Witch.h"
+
+#include "EvolvedZombie.h"
+#include "EvolvedSkeleton.h"
+#include "EvolvedSpider.h"

@@ -917,6 +917,9 @@ bool Level::setTileAndData(int x, int y, int z, int tile, int data, int updateFl
 	if (tile == 50 && this->dimension->id == 2) {
 		tile = 187;
 	}
+	if (tile == 51 && this->dimension->id == 2) {
+		return false;
+	}
 	if (x < -MAX_LEVEL_SIZE || z < -MAX_LEVEL_SIZE || x >= MAX_LEVEL_SIZE || z >= MAX_LEVEL_SIZE)
 	{
 		return false;
@@ -1668,6 +1671,30 @@ void Level::playSound(double x, double y, double z, int iSound, float volume, fl
 	}
 }
 
+void Level::playRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist)
+{
+	for (auto& listener : listeners)
+	{
+		listener->playRocketSound(x, y, z, rocketId, fClipSoundDist);
+	}
+}
+
+void Level::moveRocketSound(double x, double y, double z, int rocketId)
+{
+	for (auto& listener : listeners)
+	{
+		listener->moveRocketSound(x, y, z, rocketId);
+	}
+}
+
+void Level::removeRocketSound(double x, double y, double z, int rocketId)
+{
+	for (auto& listener : listeners)
+	{
+		listener->removeRocketSound(x,y,z, rocketId);
+	}
+}
+
 void Level::playLocalSound(double x, double y, double z, int iSound, float volume, float pitch, bool distanceDelay, float fClipSoundDist)
 {
 }
@@ -1904,7 +1931,7 @@ AABBList *Level::getCubes(shared_ptr<Entity> source, AABB *box, bool noEntities/
 		}
 		// 4J - also stop player falling out of the bottom of the map if blockAtEdge is true. Again, rock is an arbitrary choice here
 		// 4J Stu - Don't stop entities falling into the void while in The End (it has no bedrock)
-		if( blockAtEdge && ( ( y0 - 1 ) < 0 ) && dimension->id != 1 )
+		if( blockAtEdge && ( ( y0 - 1 ) < 0 ) && dimension->hasGround() )
 		{
 			for (int y = y0 - 1; y < 0; y++)
 			{
@@ -2030,10 +2057,29 @@ Vec3 *Level::getSkyColor(shared_ptr<Entity> source, float a)
 {
 	float td = getTimeOfDay(a);
 
+	if (source != nullptr && source->y >= 250 && source->dimension == 0) {
+		float yh = source->y - 250;
+		float yp = yh / 50;
+		if (yp > 1.0f) { yp = 1.0f; }
+
+		float worldTime = levelData->getDayTime();
+		float dayTime = fmodf(worldTime, Level::TICKS_PER_DAY);
+		if (dayTime < 0) dayTime += Level::TICKS_PER_DAY;
+
+		float delta = 18000.0f - dayTime;
+
+		float targetTime = worldTime + (delta * yp);
+		td = dimension->getTimeOfDay(targetTime, a);
+	}
+
+	if (source != nullptr && source->dimension == 2) {
+		td = dimension->getTimeOfDay(18000, a);
+	}
+
 	float br = Mth::cos(td * PI * 2) * 2 + 0.5f;
 	if (br < 0.0f) br = 0.0f;
 	if (br > 1.0f) br = 1.0f;
-
+	
 	int xx = Mth::floor(source->x);
 	int zz = Mth::floor(source->z);
 	Biome *biome = getBiome(xx, zz);
@@ -2105,9 +2151,25 @@ float Level::getMoonBrightness()
 	return Dimension::MOON_BRIGHTNESS_PER_PHASE[dimension->getMoonPhase(levelData->getDayTime())];
 }
 
-float Level::getSunAngle(float a)
+float Level::getSunAngle(shared_ptr<Entity> source, float a)
 {
 	float td = getTimeOfDay(a);
+
+	if (source != nullptr && source->y >= 250 && source->dimension == 0) {
+		float yh = source->y - 250;
+		float yp = yh / 50;
+		if (yp > 1.0f) { yp = 1.0f; }
+
+		float worldTime = levelData->getDayTime();
+		float dayTime = fmodf(worldTime, Level::TICKS_PER_DAY);
+		if (dayTime < 0) dayTime += Level::TICKS_PER_DAY;
+
+		float delta = 18000.0f - dayTime;
+
+		float targetTime = worldTime + (delta * yp);
+		td = dimension->getTimeOfDay(targetTime, a);
+	}
+
 	return td * PI * 2;
 }
 
@@ -2156,9 +2218,29 @@ Vec3 *Level::getCloudColor(float a)
 }
 
 
-Vec3 *Level::getFogColor(float a)
+Vec3 *Level::getFogColor(shared_ptr<Entity> source, float a)
 {
 	float td = getTimeOfDay(a);
+
+	if (source != nullptr && source->y >= 250 && source->dimension == 0) {
+		float yh = source->y - 250;
+		float yp = yh / 50;
+		if (yp > 1.0f) { yp = 1.0f; }
+
+		float worldTime = levelData->getDayTime();
+		float dayTime = fmodf(worldTime, Level::TICKS_PER_DAY);
+		if (dayTime < 0) dayTime += Level::TICKS_PER_DAY;
+
+		float delta = 18000.0f - dayTime;
+
+		float targetTime = worldTime + (delta * yp);
+		td = dimension->getTimeOfDay(targetTime, a);
+	}
+
+	if (source != nullptr && source->dimension == 2) {
+		td = dimension->getTimeOfDay(18000, a);
+	}
+
 	return dimension->getFogColor(td, a);
 }
 
@@ -2212,9 +2294,28 @@ int Level::getLightDepth(int x, int z)
 }
 
 
-float Level::getStarBrightness(float a)
+float Level::getStarBrightness(shared_ptr<Entity> source, float a)
 {
 	float td = getTimeOfDay(a);
+
+	if (source != nullptr && source->y >= 250 && source->dimension == 0) {
+		float yh = source->y - 250;
+		float yp = yh / 50;
+		if (yp > 1.0f) { yp = 1.0f; }
+
+		float worldTime = levelData->getDayTime();
+		float dayTime = fmodf(worldTime, Level::TICKS_PER_DAY);
+		if (dayTime < 0) dayTime += Level::TICKS_PER_DAY;
+
+		float delta = 18000.0f - dayTime;
+
+		float targetTime = worldTime + (delta * yp);
+		td = dimension->getTimeOfDay(targetTime, a);
+	}
+
+	if (source != nullptr && source->dimension == 2) {
+		td = dimension->getTimeOfDay(18000, a);
+	}
 
 	float br = 1 - (Mth::cos(td * PI * 2) * 2 + 0.25f);
 	if (br < 0.0f) br = 0.0f;

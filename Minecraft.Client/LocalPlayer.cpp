@@ -640,6 +640,15 @@ bool LocalPlayer::startCrafting(int x, int y, int z)
 	return success;
 }
 
+bool LocalPlayer::startSpaceCrafting(int x, int y, int z)
+{
+	bool success = app.LoadSpaceCrafting3x3Menu(GetXboxPad(), dynamic_pointer_cast<LocalPlayer>(shared_from_this()), x, y, z);
+	if (success) ui.PlayUISFX(eSFX_Press);
+	//app.LoadXuiCraftMenu(0,inventory, level, x, y, z);
+	//minecraft->setScreen(new CraftingScreen(inventory, level, x, y, z));
+	return success;
+}
+
 bool LocalPlayer::openFireworks(int x, int y, int z)
 {
 	bool success = app.LoadFireworksMenu(GetXboxPad(), dynamic_pointer_cast<LocalPlayer>( shared_from_this() ), x, y, z );
@@ -670,6 +679,13 @@ bool LocalPlayer::openFurnace(shared_ptr<FurnaceTileEntity> furnace)
 	//minecraft->setScreen(new FurnaceScreen(inventory, furnace));
 	return success;
 }
+
+/*bool LocalPlayer::openOxygenator(shared_ptr<OxygenatorTileEntity> oxygenator)
+{
+	bool success = app.LoadOxygenatorMenu(GetXboxPad(), inventory, oxygenator);
+	if (success) ui.PlayUISFX(eSFX_Press);
+	return success;
+}*/
 
 bool LocalPlayer::openBrewingStand(shared_ptr<BrewingStandTileEntity> brewingStand)
 {

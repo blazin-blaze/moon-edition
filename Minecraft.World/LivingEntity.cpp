@@ -201,7 +201,7 @@ void LivingEntity::baseTick()
 	shared_ptr<Player> thisPlayer = dynamic_pointer_cast<Player>(shared_from_this());
 	bool isInvulnerable = (thisPlayer != nullptr && thisPlayer->abilities.invulnerable);
 
-	if (isAlive() && isUnderLiquid(Material::water))
+	if (isAlive() && (isUnderLiquid(Material::water) || isUnderLiquid(Material::oil)))
 	{
 		if(!isWaterMob() && !hasEffect(MobEffect::waterBreathing->id) && !isInvulnerable)
 		{
@@ -211,12 +211,18 @@ void LivingEntity::baseTick()
 				setAirSupply(0);
 				if(canCreateParticles())
 				{
+					bool isOil = level->checkAndHandleWater(bb->grow(0, -0.4f, 0)->shrink(0.001, 0.001, 0.001), Material::oil, shared_from_this());
 					for (int i = 0; i < 8; i++)
 					{
 						float xo = random->nextFloat() - random->nextFloat();
 						float yo = random->nextFloat() - random->nextFloat();
 						float zo = random->nextFloat() - random->nextFloat();
-						level->addParticle(eParticleType_bubble, x + xo, y + yo, z + zo, xd, yd, zd);
+						if (isOil) {
+							level->addParticle(eParticleType_oil_bubble, x + xo, y + yo, z + zo, xd, yd, zd);
+						}
+						else {
+							level->addParticle(eParticleType_bubble, x + xo, y + yo, z + zo, xd, yd, zd);
+						}
 					}
 				}
 				hurt(DamageSource::drown, 2);
@@ -1012,8 +1018,13 @@ void LivingEntity::causeFallDamage(float distance)
 	if (dmg > 0)
 	{
 		int* id = &(level->dimension->id);
-		if (id != nullptr && *id == 2) {
-			//Do nothing - not taking fall damage in the moon dimension.
+		bool hasReturnEffect = false;
+		for (auto &it : activeEffects) {
+			MobEffectInstance* effect = it.second;
+			if (effect->getId() == 24) { hasReturnEffect = true; break; }
+		}
+		if ((id != nullptr && *id == 2) || hasReturnEffect) {
+			//Do nothing - not taking fall damage in the moon dimension or when returning to Earth.
 		}
 		else {
 			// 4J - new sounds here brought forward from 1.2.3

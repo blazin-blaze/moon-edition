@@ -10,9 +10,11 @@ class LiquidTile : public Tile
 	friend class ChunkRebuildData;
 public:
 	static const wstring TEXTURE_LAVA_STILL;
+	static const wstring TEXTURE_LAVA_FLOW;
 	static const wstring TEXTURE_WATER_STILL;
 	static const wstring TEXTURE_WATER_FLOW;
-	static const wstring TEXTURE_LAVA_FLOW;
+	static const wstring TEXTURE_OIL_STILL;
+	static const wstring TEXTURE_OIL_FLOW;
 
 private:
 	Icon *icons[2];

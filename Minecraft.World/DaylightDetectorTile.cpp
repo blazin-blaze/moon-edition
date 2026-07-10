@@ -49,7 +49,7 @@ void DaylightDetectorTile::updateSignalStrength(Level *level, int x, int y, int 
 
 	int current = level->getData(x, y, z);
 	int target = level->getBrightness(LightLayer::Sky, x, y, z) - level->skyDarken;
-	float sunAngle = level->getSunAngle(1);
+	float sunAngle = level->getSunAngle(nullptr, 1);
 
 	// tilt sunAngle towards zenith (to make the transition to night
 	// smoother)

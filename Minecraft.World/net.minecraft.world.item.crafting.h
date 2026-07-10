@@ -2,6 +2,8 @@
 
 #include "Recipes.h"
 #include "Recipy.h"
+#include "SpaceRecipes.h"
+#include "SpaceRecipy.h"
 #include "ArmorDyeRecipe.h"
 #include "ArmorRecipes.h"
 #include "ClothDyeRecipes.h"
@@ -11,6 +13,8 @@
 #include "OreRecipies.h"
 #include "ShapedRecipy.h"
 #include "ShapelessRecipy.h"
+#include "SpaceShapedRecipy.h"
+#include "SpaceShapelessRecipy.h"
 #include "StructureRecipies.h"
 #include "ToolRecipies.h"
 #include "WeaponRecipies.h"

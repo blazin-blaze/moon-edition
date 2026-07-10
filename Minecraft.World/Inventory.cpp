@@ -683,6 +683,24 @@ bool Inventory::getOxygenSetup()
 	return false;
 }
 
+bool Inventory::getOxygenTank()
+{
+	shared_ptr<ItemInstance> oxygenTank = space[0];
+	return oxygenTank != nullptr;
+}
+
+bool Inventory::getOxygenGear()
+{
+	shared_ptr<ItemInstance> oxygenGear = space[1];
+	return oxygenGear != nullptr;
+}
+
+bool Inventory::getOxygenMask()
+{
+	shared_ptr<ItemInstance> oxygenMask = space[2];
+	return oxygenMask != nullptr;
+}
+
 bool Inventory::getFrequencyModule()
 {
 	shared_ptr<ItemInstance> frequencyModule = space[3];
@@ -694,12 +712,12 @@ bool Inventory::getFrequencyModule()
 
 void Inventory::depleteOxygen(float damage)
 {
-	if (space[0] != nullptr && space[0]->getItem() != nullptr) {
-		space[0]->hurtAndBreak(static_cast<int>(damage), dynamic_pointer_cast<LivingEntity>(player->shared_from_this()));
-		if (space[0]->count == 0)
-		{
-			space[0] = nullptr;
-		}
+	if (space[0] == nullptr || space[0]->getItem() == nullptr) return;
+	
+	space[0]->hurtAndBreak(static_cast<int>(damage), dynamic_pointer_cast<LivingEntity>(player->shared_from_this()));
+	if (space[0]->count == 0)
+	{
+		space[0] = nullptr;
 	}
 }
 

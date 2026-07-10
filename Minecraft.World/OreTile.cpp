@@ -21,6 +21,7 @@ int OreTile::getResource(int data, Random *random, int playerBonusLevel)
 	if (id == Tile::sapphireOre_Id) return Item::sapphire_Id;
 	if (id == Tile::moonQuartzOre_Id) return Item::netherQuartz_Id;
 	if (id == Tile::cheeseOre_Id) return Item::cheese_Id;
+	if (id == Tile::siliconOre_Id) return Item::rawSilicon_Id;
     return id;
 }
 
@@ -79,6 +80,10 @@ void OreTile::spawnResources(Level *level, int x, int y, int z, int data, float 
 		else if (id == Tile::moonQuartzOre_Id)
 		{
 			magicCount = Mth::nextInt(level->random, 2, 5);
+		}
+		else if (id == Tile::siliconOre_Id)
+		{
+			magicCount = Mth::nextInt(level->random, 3, 7);
 		}
 		popExperience(level, x, y, z, magicCount);
 	}

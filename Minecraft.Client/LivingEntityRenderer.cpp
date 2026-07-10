@@ -106,6 +106,8 @@ void LivingEntityRenderer::render(shared_ptr<Entity> _mob, double x, double y, d
 		model->prepareMobModel(mob, wp, ws, a);
 		renderModel(mob, wp, ws, bob, headRot - bodyRot, headRotx, fScale);
 
+		renderSpaceSetup(mob, wp, ws, bob, headRot - bodyRot, headRotx, fScale, a);
+
 		for (int i = 0; i < MAX_ARMOR_LAYERS; i++)
 		{
 			int armorType = prepareArmor(mob, i, a);
@@ -663,4 +665,14 @@ void LivingEntityRenderer::renderNameTag(shared_ptr<LivingEntity> mob, const wst
 	glDisable(GL_BLEND);
 	glColor4f(1, 1, 1, 1);
 	glPopMatrix();
+}
+
+void LivingEntityRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+	/*overriden in following classes:
+	* CreeperRenderer
+	* ZombieRenderer
+	* SkeletonRenderer
+	* SpiderRenderer
+	* PlayerRenderer
+	*/ 
 }

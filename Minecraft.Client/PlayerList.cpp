@@ -944,7 +944,7 @@ void PlayerList::repositionAcrossDimension(shared_ptr<Entity> entity, int lastDi
 			oldLevel->tick(entity, false);
 		}
 	}else if(entity->dimension == 2) {
-		entity->moveTo(xt, entity->y, zt, entity->yRot, entity->xRot);
+		entity->moveTo(xt, 250, zt, entity->yRot, entity->xRot);
 		if (entity->isAlive())
 		{
 			oldLevel->tick(entity, false);

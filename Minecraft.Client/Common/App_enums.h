@@ -321,6 +321,9 @@ enum eMinecraftColour
 	eMinecraftColour_Material_Water,
 	eMinecraftColour_Material_Wood,
 	eMinecraftColour_Material_Emerald,
+	eMinecraftColour_Material_Fuel,
+	eMinecraftColour_Material_Oil,
+	eMinecraftColour_Material_Quartz,
 
 	eMinecraftColour_Particle_Note_00,
 	eMinecraftColour_Particle_Note_01,
@@ -440,11 +443,14 @@ enum eMinecraftColour
 	eMinecraftColour_Mob_Horse_Colour2,
 	eMinecraftColour_Mob_Lunar_Colour1,
 	eMinecraftColour_Mob_Lunar_Colour2,
+	eMinecraftColour_Mob_Evolved_Colour1,
+	eMinecraftColour_Mob_Evolved_Colour2,
 
 	eMinecraftColour_Armour_Default_Leather_Colour,
 
 	eMinecraftColour_Under_Water_Clear_Colour,
 	eMinecraftColour_Under_Lava_Clear_Colour,
+	eMinecraftColour_Under_Oil_Clear_Colour,
 	eMinecraftColour_In_Cloud_Base_Colour,
 
 	eMinecraftColour_Under_Water_Fog_Colour,
@@ -609,6 +615,7 @@ enum _eTerrainFeatureType
 	eTerrainFeature_Ravine,
 	eTerrainFeature_NetherFortress,
 	eTerrainFeature_StrongholdEndPortal,
+	eTerrainFeature_MoonMineshaft,
 	eTerrainFeature_Count
 };
 

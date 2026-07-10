@@ -260,7 +260,7 @@ void ServerPlayer::tick()
 		}
 	}
 
-	if (tickCount % 20 == 0 && level->dimension->id == 2) {
+	if (!level->isClientSide && tickCount % 20 == 0 && level->dimension->id == 2) {
 		if (inventory->getOxygenSetup()) {
 			inventory->depleteOxygen(1.0f);
 		}
@@ -889,6 +889,24 @@ bool ServerPlayer::startCrafting(int x, int y, int z)
 	return true;
 }
 
+bool ServerPlayer::startSpaceCrafting(int x, int y, int z)
+{
+	if (containerMenu == inventoryMenu)
+	{
+		nextContainerCounter();
+		connection->send(std::make_shared<ContainerOpenPacket>(containerCounter, ContainerOpenPacket::SPACE_WORKBENCH, L"", 9, false));
+		containerMenu = new SpaceCraftingMenu(inventory, level, x, y, z);
+		containerMenu->containerId = containerCounter;
+		containerMenu->addSlotListener(this);
+	}
+	else
+	{
+		app.DebugPrintf("ServerPlayer tried to open crafting container when one was already open\n");
+	}
+
+	return true;
+}
+
 bool ServerPlayer::openFireworks(int x, int y, int z)
 {
 	if(containerMenu == inventoryMenu)
@@ -1030,6 +1048,24 @@ bool ServerPlayer::openFurnace(shared_ptr<FurnaceTileEntity> furnace)
 
 	return true;
 }
+
+/*bool ServerPlayer::openOxygenator(shared_ptr<OxygenatorTileEntity> oxygenator)
+{
+	if (containerMenu == inventoryMenu)
+	{
+		nextContainerCounter();
+		connection->send(std::make_shared<ContainerOpenPacket>(containerCounter, ContainerOpenPacket::OXYGENATOR, oxygenator->getCustomName(), oxygenator->getContainerSize(), oxygenator->hasCustomName()));
+		containerMenu = new OxygenatorMenu(inventory, oxygenator);
+		containerMenu->containerId = containerCounter;
+		containerMenu->addSlotListener(this);
+	}
+	else
+	{
+		app.DebugPrintf("ServerPlayer tried to open oxygenator when one was already open\n");
+	}
+
+	return true;
+}*/
 
 bool ServerPlayer::openTrap(shared_ptr<DispenserTileEntity> trap)
 {

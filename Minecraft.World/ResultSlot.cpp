@@ -48,6 +48,7 @@ void ResultSlot::checkTakeAchievements(shared_ptr<ItemInstance> carried)
 	else if (carried->id == Item::sword_wood_Id)		player->awardStat(GenericStats::buildSword(),			GenericStats::param_buildSword());
 	//else if (carried->id == Tile::enchantTable_Id)	player->awardStat(GenericStats::enchantments(),			GenericStats::param_achievement(eAward_));
 	else if (carried->id == Tile::bookshelf_Id)			player->awardStat(GenericStats::bookcase(),				GenericStats::param_bookcase());
+	else if (carried->id == Tile::quartzBookshelf_Id)			player->awardStat(GenericStats::bookcase(), GenericStats::param_bookcase());
 
 	// 4J : WESTY : Added new acheivements. 
 	else if (carried->id == Tile::dispenser_Id) player->awardStat(GenericStats::dispenseWithThis(), GenericStats::param_dispenseWithThis());

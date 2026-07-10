@@ -243,6 +243,9 @@ bool UILayer::NavigateToScene(int iPad, EUIScene scene, void *initData)
 	case eUIScene_Crafting3x3Menu:
 		newScene = new UIScene_CraftingMenu(iPad, initData, this);
 		break;
+	case eUIScene_SpaceCrafting3x3Menu:
+		newScene = new UIScene_SpaceCraftingMenu(iPad, initData, this);
+		break;
 	case eUIScene_TradingMenu:
 		newScene = new UIScene_TradingMenu(iPad, initData, this);
 		break;
@@ -261,6 +264,9 @@ bool UILayer::NavigateToScene(int iPad, EUIScene scene, void *initData)
 	case eUIScene_FireworksMenu:
 		newScene = new UIScene_FireworksMenu(iPad, initData, this);
 		break;
+	/*case eUIScene_OxygenatorMenu:
+		newScene = new UIScene_OxygenatorMenu(iPad, initData, this);
+		break;*/
 
 		// Help and Options
 	case eUIScene_HelpAndOptionsMenu:
@@ -735,7 +741,9 @@ bool UILayer::updateFocusState(bool allowedFocus /* = false */)
 			break;
 		case eUIScene_Crafting2x2Menu:
 		case eUIScene_Crafting3x3Menu:
+		case eUIScene_SpaceCrafting3x3Menu:
 		case eUIScene_FurnaceMenu:
+		//case eUIScene_OxygenatorMenu:
 		case eUIScene_ContainerMenu:
 		case eUIScene_LargeContainerMenu:
 		case eUIScene_InventoryMenu:

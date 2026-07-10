@@ -9,13 +9,20 @@
 #include "..\Minecraft.World\net.minecraft.world.entity.h"
 #include "..\Minecraft.World\net.minecraft.h"
 #include "EntityRenderDispatcher.h"
+#include "OxygenSetupModel.h"
+#include "..\Minecraft.World\Level.h"
 
 ResourceLocation SpiderRenderer::SPIDER_LOCATION = ResourceLocation(TN_MOB_SPIDER);
+ResourceLocation SpiderRenderer::EVOLVED_SPIDER_LOCATION = ResourceLocation(TN_MOB_EVOLVED_SPIDER);
 ResourceLocation SpiderRenderer::SPIDER_EYES_LOCATION = ResourceLocation(TN_MOB_SPIDER_EYES);
+ResourceLocation SpiderRenderer::EVOLVED_SPIDER_EYES_LOCATION = ResourceLocation(TN_MOB_EVOLVED_SPIDER_EYES);
+ResourceLocation SpiderRenderer::OXYGEN_SETUP_LOCATION = ResourceLocation(TN_MOB_OXYGEN_SETUP);
 
 SpiderRenderer::SpiderRenderer() : MobRenderer(new SpiderModel(), 1.0f)
 {
 	this->setArmor(new SpiderModel());
+
+	oxygenSetup = nullptr;
 }
 
 float SpiderRenderer::getFlipDegrees(shared_ptr<LivingEntity> spider)
@@ -30,7 +37,12 @@ int SpiderRenderer::prepareArmor(shared_ptr<LivingEntity> _spider, int layer, fl
 
 	if (layer!=0) return -1;
 	MemSect(31);
-	bindTexture(&SPIDER_EYES_LOCATION);
+	if (spider->instanceof(eTYPE_EVOLVEDSPIDER)) {
+		bindTexture(&EVOLVED_SPIDER_EYES_LOCATION);
+	}
+	else {
+		bindTexture(&SPIDER_EYES_LOCATION);
+	}
 	MemSect(0);
 	// 4J - changes brought forward from 1.8.2
 	float br = 1.0f; // was (1-spider->getBrightness(1))*0.5f;
@@ -64,22 +76,31 @@ int SpiderRenderer::prepareArmor(shared_ptr<LivingEntity> _spider, int layer, fl
 
 ResourceLocation *SpiderRenderer::getTextureLocation(shared_ptr<Entity> mob)
 {
-	return &SPIDER_LOCATION;
+	if (mob->instanceof(eTYPE_EVOLVEDSPIDER)) {
+		return &EVOLVED_SPIDER_LOCATION;
+	}
+	else {
+		return &SPIDER_LOCATION;
+	}
 }
 
-void SpiderRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
+void SpiderRenderer::scale(shared_ptr<LivingEntity> mob, float a)
 {
-	shared_ptr<Spider> mob = dynamic_pointer_cast<Spider>(_mob);
-	shared_ptr<ItemInstance> headGear = mob->getArmor(3);
-	if (headGear != nullptr)
+	if (mob->instanceof(eTYPE_EVOLVEDSPIDER))
 	{
-		// don't render the pumpkin of skulls for the skins with that disabled
-		// 4J-PB - need to disable rendering armour/skulls/pumpkins for some special skins (Daleks)
+		glScalef(1.2f, 1.2f, 1.2f);
+	}
+}
 
-		if ((mob->getAnimOverrideBitmask() & (1 << HumanoidModel::eAnim_DontRenderArmour)) == 0)
+void SpiderRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+	if (entity->dimension == 2 && !entity->instanceof(eTYPE_EVOLVEDSPIDER)) {
+
+		SpiderModel* spiderModel = dynamic_cast<SpiderModel*>(model);
+		shared_ptr<ItemInstance> headGear = entity->getArmor(3);
+		if (headGear != nullptr)
 		{
 			glPushMatrix();
-			SpiderModel* spiderModel = dynamic_cast<SpiderModel*>(model);
+
 			spiderModel->head->translateTo(1 / 16.0f);
 
 			if (headGear->getItem()->id < 256)
@@ -92,11 +113,28 @@ void SpiderRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 					glScalef(s, -s, -s);
 				}
 
-				this->entityRenderDispatcher->itemInHandRenderer->renderItem(mob, headGear, 0);
+				this->entityRenderDispatcher->itemInHandRenderer->renderItem(entity, headGear, 0);
 			}
 
 			glPopMatrix();
 		}
+
+		if (oxygenSetup == nullptr) {
+			oxygenSetup = new OxygenSetupModel();
+		}
+
+		glPushMatrix();
+
+		spiderModel->body1->translateTo(1 / 16.0f);
+
+		glTranslatef(0.0f, -0.1f, -.35f);
+		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+		
+		bindTexture(&OXYGEN_SETUP_LOCATION);
+		float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : entity->getBrightness(a);
+		glColor3f(brightness, brightness, brightness);
+		oxygenSetup->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+		glPopMatrix();
 	}
-	MobRenderer::additionalRendering(_mob, a);
 }

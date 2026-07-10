@@ -250,7 +250,7 @@ int StructurePiece::getOrientationData( int tile, int data )
 			}
 		}
 	}
-	else if ( tile == Tile::door_wood_Id || tile == Tile::door_iron_Id )
+	else if ( tile == Tile::door_wood_Id || tile == Tile::door_iron_Id || tile == Tile::quartzDoor_Id)
 	{
 		if ( orientation == Direction::SOUTH )
 		{
@@ -852,5 +852,18 @@ void StructurePiece::createDoor( Level* level, BoundingBox* chunkBB, Random* ran
 	if ( chunkBB->isInside( worldX, worldY, worldZ ) )
 	{
 		DoorItem::place( level, worldX, worldY, worldZ, orientation, Tile::door_wood );
+	}
+}
+
+void StructurePiece::createQuartzDoor(Level* level, BoundingBox* chunkBB, Random* random, int x, int y, int z,
+	int orientation)
+{
+	int worldX = getWorldX(x, z);
+	int worldY = getWorldY(y);
+	int worldZ = getWorldZ(x, z);
+
+	if (chunkBB->isInside(worldX, worldY, worldZ))
+	{
+		DoorItem::place(level, worldX, worldY, worldZ, orientation, Tile::quartzDoor);
 	}
 }

@@ -6,11 +6,39 @@
 #include "net.minecraft.world.phys.h"
 #include "ItemInstance.h"
 #include "RocketItem.h"
-#include "LunarFriend.h"
+#include "AlienVillager.h"
 
 RocketItem::RocketItem(int id) : Item(id)
 {
 	maxStackSize = 1;
+	DispenserTile::REGISTRY.add(this, new RocketDispenseBehavior());
+}
+
+shared_ptr<ItemInstance> RocketItem::RocketDispenseBehavior::execute(BlockSource* source, shared_ptr<ItemInstance> dispensed, eOUTCOME& outcome)
+{
+	FacingEnum* facing = DispenserTile::getFacing(source->getData());
+	Level* world = source->getWorld();
+
+	double spawnX = source->getX() + facing->getStepX() * (1 + 2.0f / 16);
+	double spawnY = source->getY() + facing->getStepY() * (1 + 2.0f / 16);
+	double spawnZ = source->getZ() + facing->getStepZ() * (1 + 2.0f / 16);
+
+	outcome = ACTIVATED_ITEM;
+
+	shared_ptr<Rocket> rocket = make_shared<Rocket>(world, spawnX, spawnY, spawnZ);
+	if (dispensed->hasCustomHoverName())
+	{
+		rocket->setCustomName(dispensed->getHoverName());
+	}
+	world->addEntity(rocket);
+
+	dispensed->remove(1);
+	return dispensed;
+}
+
+void RocketItem::RocketDispenseBehavior::playSound(BlockSource* source)
+{
+	source->getWorld()->levelEvent(LevelEvent::SOUND_CLICK, source->getBlockX(), source->getBlockY(), source->getBlockZ(), 0);
 }
 
 bool RocketItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level* level, shared_ptr<Player> player)
@@ -107,13 +135,14 @@ shared_ptr<ItemInstance> RocketItem::use(shared_ptr<ItemInstance> itemInstance, 
 
 		if (level->getTile(xt, yt, zt) == Tile::topSnow_Id) yt--;
 		shared_ptr<Rocket> rocket = std::make_shared<Rocket>(level, xt + 0.5f, yt + 1.0f, zt + 0.5f);
-		rocket->yRot = ((Mth::floor(player->yRot * 4.0F / 360.0F + 0.5) & 0x3) - 1) * 90;
+		rocket->yRot = (((Mth::floor(player->yRot * 4.0F / 360.0F + 0.5) & 0x3) - 1) * 90) - 90;
 		if (!level->getCubes(rocket, rocket->bb->grow(-.1, -.1, -.1))->empty())
 		{
 			return itemInstance;
 		}
 		if (!level->isClientSide)
 		{
+			if (itemInstance->hasCustomHoverName()) rocket->setCustomName(itemInstance->getHoverName());
 			level->addEntity(rocket);
 		}
 		if (!player->abilities.instabuild)

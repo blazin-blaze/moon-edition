@@ -92,7 +92,7 @@ void LiquidTileDynamic::mainTick(Level *level, int x, int y, int z, Random *rand
 			if (above >= 8) newDepth = above;
 			else newDepth = above + 8;
 		}
-		if (maxCount >= 2 && material == Material::water)
+		if (maxCount >= 2 && (material == Material::water || material == Material::oil))
 		{
 			// Only spread spring if it's on top of an existing spring, or
 			// on top of solid ground.
@@ -152,6 +152,28 @@ void LiquidTileDynamic::mainTick(Level *level, int x, int y, int z, Random *rand
 			{
 				level->setTileAndUpdate(x, y - 1, z, Tile::stone_Id);
 				fizz(level, x, y - 1, z);
+				return;
+			}
+
+			if (level->getMaterial(x, y - 1, z) == Material::oil)
+			{
+				level->setTileAndUpdate(x, y - 1, z, Tile::stone_Id);
+				fizz(level, x, y - 1, z);
+				return;
+			}
+		}
+
+		if (material == Material::oil)
+		{
+			if (level->getMaterial(x, y - 1, z) == Material::water)
+			{
+				level->setTileAndUpdate(x, y - 1, z, Tile::stone_Id);
+				return;
+			}
+
+			if (level->getMaterial(x, y - 1, z) == Material::lava)
+			{
+				level->setTileAndUpdate(x, y - 1, z, Tile::stone_Id);
 				return;
 			}
 		}
@@ -295,7 +317,7 @@ bool *LiquidTileDynamic::getSpread(Level *level, int x, int y, int z)
 bool LiquidTileDynamic::isWaterBlocking(Level *level, int x, int y, int z)
 {
 	int t = level->getTile(x, y, z);
-	if (t == Tile::door_wood_Id || t == Tile::door_iron_Id || t == Tile::sign_Id || t == Tile::ladder_Id || t == Tile::reeds_Id)
+	if (t == Tile::door_wood_Id || t == Tile::door_iron_Id || t == Tile::quartzDoor_Id || t == Tile::sign_Id || t == Tile::ladder_Id || t == Tile::reeds_Id)
 	{
 		return true;
 	}
@@ -333,6 +355,7 @@ bool LiquidTileDynamic::canSpreadTo(Level *level, int x, int y, int z)
 	Material *target = level->getMaterial(x, y, z);
 	if (target == material) return false;
 	if (target == Material::lava) return false;
+	if (target == Material::oil) return false;
 	return !isWaterBlocking(level, x, y, z);
 }
 

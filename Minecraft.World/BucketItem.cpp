@@ -55,6 +55,11 @@ bool BucketItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, sh
 				delete hr;
 				return true;
 			}
+			if (level->getMaterial(xt, yt, zt) == Material::oil && level->getData(xt, yt, zt) == 0)
+			{
+				delete hr;
+				return true;
+			}
 		}
 		else if (content < 0)
 		{
@@ -148,6 +153,28 @@ shared_ptr<ItemInstance> BucketItem::use(shared_ptr<ItemInstance> itemInstance, 
 					if (!player->inventory->add(std::make_shared<ItemInstance>(Item::bucket_water)))
 					{
 						player->drop(std::make_shared<ItemInstance>(Item::bucket_water_Id, 1, 0));
+					}
+					return itemInstance;
+				}
+			}
+			if (level->getMaterial(xt, yt, zt) == Material::oil && level->getData(xt, yt, zt) == 0)
+			{
+				level->removeTile(xt, yt, zt);
+				delete hr;
+				if (player->abilities.instabuild)
+				{
+					return itemInstance;
+				}
+
+				if (--itemInstance->count <= 0)
+				{
+					return std::make_shared<ItemInstance>(Item::oilBucket);
+				}
+				else
+				{
+					if (!player->inventory->add(std::make_shared<ItemInstance>(Item::oilBucket)))
+					{
+						player->drop(std::make_shared<ItemInstance>(Item::oilBucket_Id, 1, 0));
 					}
 					return itemInstance;
 				}

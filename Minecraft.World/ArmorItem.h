@@ -36,6 +36,7 @@ public:
 		static const int goldArray[];
 		static const int diamondArray[];
 		static const int titaniumArray[];
+		static const int sapphireArray[];
 	public:
 		static const ArmorMaterial *CLOTH;
 		static const ArmorMaterial *CHAIN;
@@ -43,6 +44,7 @@ public:
 		static const ArmorMaterial *GOLD;
 		static const ArmorMaterial *DIAMOND;
 		static const ArmorMaterial* TITANIUM;
+		static const ArmorMaterial* SAPPHIRE;
 
 	private:
 		int durabilityMultiplier;

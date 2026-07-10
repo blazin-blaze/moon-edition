@@ -82,6 +82,9 @@ class PlayerAbilitiesPacket;
 class ChatAutoCompletePacket;
 class ClientInformationPacket;
 class LevelSoundPacket;
+class LevelRocketSoundPacket;
+class LevelRocketSoundMovePacket;
+class LevelRocketSoundRemovePacket;
 class TileDestructionPacket;
 class ClientCommandPacket;
 class LevelChunksPacket;
@@ -97,6 +100,7 @@ class TileEditorOpenPacket;
 
 // 4J Added
 class CraftItemPacket;
+class SpaceCraftItemPacket;
 class TradeItemPacket;
 class DebugOptionsPacket;
 class ServerSettingsChangedPacket;
@@ -197,6 +201,9 @@ public:
 	virtual void handleChatAutoComplete(shared_ptr<ChatAutoCompletePacket> packet);
 	virtual void handleClientInformation(shared_ptr<ClientInformationPacket> packet);
 	virtual void handleSoundEvent(shared_ptr<LevelSoundPacket> packet);
+	virtual void handleRocketSoundEvent(shared_ptr<LevelRocketSoundPacket> packet);
+	virtual void handleRocketSoundMoveEvent(shared_ptr<LevelRocketSoundMovePacket> packet);
+	virtual void handleRocketSoundRemoveEvent(shared_ptr<LevelRocketSoundRemovePacket> packet);
 	virtual void handleTileDestruction(shared_ptr<TileDestructionPacket> packet);
 	virtual void handleClientCommand(shared_ptr<ClientCommandPacket> packet);
 	//virtual void handleLevelChunks(shared_ptr<LevelChunksPacket> packet);
@@ -214,6 +221,7 @@ public:
 
 	// 4J Added
 	virtual void handleCraftItem(shared_ptr<CraftItemPacket> packet);
+	virtual void handleSpaceCraftItem(shared_ptr<SpaceCraftItemPacket> packet);
 	virtual void handleTradeItem(shared_ptr<TradeItemPacket> packet);
 	virtual void handleDebugOptions(shared_ptr<DebugOptionsPacket> packet);
 	virtual void handleServerSettingsChanged(shared_ptr<ServerSettingsChangedPacket> packet);

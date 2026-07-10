@@ -130,5 +130,6 @@
 #include "WoodSlabTile.h"
 #include "WoolCarpetTile.h"
 #include "TreasureChestTile.h"
-
-
+#include "MoonStoneTile.h"
+#include "CobblestoneTile.h"
+//#include "OxygenatorTile.h"

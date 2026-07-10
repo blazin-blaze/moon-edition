@@ -476,6 +476,32 @@ bool CMinecraftApp::LoadCrafting3x3Menu(int iPad,shared_ptr<LocalPlayer> player,
 	return success;
 }
 
+bool CMinecraftApp::LoadSpaceCrafting3x3Menu(int iPad, shared_ptr<LocalPlayer> player, int x, int y, int z)
+{
+	bool success = true;
+
+	CraftingPanelScreenInput* initData = new CraftingPanelScreenInput();
+	initData->player = player;
+	initData->iContainerType = RECIPE_TYPE_3x3;
+	initData->iPad = iPad;
+	initData->x = x;
+	initData->y = y;
+	initData->z = z;
+
+	if (app.GetLocalPlayerCount() > 1)
+	{
+		initData->bSplitscreen = true;
+		success = ui.NavigateToScene(iPad, eUIScene_SpaceCrafting3x3Menu, initData);
+	}
+	else
+	{
+		initData->bSplitscreen = false;
+		success = ui.NavigateToScene(iPad, eUIScene_SpaceCrafting3x3Menu, initData);
+	}
+
+	return success;
+}
+
 bool CMinecraftApp::LoadFireworksMenu(int iPad,shared_ptr<LocalPlayer> player, int x, int y, int z)
 {
 	bool success = true;
@@ -552,6 +578,31 @@ bool CMinecraftApp::LoadFurnaceMenu(int iPad,shared_ptr<Inventory> inventory, sh
 
 	return success;
 }
+
+/*bool CMinecraftApp::LoadOxygenatorMenu(int iPad, shared_ptr<Inventory> inventory, shared_ptr<OxygenatorTileEntity> oxygenator)
+{
+	bool success = true;
+
+	OxygenatorScreenInput* initData = new OxygenatorScreenInput();
+
+	initData->oxygenator = oxygenator;
+	initData->inventory = inventory;
+	initData->iPad = iPad;
+
+	// Load the scene.
+	if (app.GetLocalPlayerCount() > 1)
+	{
+		initData->bSplitscreen = true;
+		success = ui.NavigateToScene(iPad, eUIScene_OxygenatorMenu, initData);
+	}
+	else
+	{
+		initData->bSplitscreen = false;
+		success = ui.NavigateToScene(iPad, eUIScene_OxygenatorMenu, initData);
+	}
+
+	return success;
+}*/
 
 bool CMinecraftApp::LoadBrewingStandMenu(int iPad,shared_ptr<Inventory> inventory, shared_ptr<BrewingStandTileEntity> brewingStand)
 {
@@ -8467,10 +8518,16 @@ wstring CMinecraftApp::getEntityName(eINSTANCEOF type)
 		return app.GetString(IDS_CREEPER);
 	case eTYPE_SKELETON:
 		return app.GetString(IDS_SKELETON);
+	case eTYPE_EVOLVEDSKELETON:
+		return app.GetString(IDS_EVOLVEDSKELETON);
 	case eTYPE_SPIDER:
 		return app.GetString(IDS_SPIDER);
+	case eTYPE_EVOLVEDSPIDER:
+		return app.GetString(IDS_EVOLVEDSPIDER);
 	case eTYPE_ZOMBIE:
 		return app.GetString(IDS_ZOMBIE);
+	case eTYPE_EVOLVEDZOMBIE:
+		return app.GetString(IDS_EVOLVEDZOMBIE);
 	case eTYPE_PIGZOMBIE:
 		return app.GetString(IDS_PIGZOMBIE);
 	case eTYPE_ENDERMAN:

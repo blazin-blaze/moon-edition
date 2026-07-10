@@ -380,6 +380,25 @@ public:
 	static const int glowstoneTorch_Id = 186;
 	static const int deadTorch_Id = 187;
 	static const int treasureChest_Id = 188;
+	static const int spaceWorkbench_Id = 189;
+
+	static const int copperOre_Id = 190;
+	static const int tinOre_Id = 191;
+	static const int aluminiumOre_Id = 192;
+	static const int siliconOre_Id = 193;
+	static const int sapphireBlock_Id = 194;
+	static const int copperBlock_Id = 195;
+	static const int tinBlock_Id = 196;
+	static const int aluminiumBlock_Id = 197;
+	static const int siliconBlock_Id = 198;
+	static const int oil_Id = 199;
+	static const int calmOil_Id = 200;
+	static const int quartzDoor_Id = 201;
+	static const int quartzFence_Id = 202;
+	static const int quartzFenceGate_Id = 203;
+	static const int quartzBookshelf_Id = 204;
+	static const int greenWeb_Id = 205;
+	//static const int oxygenator_Id = 205;
 
 	static Tile *stone;
 	static GrassTile *grass;
@@ -571,6 +590,25 @@ public:
 	static Tile* glowstoneTorch;
 	static Tile* deadTorch;
 	static Tile* treasureChest;
+	static Tile* spaceWorkbench;
+
+	static Tile* copperOre;
+	static Tile* tinOre;
+	static Tile* aluminiumOre;
+	static Tile* siliconOre;
+	static Tile* sapphireBlock;
+	static Tile* copperBlock;
+	static Tile* tinBlock;
+	static Tile* aluminiumBlock;
+	static Tile* siliconBlock;
+	static LiquidTile* oil;
+	static Tile* calmOil;
+	static Tile* quartzDoor;
+	static Tile* quartzFence;
+	static Tile* quartzFenceGate;
+	static Tile* quartzBookshelf;
+	static Tile* greenWeb;
+	//static Tile* oxygenator;
 
 	static void staticCtor();
 

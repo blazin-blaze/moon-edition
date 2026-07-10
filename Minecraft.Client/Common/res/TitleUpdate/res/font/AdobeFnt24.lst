@@ -1,0 +1,24 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\joshu\Documents\GitHub\MinecraftConsoles\Minecraft.Client\Common\res\TitleUpdate\res\Font\Default.png
+FileModTime:1773413056
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\joshu\Documents\GitHub\MinecraftConsoles\Minecraft.Client\Common\res\TitleUpdate\res\Font\Mojangles_11.png
+FileModTime:1773413056
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\joshu\Documents\GitHub\MinecraftConsoles\Minecraft.Client\Common\res\TitleUpdate\res\Font\Mojangles_7.png
+FileModTime:1773413056
+%EndFont
+

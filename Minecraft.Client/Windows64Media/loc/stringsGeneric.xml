@@ -761,6 +761,10 @@ If the Dropper is facing a Chest or another type of Container, the item will be 
 	<data name="IDS_DESC_DOOR_WOOD">
 		<value>Wooden doors are activated by using, hitting them or with Redstone.</value>
 	</data>	
+	
+	<data name="IDS_DESC_DOOR_QUARTZ">
+		<value>Quartz doors are activated by using, hitting them or with Redstone. Used by Alien Villagers.</value>
+	</data>	
 
 	<data name="IDS_DESC_DOOR_IRON">
 		<value>Iron doors can only be opened by Redstone, buttons or switches.</value>
@@ -1067,6 +1071,22 @@ The colors of the bed are always the same, regardless of the colors of wool used
 		<value>Used to go to the Moon dimension.</value>
 	</data>	
 	
+	<data name="IDS_DESC_BUGGY">
+		<value>Fast mode of transportation to use around the Moon!</value>
+	</data>	
+	
+	<data name="IDS_DESC_BUGGY_CRAFT">
+		<value>Used to craft a Buggy.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BUGGY_STORAGE">
+		<value>Allows you to store 27 stacks of items in your buggy.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BUGGY_BLUEPRINT">
+		<value>Needed to craft a Buggy - can be traded for sapphires with Alien Villagers.</value>
+	</data>	
+	
 	<data name="IDS_DESC_CHEESE">
 		<value>Found on the Moon, eat to regain hunger.</value>
 	</data>	
@@ -1076,11 +1096,11 @@ The colors of the bed are always the same, regardless of the colors of wool used
 	</data>	
 	
 	<data name="IDS_DESC_FREQUENCY_MODULE">
-		<value>Allows you to talk to Lunar Friends.</value>
+		<value>Allows you to talk to Alien Villagers.</value>
 	</data>	
 	
 	<data name="IDS_DESC_OXYGEN_MASK">
-		<value>One of three items needed to breathe on The Moon.</value>
+		<value>One of three items needed to breathe on The Moon - only canned food can be eaten while wearing!</value>
 	</data>	
 	
 	<data name="IDS_DESC_OXYGEN_GEAR">
@@ -1089,6 +1109,10 @@ The colors of the bed are always the same, regardless of the colors of wool used
 	
 	<data name="IDS_DESC_OXYGEN_TANK">
 		<value>One of three items needed to breathe on The Moon. Depletes over time.</value>
+	</data>	
+	
+	<data name="IDS_DESC_OXYGEN_INGREDIENT">
+		<value>An item used in crafting oxygen devices.</value>
 	</data>	
 	
 	<data name="IDS_DESC_CHEESEBURGER">
@@ -1149,6 +1173,30 @@ The colors of the bed are always the same, regardless of the colors of wool used
 
 	<data name="IDS_DESC_APPLE">
 		<value>Restores 2{*ICON_SHANK_01*}, and can be crafted into a golden apple.</value>
+	</data>	
+	
+	<data name="IDS_DESC_DEHYDRATED_APPLE">
+		<value>Restores 2.5{*ICON_SHANK_01*}, and can be eaten while weating an Oxygen Mask.</value>
+	</data>	
+	
+	<data name="IDS_DESC_DEHYDRATED_CARROT">
+		<value>Restores 2.5{*ICON_SHANK_01*}, and can be eaten while weating an Oxygen Mask.</value>
+	</data>	
+	
+	<data name="IDS_DESC_DEHYDRATED_MELON">
+		<value>Restores 1{*ICON_SHANK_01*}, and can be eaten while weating an Oxygen Mask.</value>
+	</data>	
+	
+	<data name="IDS_DESC_DEHYDRATED_POTATO">
+		<value>Restores 1.5{*ICON_SHANK_01*}, and can be eaten while weating an Oxygen Mask.</value>
+	</data>	
+	
+	<data name="IDS_DESC_CANNED_BEEF">
+		<value>Restores 2{*ICON_SHANK_01*}, and can be eaten while weating an Oxygen Mask.</value>
+	</data>	
+	
+	<data name="IDS_DESC_CANNED">
+		<value>Canned food that you can eat while wearing an Oxygen Mask.</value>
 	</data>	
 
 	<data name="IDS_DESC_GOLDENAPPLE">
@@ -1356,6 +1404,22 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_DESC_ORE_TITANIUM">
 		<value>Can be mined with a diamond pickaxe or better to collect titanium.</value>
 	</data>
+	
+	<data name="IDS_DESC_ORE_COPPER">
+		<value>Can be mined with a stone pickaxe or better to collect copper.</value>
+	</data>
+	
+	<data name="IDS_DESC_ORE_TIN">
+		<value>Can be mined with a stone pickaxe or better to collect tin.</value>
+	</data>
+	
+	<data name="IDS_DESC_ORE_ALUMINIUM">
+		<value>Can be mined with a stone pickaxe or better to collect aluminium.</value>
+	</data>
+	
+	<data name="IDS_DESC_ORE_SILICON">
+		<value>Can be mined with a iron pickaxe or better to collect silicon.</value>
+	</data>
 
 	<data name="IDS_DESC_ORE_MOON_QUARTZ">
 		<value>Can be mined with a iron pickaxe or better to collect quartz.</value>
@@ -1423,6 +1487,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_DESC_STONE_BRICK">
 		<value>Mined from stone using a pickaxe. Can be used to construct a furnace or stone tools.</value>
+	</data>	
+	
+	<data name="IDS_DESC_MOON_COBBLESTONE">
+		<value>Mined from moon stone using a pickaxe. Used in alien villages.</value>
 	</data>	
 
 	<data name="IDS_DESC_BRICK">
@@ -1507,6 +1575,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_DESC_STRING">
 		<value>Collected by killing a spider, and can be crafted into a Bow or Fishing Rod, or placed on the ground to create Tripwire.</value>
+	</data>	
+	
+	<data name="IDS_DESC_GREEN_STRING">
+		<value>Collected by killing an evolved spider - used the same as normal string.</value>
 	</data>	
 
 	<data name="IDS_DESC_FEATHER">
@@ -1627,6 +1699,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_DESC_WEB">
 		<value>Slows movement when walking through it. Can be destroyed using shears to collect string.</value>
+	</data>	
+	
+	<data name="IDS_DESC_GREEN_WEB">
+		<value>Slows movement when walking through it. Can be destroyed using shears to collect green string.</value>
 	</data>	
 
 	<data name="IDS_DESC_STONE_SILVERFISH">
@@ -1921,8 +1997,40 @@ Can also be used for low-level lighting.</value>
 		<value>Rocketship</value>
 	</data>	
 	
+	<data name="IDS_BUGGY">
+		<value>Buggy</value>
+	</data>	
+	
+	<data name="IDS_BUGGY_BLUEPRINT">
+		<value>Buggy Blueprint</value>
+	</data>	
+	
+	<data name="IDS_BUGGY_SEAT">
+		<value>Buggy Seat</value>
+	</data>	
+	
+	<data name="IDS_BUGGY_WHEEL">
+		<value>Buggy Wheel</value>
+	</data>	
+	
+	<data name="IDS_BUGGY_STORAGE">
+		<value>Buggy Storage Box</value>
+	</data>	
+	
 	<data name="IDS_LUNAR">
-		<value>Lunar Friend</value>
+		<value>Alien Villager</value>
+	</data>	
+	
+	<data name="IDS_EVOLVEDSKELETON">
+		<value>Evolved Skeleton</value>
+	</data>	
+	
+	<data name="IDS_EVOLVEDSPIDER">
+		<value>Evolved Spider</value>
+	</data>	
+	
+	<data name="IDS_EVOLVEDZOMBIE">
+		<value>Evolved Zombie</value>
 	</data>	
 
 	<data name="IDS_DESC_ZOMBIE">
@@ -2328,6 +2436,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_SWORD_TITANIUM">
 		<value>Titanium Sword</value>
 	</data>	
+	
+	<data name="IDS_ITEM_SWORD_SAPPHIRE">
+		<value>Sapphire Sword</value>
+	</data>	
 
 	<data name="IDS_ITEM_SHOVEL_WOOD">
 		<value>Wooden Shovel</value>
@@ -2351,6 +2463,10 @@ Can also be used for low-level lighting.</value>
 	
 	<data name="IDS_ITEM_SHOVEL_TITANIUM">
 		<value>Titanium Shovel</value>
+	</data>	
+	
+	<data name="IDS_ITEM_SHOVEL_SAPPHIRE">
+		<value>Sapphire Shovel</value>
 	</data>	
 
 	<data name="IDS_ITEM_PICKAXE_WOOD">
@@ -2376,6 +2492,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_PICKAXE_TITANIUM">
 		<value>Titanium Pickaxe</value>
 	</data>	
+	
+	<data name="IDS_ITEM_PICKAXE_SAPPHIRE">
+		<value>Sapphire Pickaxe</value>
+	</data>	
 
 	<data name="IDS_ITEM_HATCHET_WOOD">
 		<value>Wooden Axe</value>
@@ -2399,6 +2519,10 @@ Can also be used for low-level lighting.</value>
 	
 	<data name="IDS_ITEM_HATCHET_TITANIUM">
 		<value>Titanium Axe</value>
+	</data>	
+	
+	<data name="IDS_ITEM_HATCHET_SAPPHIRE">
+		<value>Sapphire Axe</value>
 	</data>	
 
 	<data name="IDS_ITEM_HOE_WOOD">
@@ -2424,9 +2548,17 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_HOE_TITANIUM">
 		<value>Titanium Hoe</value>
 	</data>	
+	
+	<data name="IDS_ITEM_HOE_SAPPHIRE">
+		<value>Sapphire Hoe</value>
+	</data>	
 
 	<data name="IDS_ITEM_DOOR_WOOD">
 		<value>Wooden Door</value>
+	</data>	
+	
+	<data name="IDS_ITEM_DOOR_QUARTZ">
+		<value>Quartz Door</value>
 	</data>	
 
 	<data name="IDS_ITEM_DOOR_IRON">
@@ -2468,6 +2600,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_HELMET_TITANIUM">
 		<value>Titanium Helmet</value>
 	</data>	
+	
+	<data name="IDS_ITEM_HELMET_SAPPHIRE">
+		<value>Sapphire Helmet</value>
+	</data>	
 
 	<data name="IDS_ITEM_CHESTPLATE_CLOTH">
 		<value>Leather Tunic</value>
@@ -2487,6 +2623,10 @@ Can also be used for low-level lighting.</value>
 	
 	<data name="IDS_ITEM_CHESTPLATE_TITANIUM">
 		<value>Titanium Chestplate</value>
+	</data>	
+	
+	<data name="IDS_ITEM_CHESTPLATE_SAPPHIRE">
+		<value>Sapphire Chestplate</value>
 	</data>	
 
 	<data name="IDS_ITEM_LEGGINGS_CLOTH">
@@ -2508,6 +2648,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_ITEM_LEGGINGS_TITANIUM">
 		<value>Titanium Leggings</value>
 	</data>	
+	
+	<data name="IDS_ITEM_LEGGINGS_SAPPHIRE">
+		<value>Sapphire Leggings</value>
+	</data>	
 
 	<data name="IDS_ITEM_BOOTS_CLOTH">
 		<value>Leather Boots</value>
@@ -2527,6 +2671,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_BOOTS_TITANIUM">
 		<value>Titanium Boots</value>
+	</data>	
+	
+	<data name="IDS_ITEM_BOOTS_SAPPHIRE">
+		<value>Sapphire Boots</value>
 	</data>	
 
 	<data name="IDS_ITEM_INGOT_IRON">
@@ -2559,6 +2707,26 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_APPLE">
 		<value>Apple</value>
+	</data>	
+	
+	<data name="IDS_ITEM_DEHYDRATED_APPLE">
+		<value>Dehydrated Apple</value>
+	</data>	
+	
+	<data name="IDS_ITEM_DEHYDRATED_CARROT">
+		<value>Dehydrated Carrot</value>
+	</data>	
+	
+	<data name="IDS_ITEM_DEHYDRATED_MELON">
+		<value>Dehydrated Melon</value>
+	</data>	
+	
+	<data name="IDS_ITEM_DEHYDRATED_POTATO">
+		<value>Dehydrated Potato</value>
+	</data>	
+	
+	<data name="IDS_ITEM_CANNED_BEEF">
+		<value>Canned Beef</value>
 	</data>	
 
 	<data name="IDS_ITEM_BOW">
@@ -2595,6 +2763,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_ITEM_STRING">
 		<value>String</value>
+	</data>	
+	
+	<data name="IDS_ITEM_GREEN_STRING">
+		<value>Green String</value>
 	</data>	
 
 	<data name="IDS_ITEM_FEATHER">
@@ -3109,6 +3281,18 @@ Can also be used for low-level lighting.</value>
 		<value>Oxygen Tank</value>
 	</data>
 	
+	<data name="IDS_ITEM_OXYGEN_VENT">
+		<value>Oxygen Vent</value>
+	</data>
+	
+	<data name="IDS_ITEM_OXYGEN_FAN">
+		<value>Oxygen Fan</value>
+	</data>
+	
+	<data name="IDS_ITEM_OXYGEN_CONCENTRATOR">
+		<value>Oxygen Concentrator</value>
+	</data>
+	
 	<data name="IDS_ITEM_CHEESEBURGER">
 		<value>Cheeseburger</value>
 	</data>	
@@ -3143,6 +3327,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_STONE_BRICK">
 		<value>Cobblestone</value>
+	</data>	
+	
+	<data name="IDS_TILE_MOON_COBBLESTONE">
+		<value>Moon Cobblestone</value>
 	</data>	
 
 	<data name="IDS_TILE_OAKWOOD_PLANKS">
@@ -3223,6 +3411,22 @@ Can also be used for low-level lighting.</value>
 	
 	<data name="IDS_TILE_ORE_TITANIUM">
 		<value>Titanium Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_COPPER">
+		<value>Copper Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_TIN">
+		<value>Tin Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_ALUMINUM">
+		<value>Aluminium Ore</value>
+	</data>	
+	
+	<data name="IDS_TILE_ORE_SILICON">
+		<value>Silicon Ore</value>
 	</data>	
 
 	<data name="IDS_TILE_ORE_MOON_QUARTZ">
@@ -3385,8 +3589,48 @@ Can also be used for low-level lighting.</value>
 		<value>Block of Titanium</value>
 	</data>	
 	
+	<data name="IDS_TILE_BLOCK_SAPPHIRE">
+		<value>Block of Sapphire</value>
+	</data>	
+	
+	<data name="IDS_TILE_BLOCK_COPPER">
+		<value>Copper Block</value>
+	</data>	
+	
+	<data name="IDS_TILE_BLOCK_TIN">
+		<value>Tin Block</value>
+	</data>	
+	
+	<data name="IDS_TILE_BLOCK_ALUMINIUM">
+		<value>Aluminium Block</value>
+	</data>	
+	
+	<data name="IDS_TILE_BLOCK_SILICON">
+		<value>Block of Silicon</value>
+	</data>	
+	
 	<data name="IDS_DESC_BLOCK_TITANIUM">
 		<value>A compact way of storing Titanium.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_SAPPHIRE">
+		<value>A compact way of storing Sapphire.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_COPPER">
+		<value>A compact way of storing Copper.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_TIN">
+		<value>A compact way of storing Tin.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_ALUMINIUM">
+		<value>A compact way of storing Aluminium.</value>
+	</data>	
+	
+	<data name="IDS_DESC_BLOCK_SILICON">
+		<value>A compact way of storing Silicon.</value>
 	</data>	
 
 	<data name="IDS_DESC_BLOCK_GOLD">
@@ -3459,6 +3703,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_BOOKSHELF">
 		<value>Bookshelf</value>
+	</data>	
+	
+	<data name="IDS_TILE_QUARTZ_BOOKSHELF">
+		<value>Quartz Bookshelf</value>
 	</data>	
 
 	<data name="IDS_TILE_STONE_MOSS">
@@ -3548,6 +3796,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_TILE_DOOR_WOOD">
 		<value>Wooden Door</value>
 	</data>	
+	
+	<data name="IDS_TILE_DOOR_QUARTZ">
+		<value>Quartz Door</value>
+	</data>	
 
 	<data name="IDS_TILE_LADDER">
 		<value>Ladder</value>
@@ -3620,6 +3872,10 @@ Can also be used for low-level lighting.</value>
 	<data name="IDS_TILE_FENCE">
 		<value>Fence</value>
 	</data>	
+	
+	<data name="IDS_TILE_QUARTZ_FENCE">
+		<value>Quartz Fence</value>
+	</data>	
 
 	<data name="IDS_TILE_PUMPKIN">
 		<value>Pumpkin</value>
@@ -3675,6 +3931,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_WEB">
 		<value>Web</value>
+	</data>	
+	
+	<data name="IDS_TILE_GREEN_WEB">
+		<value>Green Web</value>
 	</data>	
 
 	<data name="IDS_TILE_TALL_GRASS">
@@ -3775,6 +4035,10 @@ Can also be used for low-level lighting.</value>
 
 	<data name="IDS_TILE_FENCE_GATE">
 		<value>Fence Gate</value>
+	</data>	
+	
+	<data name="IDS_TILE_QUARTZ_FENCE_GATE">
+		<value>Quartz Fence Gate</value>
 	</data>	
 
 	<data name="IDS_TILE_STAIRS_BRICKS">
@@ -6291,6 +6555,22 @@ Would you like to unlock the full game now?</value>
 	<data name="IDS_GROUPNAME_STRUCTURES">
 		<value>Structures</value>
 	</data>	
+	
+	<data name="IDS_GROUPNAME_ROCKET">
+		<value>Space Transportation</value>
+	</data>	
+	
+	<data name="IDS_GROUPNAME_ACCESSORY">
+		<value>Space Equipment</value>
+	</data>	
+	
+	<data name="IDS_GROUPNAME_COMPRESSED">
+		<value>Compressed Metals</value>
+	</data>	
+	
+	<data name="IDS_GROUPNAME_SPACE_MISC">
+		<value>Miscellaneous</value>
+	</data>	
 
 	<data name="IDS_GROUPNAME_ARMOUR">
 		<value>Armor</value>
@@ -6442,6 +6722,10 @@ Would you like to unlock the full game now?</value>
 
 	<data name="IDS_INGREDIENTS">
 		<value>Ingredients</value>
+	</data>	
+	
+	<data name="IDS_OXYGEN">
+		<value>Oxygen Tank</value>
 	</data>	
 
 	<data name="IDS_BREWING_STAND">
@@ -7780,6 +8064,10 @@ Would you like to install the mash-up pack or texture pack now?</value>
 	<data name="IDS_POTION_EMPTY">
 		<value>No Effects</value>
 	</data>	
+	
+	<data name="IDS_POTION_MOON_RETURN">
+		<value>Moon Return</value>
+	</data>	
 
 	<data name="IDS_POTION_MOVESPEED">
 		<value>Speed</value>
@@ -7963,6 +8251,10 @@ Would you like to install the mash-up pack or texture pack now?</value>
 
 	<data name="IDS_POTION_SATURATION_POSTFIX">
 		<value>of Saturation</value>
+	</data>	
+	
+	<data name="IDS_POTION_MOON_RETURN_POSTFIX">
+		<value>of Return</value>
 	</data>	
 
 	<data name="IDS_POTION_POTENCY_0">
@@ -8355,7 +8647,7 @@ Would you like to install the mash-up pack or texture pack now?</value>
 	</data>	
 	
 	<data name="IDS_DESC_SAPPHIRE">
-		<value>Can be traded with lunar friends.</value>
+		<value>Can be traded with alien villagers.</value>
 	</data>	
 
 	<data name="IDS_DESC_FLOWERPOT">
@@ -8447,7 +8739,7 @@ Would you like to install the mash-up pack or texture pack now?</value>
 	</data>	
 
 	<data name="IDS_ITEM_NETHER_QUARTZ">
-		<value>Nether Quartz</value>
+		<value>Quartz</value>
 	</data>	
 
 	<data name="IDS_TILE_EMERALDORE">
@@ -9062,5 +9354,217 @@ All Ender Chests in a world are linked. Items placed into an Ender Chest are acc
 
 	<data name="IDS_TOOLTIPS_CURE">
 		<value>Cure</value>
+	</data>	
+	
+	<data name="IDS_ITEM_RAW_SILICON">
+		<value>Raw Silicon</value>
+	</data>	
+	
+	<data name="IDS_DESC_RAW_SILICON">
+		<value>Used to make silicon wafers.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_TIN_CANISTER">
+		<value>Tin Canister</value>
+	</data>	
+	
+	<data name="IDS_DESC_SPACE_RECIPE">
+		<value>Used in space crafting recipes.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_FUEL_CANISTER">
+		<value>Fuel Canister</value>
+	</data>	
+	
+	<data name="IDS_DESC_FUEL_CANISTER">
+		<value>Used to fuel rockets.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COPPER_INGOT">
+		<value>Copper Ingot</value>
+	</data>	
+	
+	<data name="IDS_ITEM_ALUMINIUM_INGOT">
+		<value>Aluminium Ingot</value>
+	</data>	
+	
+	<data name="IDS_ITEM_TIN_INGOT">
+		<value>Tin Ingot</value>
+	</data>	
+	
+	<data name="IDS_ITEM_BUCKET_FUEL">
+		<value>Bucket of Fuel</value>
+	</data>	
+	
+	<data name="IDS_DESC_BUCKET_FUEL">
+		<value>Manufactured from oil - used to fuel rockets.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_BUCKET_OIL">
+		<value>Bucket of Oil</value>
+	</data>	
+	
+	<data name="IDS_DESC_BUCKET_OIL">
+		<value>Found from oil deposits - used to craft rocket fuel.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_IRON">
+		<value>Compressed Iron</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_IRON">
+		<value>Compressed version of iron.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_BRONZE">
+		<value>Compressed Bronze</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_BRONZE">
+		<value>Compressed version of copper and tin.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_ALUMINIUM">
+		<value>Compressed Aluminium</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_ALUMINIUM">
+		<value>Compressed version of aluminium.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_STEEL">
+		<value>Compressed Steel</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_STEEL">
+		<value>Compressed version of coal and iron.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_TIN">
+		<value>Compressed Tin</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_TIN">
+		<value>Compressed version of tin.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_HEAVY_DUTY">
+		<value>Heavy-Duty Plate</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_HEAVY_DUTY">
+		<value>Strongest compressed metal - made from steel, aluminium, and bronze.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_COMPRESSED_COPPER">
+		<value>Compressed Copper</value>
+	</data>	
+	
+	<data name="IDS_DESC_COMPRESSED_COPPER">
+		<value>Compressed version of copper.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_ROCKET_FINS">
+		<value>Rocket Fins</value>
+	</data>	
+	
+	<data name="IDS_DESC_ROCKET_FINS">
+		<value>Attached to the bottom of a rocket.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_ROCKET_ENGINE">
+		<value>Rocket Engine</value>
+	</data>	
+	
+	<data name="IDS_DESC_ROCKET_ENGINE">
+		<value>Propels a rocket into the air!</value>
+	</data>	
+	
+	<data name="IDS_ITEM_NOSE_CONE">
+		<value>Nose Cone</value>
+	</data>	
+	
+	<data name="IDS_DESC_NOSE_CONE">
+		<value>Attached to the top of a rocket.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_BASIC_WAFER">
+		<value>Basic Wafer</value>
+	</data>	
+	
+	<data name="IDS_DESC_BASIC_WAFER">
+		<value>Made from raw silicon.</value>
+	</data>	
+	
+	<data name="IDS_ITEM_ADVANCED_WAFER">
+		<value>Advanced Wafer</value>
+	</data>	
+	
+	<data name="IDS_DESC_ADVANCED_WAFER">
+		<value>A better version of the basic wafer - made from raw silicon.</value>
+	</data>	
+	
+	<data name="IDS_TILE_COPPER_ORE">
+		<value>Copper Ore</value>
+	</data>	
+	
+	<data name="IDS_DESC_COPPER_ORE">
+		<value>Can be smelted into copper ingots</value>
+	</data>	
+	
+	<data name="IDS_TILE_ALUMINIUM_ORE">
+		<value>Aluminium Ore</value>
+	</data>	
+	
+	<data name="IDS_DESC_ALUMINIUM_ORE">
+		<value>Can be smelted into aluminium ingots</value>
+	</data>	
+	
+	<data name="IDS_TILE_TIN_ORE">
+		<value>Tin Ore</value>
+	</data>	
+	
+	<data name="IDS_DESC_TIN_ORE">
+		<value>Can be smelted into tin ingots</value>
+	</data>	
+	
+	<data name="IDS_TILE_SILICON_ORE">
+		<value>Silicon Ore</value>
+	</data>	
+	
+	<data name="IDS_DESC_SILICON_ORE">
+		<value>Source of raw silicon - can be made into wafers</value>
+	</data>	
+	
+	<data name="IDS_TILE_FUEL">
+		<value>Fuel</value>
+	</data>	
+	
+	<data name="IDS_DESC_FUEL">
+		<value>Can be used to fuel rockets</value>
+	</data>	
+	
+	<data name="IDS_TILE_OIL">
+		<value>Oil</value>
+	</data>	
+	
+	<data name="IDS_DESC_OIL">
+		<value>Valuable liquid that can be made into rocket fuel</value>
+	</data>	
+	
+	<data name="IDS_TILE_SPACE_WORKBENCH">
+		<value>Space Crafting Table</value>
+	</data>	
+	
+	<data name="IDS_DESC_SPACE_WORKBENCH">
+		<value>Used to craft materials and equipment for moon adventures</value>
+	</data>	
+	
+	<data name="IDS_TILE_OXYGENATOR">
+		<value>Oxygenator</value>
+	</data>	
+	
+	<data name="IDS_DESC_OXYGENATOR">
+		<value>Used to refill oxygen tanks.</value>
 	</data>	
 </root>

@@ -135,6 +135,9 @@ const wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
 	L"Material_Water",
 	L"Material_Wood",
 	L"Material_Emerald",
+	L"Material_Fuel",
+	L"Material_Oil",
+	L"Material_Quartz",
 
 	L"Particle_Note_00",
 	L"Particle_Note_01",
@@ -258,10 +261,13 @@ const wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
 	L"Mob_Horse_Colour2",
 	L"Mob_Lunar_Colour1",
 	L"Mob_Lunar_Colour2",
+	L"Mob_Evolved_Colour1",
+	L"Mob_Evolved_Colour2",
 
 	L"Armour_Default_Leather_Colour",
 	L"Under_Water_Clear_Colour",
 	L"Under_Lava_Clear_Colour",
+	L"Under_Oil_Clear_Colour",
 	L"In_Cloud_Base_Colour",
 
 	L"Under_Water_Fog_Colour",

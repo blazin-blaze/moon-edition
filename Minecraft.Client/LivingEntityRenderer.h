@@ -44,4 +44,5 @@ protected:
 	virtual bool shouldShowName(shared_ptr<LivingEntity> mob);
 	virtual void renderNameTags(shared_ptr<LivingEntity> mob, double x, double y, double z, const wstring &msg, float scale, double dist);
 	virtual void renderNameTag(shared_ptr<LivingEntity> mob, const wstring &name, double x, double y, double z, int maxDist, int color = 0xff000000);
+	virtual void renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a);
 };

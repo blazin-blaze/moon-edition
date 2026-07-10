@@ -174,7 +174,8 @@ shared_ptr<DoorInfo> Villages::getDoorInfo(int x, int y, int z)
 void Villages::createDoorInfo(int x, int y, int z)
 {
 	int dir = static_cast<DoorTile *>(Tile::door_wood)->getDir(level, x, y, z);
-	if (dir == 0 || dir == 2)
+	int dir2 = static_cast<DoorTile*>(Tile::quartzDoor)->getDir(level, x, y, z);
+	if (dir == 0 || dir == 2 || dir2 == 0 || dir2 == 2)
 	{
 		int canSeeX = 0;
 		for (int i = -5; i < 0; ++i)
@@ -208,7 +209,7 @@ bool Villages::hasQuery(int x, int y, int z)
 bool Villages::isDoor(int x, int y, int z)
 {
 	int tileId = level->getTile(x, y, z);
-	return tileId == Tile::door_wood_Id;
+	return tileId == Tile::door_wood_Id || tileId == Tile::quartzDoor_Id;
 }
 
 void Villages::load(CompoundTag *tag)

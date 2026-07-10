@@ -22,6 +22,7 @@ MoonBiome::MoonBiome(int id) : Biome(id)
 	enemies.push_back(new MobSpawnerData(eTYPE_ZOMBIE, 10, 4, 4));
 	enemies.push_back(new MobSpawnerData(eTYPE_SKELETON, 10, 4, 4));
 	enemies.push_back(new MobSpawnerData(eTYPE_CREEPER, 10, 4, 4));
+	enemies.push_back(new MobSpawnerData(eTYPE_ENDERMAN, 1, 1, 4));
 }
 
 void MoonBiome::decorate(Level* level, Random* random, int xo, int zo)

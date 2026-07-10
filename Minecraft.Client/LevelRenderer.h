@@ -41,6 +41,7 @@ private:
 	static ResourceLocation MOON_LOCATION;
 	static ResourceLocation MOON_PHASES_LOCATION;
 	static ResourceLocation EARTH_PHASES_LOCATION;
+	static ResourceLocation EARTH_LOCATION;
 	static ResourceLocation SUN_LOCATION;
 	static ResourceLocation CLOUDS_LOCATION;
 	static ResourceLocation END_SKY_LOCATION;
@@ -92,6 +93,7 @@ public:
 	void renderSameAsLast(int layer, double alpha);
 	void tick();
 	void renderSky(float alpha);
+	void renderEarth(float alpha);
 	void renderHaloRing(float alpha);
 	void renderClouds(float alpha);
 	bool isInCloud(double x, double y, double z, float alpha);
@@ -119,6 +121,9 @@ public:
 	void playStreamingMusic(const wstring& name, int x, int y, int z);
 	void playSound(int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist=16.0f);
 	void playSound(shared_ptr<Entity> entity,int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist=16.0f);
+	void playRocketSound(double x, double y, double z, int rocketId, float fSoundClipDist = 16.0f);
+	void moveRocketSound(double x, double y, double z, int rocketId);
+	void removeRocketSound(double x, double y, double z, int rocketId);
 	void playSoundExceptPlayer(shared_ptr<Player> player, int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist=16.0f);
 	void addParticle(ePARTICLE_TYPE eParticleType, double x, double y, double z, double xa, double ya, double za); // 4J added
 	shared_ptr<Particle> addParticleInternal(ePARTICLE_TYPE eParticleType, double x, double y, double z, double xa, double ya, double za); // 4J added

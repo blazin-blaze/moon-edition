@@ -12,7 +12,9 @@
 #include "MobSkinMemTextureProcessor.h"
 #include "GameRenderer.h"
 #include "BubbleParticle.h"
+#include "OilBubbleParticle.h"
 #include "SmokeParticle.h"
+#include "FierySmokeParticle.h"
 #include "NoteParticle.h"
 #include "NetherPortalParticle.h"
 #include "EnderParticle.h"
@@ -21,6 +23,7 @@
 #include "LavaParticle.h"
 #include "FootstepParticle.h"
 #include "SplashParticle.h"
+#include "OilSplashParticle.h"
 #include "SmokeParticle.h"
 #include "RedDustParticle.h"
 #include "BreakingItemParticle.h"
@@ -77,6 +80,7 @@ static LevelRenderer_FindNearestChunk_DataIn g_findNearestChunkDataIn __attribut
 ResourceLocation LevelRenderer::MOON_LOCATION = ResourceLocation(TN_TERRAIN_MOON);
 ResourceLocation LevelRenderer::MOON_PHASES_LOCATION = ResourceLocation(TN_TERRAIN_MOON_PHASES);
 ResourceLocation LevelRenderer::EARTH_PHASES_LOCATION = ResourceLocation(TN_TERRAIN_EARTH_PHASES);
+ResourceLocation LevelRenderer::EARTH_LOCATION = ResourceLocation(TN_TERRAIN_EARTH);
 ResourceLocation LevelRenderer::SUN_LOCATION = ResourceLocation(TN_TERRAIN_SUN);
 ResourceLocation LevelRenderer::CLOUDS_LOCATION = ResourceLocation(TN_ENVIRONMENT_CLOUDS);
 ResourceLocation LevelRenderer::END_SKY_LOCATION = ResourceLocation(TN_MISC_TUNNEL);
@@ -1053,7 +1057,13 @@ void LevelRenderer::renderSky(float alpha)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	Lighting::turnOff();
 
-	float *c = level[playerIndex]->dimension->getSunriseColor(level[playerIndex]->getTimeOfDay(alpha), alpha);
+	float td = level[playerIndex]->getTimeOfDay(alpha);
+
+	if ((mc->cameraTargetPlayer->y >= 300 && mc->cameraTargetPlayer->dimension == 0) || mc->cameraTargetPlayer->dimension == 2) {
+		td = level[playerIndex]->dimension->getTimeOfDay(18000, alpha);
+	}
+
+	float *c = level[playerIndex]->dimension->getSunriseColor(td, alpha);
 	if (c != nullptr)
 	{
 		glDisable(GL_TEXTURE_2D);
@@ -1062,7 +1072,7 @@ void LevelRenderer::renderSky(float alpha)
 		glPushMatrix();
 		{
 			glRotatef(90, 1, 0, 0);
-			glRotatef(Mth::sin(level[playerIndex]->getSunAngle(alpha)) < 0 ? 180 : 0, 0, 0, 1);
+			glRotatef(Mth::sin(level[playerIndex]->getSunAngle(mc->cameraTargetPlayer, alpha)) < 0 ? 180 : 0, 0, 0, 1);
 			glRotatef(90, 0, 0, 1);
 
 			float r = c[0];
@@ -1100,16 +1110,27 @@ void LevelRenderer::renderSky(float alpha)
 
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	glPushMatrix();
 	{
+		int* id = &level[playerIndex]->dimension->id;
+		bool isMoonDimension = *id == 2;
+
 		float rainBrightness = 1 - level[playerIndex]->getRainLevel(alpha);
 		float xp = 0;
 		float yp = 0;
 		float zp = 0;
+		if (mc->cameraTargetPlayer->y >= 300 || isMoonDimension) {
+			rainBrightness = 1.0f;
+		}
 		glColor4f(1, 1, 1, rainBrightness);
 		glTranslatef(xp, yp, zp);
 		glRotatef(-90, 0, 1, 0);
-		glRotatef(level[playerIndex]->getTimeOfDay(alpha) * 360, 1, 0, 0);
+
+		if (isMoonDimension) {
+			td = level[playerIndex]->getTimeOfDay(alpha);
+		}
+		glRotatef(td * 360, 1, 0, 0);
 		float ss = 30;
 
 		MemSect(31);
@@ -1123,29 +1144,61 @@ void LevelRenderer::renderSky(float alpha)
 		t->end();
 
 		ss = 20;
-		int *id = &level[playerIndex]->dimension->id;
-		if (id != nullptr && *id == 2) {
-			textures->bindTexture(&EARTH_PHASES_LOCATION); // 4J was L"/1_2_2/terrain/moon_phases.png"
+		if (isMoonDimension) {
+			glPopMatrix();
+
+			glPushMatrix();
+
+			glDisable(GL_CULL_FACE);
+			glColor4f(1, 1, 1, 1);
+			glRotatef(td * 360, 0, 1, 0);
+			glRotatef(70, 1, 0, 0);
+
+			textures->bindTexture(&EARTH_PHASES_LOCATION);
+			int phase = level[playerIndex]->getMoonPhase();
+			int u = phase % 4;
+			int v = phase / 4 % 2;
+			float u0 = (u + 0) / 4.0f;
+			float v0 = (v + 0) / 2.0f;
+			float u1 = (u + 1) / 4.0f;
+			float v1 = (v + 1) / 2.0f;
+			t->begin();
+			t->vertexUV(-60, 100, +60, u1, v1);
+			t->vertexUV(60, 100, +60, u0, v1);
+			t->vertexUV(60, 100, -60, u0, v0);
+			t->vertexUV(-60, 100, -60, u1, v0);
+			t->end();
+
+			glEnable(GL_CULL_FACE);
+
+			glPopMatrix();
+
+			glPushMatrix();
+
+			glColor4f(1, 1, 1, rainBrightness);
+			glTranslatef(xp, yp, zp);
+			glRotatef(-90, 0, -1, 0);
+			glRotatef(td * 360, -1, 0, 0);
 		}
 		else {
 			textures->bindTexture(&MOON_PHASES_LOCATION); // 4J was L"/1_2_2/terrain/moon_phases.png"
+			int phase = level[playerIndex]->getMoonPhase();
+			int u = phase % 4;
+			int v = phase / 4 % 2;
+			float u0 = (u + 0) / 4.0f;
+			float v0 = (v + 0) / 2.0f;
+			float u1 = (u + 1) / 4.0f;
+			float v1 = (v + 1) / 2.0f;
+			t->begin();
+			t->vertexUV(-ss, -100, +ss, u1, v1);
+			t->vertexUV(+ss, -100, +ss, u0, v1);
+			t->vertexUV(+ss, -100, -ss, u0, v0);
+			t->vertexUV(-ss, -100, -ss, u1, v0);
+			t->end();
 		}
-		int phase = level[playerIndex]->getMoonPhase();
-		int u = phase % 4;
-		int v = phase / 4 % 2;
-		float u0 = (u + 0) / 4.0f;
-		float v0 = (v + 0) / 2.0f;
-		float u1 = (u + 1) / 4.0f;
-		float v1 = (v + 1) / 2.0f;
-		t->begin();
-		t->vertexUV(-ss, -100, +ss, u1, v1);
-		t->vertexUV(+ss, -100, +ss, u0, v1);
-		t->vertexUV(+ss, -100, -ss, u0, v0);
-		t->vertexUV(-ss, -100, -ss, u1, v0);
-		t->end();
-
+		
 		glDisable(GL_TEXTURE_2D);
-		float br = level[playerIndex]->getStarBrightness(alpha) * rainBrightness;
+		float br = level[playerIndex]->getStarBrightness(mc->cameraTargetPlayer, alpha) * rainBrightness;
 		if (br > 0)
 		{
 			glColor4f(br, br, br, br);
@@ -1177,7 +1230,7 @@ void LevelRenderer::renderSky(float alpha)
 		// 4J - can't work out what this big black box is for. Taking it out until someone misses it... it causes a big black box to visible appear in 3rd person mode whilst under the ground.
 #if 0
 		float ss = 1;
-		float yo = -(float) (yy + 65);
+		float yo = -(float)(yy + 65);
 		float y0 = -ss;
 		float y1 = yo;
 
@@ -1227,6 +1280,42 @@ void LevelRenderer::renderSky(float alpha)
 	glEnable(GL_TEXTURE_2D);
 
 	glDepthMask(true);
+}
+
+void LevelRenderer::renderEarth(float alpha)
+{
+	if (mc->level->dimension->id == 0) {
+		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_FOG);
+		glDisable(GL_CULL_FACE);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		Tesselator* t = Tesselator::getInstance();
+		//float earthY = -40 - altitude * 0.5f;
+
+		glPushMatrix();
+
+		int playerIndex = mc->player->GetXboxPad();
+		glColor4f(1, 1, 1, 1);
+		float ss = 100;
+
+		textures->bindTexture(&EARTH_LOCATION);
+		t->begin();
+		t->vertexUV((float)(-ss), -300, (float)(-ss), static_cast<float>(0), static_cast<float>(0));
+		t->vertexUV((float)(+ss), -300, (float)(-ss), static_cast<float>(1), static_cast<float>(0));
+		t->vertexUV((float)(+ss), -300, (float)(+ss), static_cast<float>(1), static_cast<float>(1));
+		t->vertexUV((float)(-ss), -300, (float)(+ss), static_cast<float>(0), static_cast<float>(1));
+		t->end();
+
+		glPopMatrix();
+
+		glDisable(GL_BLEND);
+
+		glEnable(GL_FOG);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_CULL_FACE);
+	}
 }
 
 void LevelRenderer::renderHaloRing(float alpha)
@@ -2644,6 +2733,21 @@ void LevelRenderer::playSound(shared_ptr<Entity> entity,int iSound, double x, do
 {
 }
 
+void LevelRenderer::playRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist)
+{
+	//code in ServerLevelListener
+}
+
+void LevelRenderer::moveRocketSound(double x, double y, double z, int rocketId)
+{
+	//code in ServerLevelListener
+}
+
+void LevelRenderer::removeRocketSound(double x, double y, double z, int rocketId)
+{
+	//code in ServerLevelListener
+}
+
 void LevelRenderer::playSoundExceptPlayer(shared_ptr<Player> player, int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist)
 {
 }
@@ -2783,6 +2887,10 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 		particle = std::make_shared<BubbleParticle>(lev, x, y, z, xa, ya, za);
 		break;
 
+	case eParticleType_oil_bubble:
+		particle = std::make_shared<OilBubbleParticle>(lev, x, y, z, xa, ya, za);
+		break;
+
 	case eParticleType_suspended:
 		particle = std::make_shared<SuspendedParticle>(lev, x, y, z, xa, ya, za);
 		break;
@@ -2830,8 +2938,14 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 	case eParticleType_smoke:
 		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za);
 		break;
+	case eParticleType_smokeMedium:
+		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za, 2.5f);
+		break;
 	case eParticleType_smokeBig:
 		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za, 5.0f);
+		break;
+	case eParticleType_fierySmoke:
+		particle = std::make_shared<FierySmokeParticle>(lev, x, y, z, xa, ya, za, 8.0f);
 		break;
 	case eParticleType_endportal: // 4J - Added.
 		{
@@ -2895,6 +3009,9 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 	case eParticleType_splash:
 		particle = std::make_shared<SplashParticle>(lev, x, y, z, xa, ya, za);
 		break;
+	case eParticleType_oil_splash:
+		particle = std::make_shared<OilSplashParticle>(lev, x, y, z, xa, ya, za);
+		break;
 	case eParticleType_largesmoke:
 		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za, 2.5f);
 		break;
@@ -2906,6 +3023,9 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 		break;
 	case eParticleType_dripWater:
 		particle = std::make_shared<DripParticle>(lev, x, y, z, Material::water);
+		break;
+	case eParticleType_dripOil:
+		particle = std::make_shared<DripParticle>(lev, x, y, z, Material::oil);
 		break;
 	case eParticleType_dripLava:
 		particle = std::make_shared<DripParticle>(lev, x, y, z, Material::lava);

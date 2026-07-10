@@ -3,6 +3,8 @@
 #include "..\Minecraft.World\Player.h"
 
 class HumanoidModel;
+class OxygenSetupModel;
+class FrequencyModuleModel;
 
 using namespace std;
 
@@ -11,11 +13,16 @@ class PlayerRenderer : public LivingEntityRenderer
 public:
 	// 4J: Made public for use in skull renderer
 	static ResourceLocation DEFAULT_LOCATION;
+	static ResourceLocation OXYGEN_SETUP_LOCATION;
+	static ResourceLocation FREQUENCY_MODULE_LOCATION;
 
 private:
 	HumanoidModel *humanoidModel;
     HumanoidModel *armorParts1;
     HumanoidModel *armorParts2;
+	OxygenSetupModel* oxygenSetup;
+	FrequencyModuleModel* frequencyModule;
+	float frequencyModRot;
 
 public:
 	PlayerRenderer();
@@ -28,6 +35,7 @@ private:
 protected:
 	virtual int prepareArmor(shared_ptr<LivingEntity> _player, int layer, float a);
 	virtual void prepareSecondPassArmor(shared_ptr<LivingEntity> mob, int layer, float a);
+	virtual void renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a);
 
 public:
 	virtual void render(shared_ptr<Entity> _mob, double x, double y, double z, float rot, float a);

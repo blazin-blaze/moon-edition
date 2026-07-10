@@ -1097,6 +1097,138 @@ void IUIScene_AbstractContainerMenu::onMouseTick()
 					buttonY = eToolTipQuickMove;
 				}
 			}
+			// 4J-PB - show tooltips for quick use of fuel or ingredient
+			else if((eSectionUnderPointer==eSectionFurnaceUsing)||(eSectionUnderPointer==eSectionFurnaceInventory))
+			{
+				// Get the info on this item.
+				shared_ptr<ItemInstance> item = getSlotItem(eSectionUnderPointer, iNewSlotIndex);
+				bool bValidFuel = FurnaceTileEntity::isFuel(item);
+				bool bValidIngredient = FurnaceRecipes::getInstance()->getResult(item->getItem()->id) != nullptr;
+
+				if(bValidIngredient)
+				{
+					// is there already something in the ingredient slot?
+					if(!isSlotEmpty(eSectionFurnaceIngredient,0))
+					{
+						// is it the same as this item
+						shared_ptr<ItemInstance> IngredientItem = getSlotItem(eSectionFurnaceIngredient,0);
+						if(IngredientItem->id == item->id)
+						{
+							buttonY = eToolTipQuickMoveIngredient;
+						}
+						else
+						{
+							if(FurnaceRecipes::getInstance()->getResult(item->id)==nullptr)
+							{
+								buttonY = eToolTipQuickMove;
+							}
+							else
+							{
+								buttonY = eToolTipQuickMoveIngredient;
+							}
+						}
+					}
+					else
+					{
+						// ingredient slot empty
+						buttonY = eToolTipQuickMoveIngredient;
+					}
+				}
+				else if(bValidFuel)
+				{
+					// Is there already something in the fuel slot?
+					if(!isSlotEmpty(eSectionFurnaceFuel,0))
+					{
+						// is it the same as this item
+						shared_ptr<ItemInstance> fuelItem = getSlotItem(eSectionFurnaceFuel,0);
+						if(fuelItem->id == item->id)
+						{
+							buttonY = eToolTipQuickMoveFuel;
+						}
+						else if(bValidIngredient)
+						{
+							// check if the ingredient slot is empty, or the same as this
+							if(!isSlotEmpty(eSectionFurnaceIngredient,0))
+							{
+								// is it the same as this item
+								shared_ptr<ItemInstance> IngredientItem = getSlotItem(eSectionFurnaceIngredient,0);
+								if(IngredientItem->id == item->id)
+								{
+									buttonY = eToolTipQuickMoveIngredient;
+								}
+								else
+								{
+									if(FurnaceRecipes::getInstance()->getResult(item->id)==nullptr)
+									{
+										buttonY = eToolTipQuickMove;
+									}
+									else
+									{
+										buttonY = eToolTipQuickMoveIngredient;
+									}
+								}
+							}
+							else
+							{
+								// ingredient slot empty
+								buttonY = eToolTipQuickMoveIngredient;
+							}
+						}
+						else
+						{
+							buttonY = eToolTipQuickMove;
+						}
+					}
+					else
+					{
+						buttonY = eToolTipQuickMoveFuel;
+					}
+				}
+				else
+				{
+					buttonY = eToolTipQuickMove;
+				}
+			}
+			/*else if ((eSectionUnderPointer == eSectionOxygenatorUsing) || (eSectionUnderPointer == eSectionOxygenatorInventory))
+			{
+				// Get the info on this item.
+				shared_ptr<ItemInstance> item = getSlotItem(eSectionUnderPointer, iNewSlotIndex);
+				bool bValidIngredient = item->getItem()->id == Item::oxygenTank_Id;
+
+				if(bValidIngredient)
+				{
+					// is there already something in the ingredient slot?
+					if(!isSlotEmpty(eSectionOxygenatorIngredient,0))
+					{
+						// is it the same as this item
+						shared_ptr<ItemInstance> IngredientItem = getSlotItem(eSectionOxygenatorIngredient,0);
+						if(IngredientItem->id == item->id)
+						{
+							buttonY = eToolTipQuickMoveIngredient;
+						}
+						else
+						{
+							if(item->getItem()->id == Item::oxygenTank_Id)
+							{
+								buttonY = eToolTipQuickMove;
+							}
+							else
+							{
+								buttonY = eToolTipQuickMoveIngredient;
+							}
+						}
+					}
+					else
+					{
+						// ingredient slot empty
+						buttonY = eToolTipQuickMoveIngredient;
+					}
+				}
+				else
+				{
+					buttonY = eToolTipQuickMove;
+				}
+			}*/
 			// 4J-PB - show tooltips for quick use of ingredients in brewing
 			else if((eSectionUnderPointer==eSectionBrewingUsing)||(eSectionUnderPointer==eSectionBrewingInventory))
 			{

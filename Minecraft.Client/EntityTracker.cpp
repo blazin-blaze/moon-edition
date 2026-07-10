@@ -68,6 +68,7 @@ void EntityTracker::addEntity(shared_ptr<Entity> e)
 	else if (e->instanceof(eTYPE_ENDER_CRYSTAL)) addEntity(e, 16 * 16, INT_MAX, false);
 	else if (e->instanceof(eTYPE_ITEM_FRAME)) addEntity(e, 16 * 10, INT_MAX, false);
 	else if (e->instanceof(eTYPE_ROCKET)) addEntity(e, 16 * 5, 1, true);
+	else if (e->instanceof(eTYPE_BUGGY)) addEntity(e, 16 * 5, 1, true);
 }
 
 void EntityTracker::addEntity(shared_ptr<Entity> e, int range, int updateInterval)

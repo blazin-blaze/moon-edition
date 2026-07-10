@@ -4,8 +4,11 @@
 enum ePARTICLE_TYPE
 {
 	eParticleType_bubble,
+	eParticleType_oil_bubble,
 	eParticleType_smoke,
 	eParticleType_smokeBig,
+	eParticleType_smokeMedium,
+	eParticleType_fierySmoke,
 	eParticleType_note,
 	eParticleType_netherportal, // 4J - This particle should only be used by the Nether portal. Everything else should use eParticleType_end
 	eParticleType_endportal, // 4J - Seperated this from torches and fires
@@ -14,6 +17,7 @@ enum ePARTICLE_TYPE
 	eParticleType_lava,
 	eParticleType_footstep,
 	eParticleType_splash,
+	eParticleType_oil_splash,
 	eParticleType_largesmoke,
 	eParticleType_reddust,
 	eParticleType_snowballpoof,
@@ -33,6 +37,7 @@ enum ePARTICLE_TYPE
 	eParticleType_instantSpell,
 	eParticleType_magicCrit,
 	eParticleType_dripWater,
+	eParticleType_dripOil,
 	eParticleType_dripLava,
 	eParticleType_enchantmenttable,
 	eParticleType_dragonbreath,

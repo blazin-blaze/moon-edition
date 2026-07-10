@@ -9,13 +9,16 @@
 #include "..\Minecraft.World\net.minecraft.world.entity.h"
 #include "..\Minecraft.World\net.minecraft.h"
 #include "EntityRenderDispatcher.h"
+#include "OxygenSetupModel.h"
 
 ResourceLocation CreeperRenderer::POWER_LOCATION = ResourceLocation(TN_POWERED_CREEPER);
 ResourceLocation CreeperRenderer::CREEPER_LOCATION = ResourceLocation(TN_MOB_CREEPER);
+ResourceLocation CreeperRenderer::OXYGEN_SETUP_LOCATION = ResourceLocation(TN_MOB_OXYGEN_SETUP);
 
 CreeperRenderer::CreeperRenderer() : MobRenderer(new CreeperModel(), 0.5f)
 {
 	armorModel = new CreeperModel(2);
+    oxygenSetup = nullptr;
 }
 
 void CreeperRenderer::scale(shared_ptr<LivingEntity> mob, float a)
@@ -135,4 +138,28 @@ void CreeperRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a
         }
     }
     MobRenderer::additionalRendering(_mob, a);
+}
+
+void CreeperRenderer::renderSpaceSetup(shared_ptr<LivingEntity> entity, float time, float r, float bob, float yRot, float xRot, float scale, float a) {
+    if (entity->dimension == 2) {
+        if (oxygenSetup == nullptr) {
+            oxygenSetup = new OxygenSetupModel();
+        }
+
+        glPushMatrix();
+
+        CreeperModel* creeperModel = dynamic_cast<CreeperModel*>(model);
+
+        creeperModel->body->translateTo(1 / 16.0f);
+
+        bindTexture(&OXYGEN_SETUP_LOCATION);
+        float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : entity->getBrightness(a);
+        glColor3f(brightness, brightness, brightness);
+        /*if (entity->getArmor(2)) {
+            glTranslatef(0.0f, 0.0f, 0.0325f);
+        }*/
+        oxygenSetup->render(entity, time, r, bob, yRot, xRot, scale, true);
+
+        glPopMatrix();
+    }
 }

@@ -92,6 +92,9 @@ public:
 	virtual void playSound(shared_ptr<Entity> entity, int iSound, float volume, float pitch);
 
 	virtual void playLocalSound(double x, double y, double z, int iSound, float volume, float pitch, bool distanceDelay = false, float fClipSoundDist = 16.0f);
+	virtual void playRocketLocalSound(double x, double y, double z, int rocketId, float fClipSoundDist = 16.0f);
+	virtual void moveRocketSound(double x, double y, double z, int rocketId, float fClipSoundDist = 16.0f);
+	virtual void removeRocketSound(int rocketId, float fClipSoundDist = 16.0f);
 
 	virtual void createFireworks(double x, double y, double z, double xd, double yd, double zd, CompoundTag *infoTag);
 	virtual void setScoreboard(Scoreboard *scoreboard);

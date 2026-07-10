@@ -253,7 +253,9 @@ bool FurnaceTileEntity::canBurn()
 	const ItemInstance *burnResult = FurnaceRecipes::getInstance()->getResult(items[SLOT_INPUT]->getItem()->id);
 	if (burnResult == nullptr) return false;
 	if (items[SLOT_RESULT] == nullptr) return true;
-	if (!items[SLOT_RESULT]->sameItem_not_shared(burnResult)) return false;
+	bool isMoonCobblestone = items[SLOT_INPUT]->id == Tile::cobblestone_Id && items[SLOT_INPUT]->getAuxValue() == 1;
+	if (!items[SLOT_RESULT]->sameItem_not_shared(burnResult) && !isMoonCobblestone) return false;
+	if (isMoonCobblestone && items[SLOT_RESULT]->id != Tile::moonStone_Id) return false;
 	if (items[SLOT_RESULT]->count < getMaxStackSize() && items[SLOT_RESULT]->count < items[SLOT_RESULT]->getMaxStackSize()) return true;
 	if (items[SLOT_RESULT]->count < burnResult->getMaxStackSize()) return true;
 	return false;
@@ -265,8 +267,16 @@ void FurnaceTileEntity::burn()
 	if (!canBurn()) return;
 
 	const ItemInstance *result = FurnaceRecipes::getInstance()->getResult(items[SLOT_INPUT]->getItem()->id);
-	if (items[SLOT_RESULT] == nullptr) items[SLOT_RESULT] = result->copy();
-	else if (items[SLOT_RESULT]->id == result->id) items[SLOT_RESULT]->count++;
+	bool isMoonCobblestone = items[SLOT_INPUT]->id == Tile::cobblestone_Id && items[SLOT_INPUT]->getAuxValue() == 1;
+	if (items[SLOT_RESULT] == nullptr) {
+		if (isMoonCobblestone) {
+			items[SLOT_RESULT] = make_shared<ItemInstance>(Tile::moonStone, 1);
+		}
+		else {
+			items[SLOT_RESULT] = result->copy();
+		}
+	}
+	else if (items[SLOT_RESULT]->id == result->id || (isMoonCobblestone && items[SLOT_RESULT]->id == Tile::moonStone_Id)) items[SLOT_RESULT]->count++;
 
 	items[SLOT_INPUT]->count--;
 	if (items[SLOT_INPUT]->count <= 0) items[SLOT_INPUT] = nullptr;

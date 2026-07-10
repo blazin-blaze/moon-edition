@@ -34,12 +34,17 @@ public:
 	static Material *snow;
 	static Material *cactus;
 	static Material *clay;
+	static Material* cheese;
 	static Material *vegetable;
 	static Material *egg;
 	static Material *portal;
 	static Material *cake;
 	static Material *web;
 	static Material *piston;
+	static Material* oil;
+	static Material* moonTurf;
+	static Material* moonDirt;
+	static Material* quartz;
 
 	static const int PUSH_NORMAL = 0;
 	static const int PUSH_DESTROY = 1;

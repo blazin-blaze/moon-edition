@@ -46,7 +46,9 @@ enum EUIScene
 	eUIScene_PauseMenu,
 	eUIScene_Crafting2x2Menu,
 	eUIScene_Crafting3x3Menu,
+	eUIScene_SpaceCrafting3x3Menu,
 	eUIScene_FurnaceMenu,
+	//eUIScene_OxygenatorMenu,
 	eUIScene_ContainerMenu,
 	eUIScene_LargeContainerMenu,// for splitscreen
 	eUIScene_InventoryMenu,

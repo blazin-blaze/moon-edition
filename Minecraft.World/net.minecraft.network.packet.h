@@ -80,6 +80,9 @@
 #include "ClientInformationPacket.h"
 #include "ClientProtocolPacket.h"
 #include "LevelSoundPacket.h"
+#include "LevelRocketSoundPacket.h"
+#include "LevelRocketSoundMovePacket.h"
+#include "LevelRocketSoundRemovePacket.h"
 #include "PlayerAbilitiesPacket.h"
 #include "ServerAuthDataPacket.h"
 #include "TileDestructionPacket.h"
@@ -95,6 +98,7 @@
 
 // 4J Added
 #include "CraftItemPacket.h"
+#include "SpaceCraftItemPacket.h"
 #include "TradeItemPacket.h"
 #include "DebugOptionsPacket.h"
 #include "ServerSettingsChangedPacket.h"

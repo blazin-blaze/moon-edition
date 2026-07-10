@@ -40,7 +40,10 @@ FurnaceRecipes::FurnaceRecipes()
 	addFurnaceRecipy(Tile::lapisOre_Id, new ItemInstance(Item::dye_powder, 1, DyePowderItem::BLUE), .2f);
 	addFurnaceRecipy(Tile::netherQuartz_Id, new ItemInstance(Item::netherQuartz), .2f);
 	addFurnaceRecipy(Tile::titaniumOre_Id, new ItemInstance(Item::titaniumIngot), 1);
-
+	addFurnaceRecipy(Tile::siliconOre_Id, new ItemInstance(Item::rawSilicon), 1);
+	addFurnaceRecipy(Tile::copperOre_Id, new ItemInstance(Item::copperIngot), 1);
+	addFurnaceRecipy(Tile::tinOre_Id, new ItemInstance(Item::tinIngot), 1);
+	addFurnaceRecipy(Tile::aluminiumOre_Id, new ItemInstance(Item::aluminiumIngot), 1);
 }
 
 void FurnaceRecipes::addFurnaceRecipy(int itemId, ItemInstance *result, float value)

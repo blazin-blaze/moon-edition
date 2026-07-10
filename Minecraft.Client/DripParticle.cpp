@@ -14,6 +14,9 @@ DripParticle::DripParticle(Level *level, double x, double y, double z, Material 
 	if (material == Material::water)
 	{
 		clr = Minecraft::GetInstance()->getColourTable()->getColor( eMinecraftColour_Particle_DripWater);
+	}else if (material == Material::oil)
+	{
+		clr = Minecraft::GetInstance()->getColourTable()->getColor(eMinecraftColour_Material_Oil);
 	}
 	else
 	{
@@ -36,7 +39,7 @@ DripParticle::DripParticle(Level *level, double x, double y, double z, Material 
 
 int DripParticle::getLightColor(float a)
 {
-	if (material == Material::water) return Particle::getLightColor(a);
+	if (material == Material::water || material == Material::oil) return Particle::getLightColor(a);
 	
 	// 4J-JEV: Looks like this value was never used on the java version,
 	// but it is on ours, so I've changed this to be bright manualy.
@@ -47,7 +50,7 @@ int DripParticle::getLightColor(float a)
 
 float DripParticle::getBrightness(float a)
 {
-	if (material == Material::water) return Particle::getBrightness(a);
+	if (material == Material::water || material == Material::oil) return Particle::getBrightness(a);
 	else return 1.0f;
 }
 
@@ -67,6 +70,16 @@ void DripParticle::tick()
 		rCol = ( (clr>>16)&0xFF )/255.0f;
 		gCol = ( (clr>>8)&0xFF )/255.0;
 		bCol = ( clr&0xFF )/255.0;
+	}
+	else if (material == Material::oil) {
+		//rCol = 0.2f;
+		//gCol = 0.3f;
+		//bCol = 1.0f;
+
+		unsigned int clr = Minecraft::GetInstance()->getColourTable()->getColor(eMinecraftColour_Material_Oil);
+		rCol = ((clr >> 16) & 0xFF) / 255.0f;
+		gCol = ((clr >> 8) & 0xFF) / 255.0;
+		bCol = (clr & 0xFF) / 255.0;
 	}
 	else
 	{
@@ -110,6 +123,9 @@ void DripParticle::tick()
 		{
 			remove();
 			level->addParticle(eParticleType_splash, x, y, z, 0, 0, 0);
+		}else if(material == Material::oil) {
+			remove();
+			level->addParticle(eParticleType_oil_splash, x, y, z, 0, 0, 0);
 		}
 		else
 		{

@@ -18,6 +18,9 @@ public:
 
 	//virtual void playSound(const wstring& name, double x, double y, double z, float volume, float pitch) = 0;
 	virtual void playSound(int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist=16.0f) = 0;
+	virtual void playRocketSound(double x, double y, double z, int rocketId, float fSoundClipDist = 16.0f) = 0;
+	virtual void moveRocketSound(double x, double y, double z, int rocketId) = 0;
+	virtual void removeRocketSound(double x, double y, double z, int rocketId) = 0;
 	virtual void playSoundExceptPlayer(shared_ptr<Player> player, int iSound, double x, double y, double z, float volume, float pitch, float fSoundClipDist=16.0f) = 0;
 
 	// 4J removed - virtual void addParticle(const wstring& name, double x, double y, double z, double xa, double ya, double za) = 0;

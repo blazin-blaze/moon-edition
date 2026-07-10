@@ -24,6 +24,9 @@ public:
 	static const int ENDER_CHEST = 15; // 4J Added
 	static const int MINECART_CHEST = 16; // 4J Added
 	static const int MINECART_HOPPER = 17; // 4J Added
+	static const int SPACE_WORKBENCH = 18;
+	static const int BUGGY_STORAGE = 19;
+	//static const int OXYGENATOR = 20;
 
 	int containerId;
 	int type;

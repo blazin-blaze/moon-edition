@@ -44,7 +44,7 @@ void EnchantmentTableTile::animateTick(Level *level, int x, int y, int z, Random
 			if (random->nextInt(16) != 0) continue;
 			for (int yy = y; yy <= y + 1; yy++)
 			{
-				if (level->getTile(xx, yy, zz) == Tile::bookshelf_Id)
+				if (level->getTile(xx, yy, zz) == Tile::bookshelf_Id || level->getTile(xx, yy, zz) == Tile::quartzBookshelf_Id)
 				{
 					if (!level->isEmptyTile((xx - x) / 2 + x, yy, (zz - z) / 2 + z)) break;
 

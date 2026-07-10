@@ -138,6 +138,9 @@ public:
 	virtual void handleKeepAlive(shared_ptr<KeepAlivePacket> packet);
 	virtual void handlePlayerAbilities(shared_ptr<PlayerAbilitiesPacket> playerAbilitiesPacket);
 	virtual void handleSoundEvent(shared_ptr<LevelSoundPacket> packet);
+	virtual void handleRocketSoundEvent(shared_ptr<LevelRocketSoundPacket> packet);
+	virtual void handleRocketSoundMoveEvent(shared_ptr<LevelRocketSoundMovePacket> packet);
+	virtual void handleRocketSoundRemoveEvent(shared_ptr<LevelRocketSoundRemovePacket> packet);
 	virtual void handleCustomPayload(shared_ptr<CustomPayloadPacket> customPayloadPacket);
 	virtual Connection *getConnection();
 

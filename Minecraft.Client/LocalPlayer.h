@@ -110,10 +110,12 @@ public:
 	virtual bool openHopper(shared_ptr<MinecartHopper> container); // 4J added bool return
 	virtual bool openHorseInventory(shared_ptr<EntityHorse> horse, shared_ptr<Container> container); // 4J added bool return
 	virtual bool startCrafting(int x, int y, int z);					// 4J added bool return
+	virtual bool startSpaceCrafting(int x, int y, int z);					// 4J added bool return
 	virtual bool openFireworks(int x, int y, int z);					// 4J added
 	virtual bool startEnchanting(int x, int y, int z, const wstring &name);					// 4J added bool return
 	virtual bool startRepairing(int x, int y, int z);
 	virtual bool openFurnace(shared_ptr<FurnaceTileEntity> furnace); // 4J added bool return
+	//virtual bool openOxygenator(shared_ptr<OxygenatorTileEntity> furnace); // 4J added bool return
 	virtual bool openBrewingStand(shared_ptr<BrewingStandTileEntity> brewingStand); // 4J added bool return
 	virtual bool openBeacon(shared_ptr<BeaconTileEntity> beacon); // 4J added bool return
 	virtual bool openTrap(shared_ptr<DispenserTileEntity> trap);		// 4J added bool return

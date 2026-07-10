@@ -136,6 +136,14 @@ void PlayerConnection::disconnect(DisconnectPacket::eDisconnectReason reason)
 		server->getPlayers()->broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerLeftGame));
 	}
 
+	//to stop rocket sounds on disconnect
+	for (auto it = m_activeSounds.begin(); it != m_activeSounds.end(); ++it) {
+		auto s = *it;
+		if (s->info.iSound == eSoundType_ROCKET_LAUNCH + eSFX_MAX) {
+			s->info.removeRocketSound = true;
+		}
+	}
+
 	server->getPlayers()->remove(player);
 	done = true;
 	LeaveCriticalSection(&done_cs);
@@ -1705,8 +1713,138 @@ void PlayerConnection::handleCraftItem(shared_ptr<CraftItemPacket> packet)
 	case Tile::dispenser_Id:		player->awardStat(GenericStats::dispenseWithThis(),		GenericStats::param_dispenseWithThis());	break;
 	case Tile::enchantTable_Id:		player->awardStat(GenericStats::enchantments(),			GenericStats::param_enchantments());		break;
 	case Tile::bookshelf_Id:		player->awardStat(GenericStats::bookcase(),				GenericStats::param_bookcase());			break;
+	case Tile::quartzBookshelf_Id:		player->awardStat(GenericStats::bookcase(), GenericStats::param_bookcase());			break;
 	}
 	//}
+	// ELSE The server thinks the client was wrong...
+}
+
+void PlayerConnection::handleSpaceCraftItem(shared_ptr<SpaceCraftItemPacket> packet)
+{
+	int iRecipe = packet->recipe;
+
+	if (iRecipe == -1)
+		return;
+
+	int recipeCount = (int)SpaceRecipes::getInstance()->getRecipies()->size();
+	if (iRecipe < 0 || iRecipe >= recipeCount)
+		return;
+
+	SpaceRecipy::INGREDIENTS_REQUIRED* pRecipeIngredientsRequired = SpaceRecipes::getInstance()->getRecipeIngredientsArray();
+	shared_ptr<ItemInstance> pTempItemInst = pRecipeIngredientsRequired[iRecipe].pRecipy->assemble(nullptr);
+
+	if (app.DebugSettingsOn() && (player->GetDebugOptions() & (1L << eDebugSetting_CraftAnything)))
+	{
+		pTempItemInst->onCraftedBy(player->level, dynamic_pointer_cast<Player>(player->shared_from_this()), pTempItemInst->count);
+		if (player->inventory->add(pTempItemInst) == false)
+		{
+			// no room in inventory, so throw it down
+			player->drop(pTempItemInst);
+		}
+	}
+	/*else if (pTempItemInst->id == Item::fireworksCharge_Id || pTempItemInst->id == Item::fireworks_Id)
+	{
+		SpaceCraftingMenu* menu = static_cast<SpaceCraftingMenu*>(player->containerMenu);
+		player->openFireworks(menu->getX(), menu->getY(), menu->getZ());
+	}*/
+	else
+	{
+
+
+		SpaceRecipy::INGREDIENTS_REQUIRED& req = pRecipeIngredientsRequired[iRecipe];
+		if (req.iType == RECIPE_TYPE_3x3 && dynamic_cast<SpaceCraftingMenu*>(player->containerMenu) == nullptr)
+		{
+			server->warn(L"Player " + player->getName() + L" tried to craft a 3x3 recipe without a crafting bench");
+			return;
+		}
+		for (int i = 0; i < req.iIngC; i++) {
+			int need = req.iIngValA[i];
+			int have = player->inventory->countResource(req.iIngIDA[i], req.iIngAuxValA[i]);
+			if (have < need) {
+				server->warn(L"Player " + player->getName() + L" just tried to craft item " + to_wstring(pTempItemInst->id) + L" with insufficient ingredients");
+				return;
+			}
+		}
+
+		pTempItemInst->onCraftedBy(player->level, dynamic_pointer_cast<Player>(player->shared_from_this()), pTempItemInst->count);
+
+		// and remove those resources from your inventory
+		for (int i = 0; i < pRecipeIngredientsRequired[iRecipe].iIngC; i++)
+		{
+			for (int j = 0; j < pRecipeIngredientsRequired[iRecipe].iIngValA[i]; j++)
+			{
+				shared_ptr<ItemInstance> ingItemInst = nullptr;
+				// do we need to remove a specific aux value?
+				if (pRecipeIngredientsRequired[iRecipe].iIngAuxValA[i] != Recipes::ANY_AUX_VALUE)
+				{
+					ingItemInst = player->inventory->getResourceItem(pRecipeIngredientsRequired[iRecipe].iIngIDA[i], pRecipeIngredientsRequired[iRecipe].iIngAuxValA[i]);
+					player->inventory->removeResource(pRecipeIngredientsRequired[iRecipe].iIngIDA[i], pRecipeIngredientsRequired[iRecipe].iIngAuxValA[i]);
+				}
+				else
+				{
+					ingItemInst = player->inventory->getResourceItem(pRecipeIngredientsRequired[iRecipe].iIngIDA[i]);
+					player->inventory->removeResource(pRecipeIngredientsRequired[iRecipe].iIngIDA[i]);
+				}
+
+				// 4J Stu - Fix for #13097 - Bug: Milk Buckets are removed when crafting Cake
+				if (ingItemInst != nullptr)
+				{
+					if (ingItemInst->getItem()->hasCraftingRemainingItem())
+					{
+						// replace item with remaining result
+						player->inventory->add(std::make_shared<ItemInstance>(ingItemInst->getItem()->getCraftingRemainingItem()));
+					}
+
+				}
+			}
+		}
+
+		// 4J Stu - Fix for #13119 - We should add the item after we remove the ingredients
+		if (player->inventory->add(pTempItemInst) == false)
+		{
+			// no room in inventory, so throw it down
+			player->drop(pTempItemInst);
+		}
+
+		/*if (pTempItemInst->id == Item::map_Id)
+		{
+			// 4J Stu - Maps need to have their aux value update, so the client should always be assumed to be wrong
+			// This is how the Java works, as the client also incorrectly predicts the auxvalue of the mapItem
+			vector<shared_ptr<ItemInstance> > items;
+			for (unsigned int i = 0; i < player->containerMenu->slots.size(); i++)
+			{
+				items.push_back(player->containerMenu->slots.at(i)->getItem());
+			}
+			player->refreshContainer(player->containerMenu, &items);
+		}
+		else
+		{*/
+			// Do same hack as PlayerConnection::handleContainerClick does - do our broadcast of changes just now, but with a hack so it just thinks it has sent
+			// things but hasn't really. This will stop the client getting a message back confirming the current inventory items, which might then arrive
+			// after another local change has been made on the client and be stale.
+			player->ignoreSlotUpdateHack = true;
+			player->containerMenu->broadcastChanges();
+			player->broadcastCarriedItem();
+			player->ignoreSlotUpdateHack = false;
+		//}
+	}
+
+	// handle achievements
+	/*switch (pTempItemInst->id)
+	{
+	case Tile::workBench_Id:		player->awardStat(GenericStats::buildWorkbench(), GenericStats::param_buildWorkbench());		break;
+	case Item::pickAxe_wood_Id:		player->awardStat(GenericStats::buildPickaxe(), GenericStats::param_buildPickaxe());		break;
+	case Tile::furnace_Id:			player->awardStat(GenericStats::buildFurnace(), GenericStats::param_buildFurnace());		break;
+	case Item::hoe_wood_Id:			player->awardStat(GenericStats::buildHoe(), GenericStats::param_buildHoe());			break;
+	case Item::bread_Id:			player->awardStat(GenericStats::makeBread(), GenericStats::param_makeBread());			break;
+	case Item::cake_Id:				player->awardStat(GenericStats::bakeCake(), GenericStats::param_bakeCake());			break;
+	case Item::pickAxe_stone_Id:	player->awardStat(GenericStats::buildBetterPickaxe(), GenericStats::param_buildBetterPickaxe());	break;
+	case Item::sword_wood_Id:		player->awardStat(GenericStats::buildSword(), GenericStats::param_buildSword());			break;
+	case Tile::dispenser_Id:		player->awardStat(GenericStats::dispenseWithThis(), GenericStats::param_dispenseWithThis());	break;
+	case Tile::enchantTable_Id:		player->awardStat(GenericStats::enchantments(), GenericStats::param_enchantments());		break;
+	case Tile::bookshelf_Id:		player->awardStat(GenericStats::bookcase(), GenericStats::param_bookcase());			break;
+	}*/
+	
 	// ELSE The server thinks the client was wrong...
 }
 

@@ -1,11 +1,24 @@
 #pragma once
 #include "Item.h"
+#include "DefaultDispenseItemBehavior.h"
 
 class Player;
 class Level;
 
 class RocketItem : public Item
 {
+private:
+	class RocketDispenseBehavior : public DefaultDispenseItemBehavior
+	{
+	private:
+		DefaultDispenseItemBehavior defaultDispenseItemBehavior;
+
+	public:
+		virtual shared_ptr<ItemInstance> execute(BlockSource* source, shared_ptr<ItemInstance> dispensed, eOUTCOME& outcome);
+
+	protected:
+		virtual void playSound(BlockSource* source);
+	};
 public:
 
 	RocketItem(int id);

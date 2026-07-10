@@ -331,7 +331,7 @@ void PreStitchedTextureMap::loadUVs()
 	if(iconType != Icon::TYPE_TERRAIN)
 	{
 		float horizRatio = 1.0f/16.0f;
-		float vertRatio = 1.0f/16.0f;
+		float vertRatio = 1.0f/32.0f;
 
 		ADD_ICON(0,		0,	L"helmetCloth")
 		ADD_ICON(0,		1,	L"helmetChain")
@@ -348,7 +348,8 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(0,		12,	L"egg")
 		ADD_ICON(0,		13,	L"sugar")
 		ADD_ICON(0,		14,	L"snowball")
-		ADD_ICON(0,		15,	L"slot_empty_helmet")
+		ADD_ICON(0, 15, L"slot_empty_helmet")
+			
 
 		ADD_ICON(1,		0,	L"chestplateCloth")
 		ADD_ICON(1,		1,	L"chestplateChain")
@@ -365,7 +366,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(1,		12,	L"bone")
 		ADD_ICON(1,		13,	L"cake")
 		ADD_ICON(1,		14,	L"slimeball")
-		ADD_ICON(1,		15,	L"slot_empty_chestplate")
+		ADD_ICON(1, 15, L"slot_empty_chestplate")
 
 		ADD_ICON(2,		0,	L"leggingsCloth")
 		ADD_ICON(2,		1,	L"leggingsChain")
@@ -382,7 +383,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(2,		12,	L"doorIron")
 		ADD_ICON(2,		13,	L"bed")
 		ADD_ICON(2,		14,	L"fireball")
-		ADD_ICON(2,		15,	L"slot_empty_leggings")
+		ADD_ICON(2, 15, L"slot_empty_leggings")
 
 		ADD_ICON(3,		0,	L"bootsCloth")
 		ADD_ICON(3,		1,	L"bootsChain")
@@ -399,7 +400,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(3,		12,	L"map")
 		ADD_ICON(3,		13,	L"seeds_pumpkin")
 		ADD_ICON(3,		14,	L"seeds_melon")
-		ADD_ICON(3,		15,	L"slot_empty_boots")
+		ADD_ICON(3, 15, L"slot_empty_boots")
 
 		ADD_ICON(4,		0,	L"swordWood")
 		ADD_ICON(4,		1,	L"swordStone")
@@ -488,7 +489,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(8,		15,	L"dyePowder_light_blue")
 
 		ADD_ICON(9,		0,	L"helmetCloth_overlay")
-		//ADD_ICON(9,		1,	L"unused")
+		ADD_ICON(9,     1, L"tinIngot")
 		ADD_ICON(9,		2,	L"iron_horse_armor")
 		ADD_ICON(9,		3,	L"diamond_horse_armor")
 		ADD_ICON(9,		4,	L"gold_horse_armor")
@@ -505,8 +506,8 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(9,		15,	L"dyePowder_magenta")
 
 		ADD_ICON(10,	0,	L"chestplateCloth_overlay")
-		//ADD_ICON(10,	1,	L"unused")
-		//ADD_ICON(10,	2,	L"unused")
+		ADD_ICON(10, 1, L"doorQuartz")
+		ADD_ICON(10, 2, L"oilBucket")
 		ADD_ICON(10,	3,	L"name_tag")
 		ADD_ICON(10,	4,	L"lead")
 		ADD_ICON(10,	5,	L"netherbrick")
@@ -514,7 +515,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(10,	7,	L"minecart_furnace")
 		ADD_ICON(10,	8,	L"charcoal")
 		ADD_ICON(10,	9,	L"monsterPlacer_overlay")
-		ADD_ICON(10,	10,	L"ruby")
+		ADD_ICON(10,	10,	L"compressedBronze")
 		ADD_ICON(10,	11,	L"expBottle")
 		ADD_ICON(10,	12,	L"brewingStand")
 		ADD_ICON(10,	13,	L"magmaCream")
@@ -544,14 +545,14 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(11,	15,	L"dyePowder_white")
 
 		ADD_ICON(12,	0,	L"bootsCloth_overlay")
-		//ADD_ICON(12,	1,	L"unused")
-		//ADD_ICON(12,	2,	L"unused")
+		ADD_ICON(12,	1,	L"rawSilicon")
+		ADD_ICON(12,	2,	L"fuelCanister")
 		ADD_ICON(12,	3,	L"titaniumHelmet")
 		ADD_ICON(12,	4,	L"titaniumChestplate")
 		ADD_ICON(12,	5,	L"titaniumLeggings")
 		ADD_ICON(12,	6,	L"titaniumBoots")
 		ADD_ICON(12,	7,	L"minecart_tnt")
-		//ADD_ICON(12,	8,	L"unused")
+		ADD_ICON(12,	8,	L"tinCanister")
 		ADD_ICON(12,	9,	L"fireworks")
 		ADD_ICON(12,	10,	L"fireworks_charge")
 		ADD_ICON(12,	11,	L"fireworks_charge_overlay")
@@ -560,6 +561,8 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(12,	14,	L"frame")
 		ADD_ICON(12,	15,	L"enchantedBook")
 
+		ADD_ICON(13, 0, L"basicWafer")
+		ADD_ICON(13, 1, L"advancedWafer")
 		ADD_ICON(13, 2, L"titaniumSword")
 		ADD_ICON(13, 3, L"titaniumShovel")
 		ADD_ICON(13, 4, L"titaniumPickaxe")
@@ -569,14 +572,19 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(13, 8, L"oxygenMask")
 		ADD_ICON(13, 9, L"oxygenGear")
 		ADD_ICON(13, 10, L"oxygenTank")
+		ADD_ICON(13, 11, L"compressedSteel")
+		ADD_ICON(13, 12, L"compressedAluminium")
+		ADD_ICON(13, 13, L"compressedHeavyDuty")
+		ADD_ICON(13, 14, L"rocketFins")
+		ADD_ICON(13, 15, L"rocketEngine")
 
 		ADD_ICON(14,	0,	L"skull_skeleton")
 		ADD_ICON(14,	1,	L"skull_wither")
 		ADD_ICON(14,	2,	L"skull_zombie")
 		ADD_ICON(14,	3,	L"skull_char")
 		ADD_ICON(14,	4,	L"skull_creeper")
-		//ADD_ICON(14,	5,	L"unused")
-		//ADD_ICON(14,	6,	L"unused")
+		ADD_ICON(14,	5,	L"copperIngot")
+		ADD_ICON(14,	6,	L"aluminiumIngot")
 		ADD_ICON_WITH_NAME(14,	7,	L"compassP0", L"compass") // 4J Added
 		ADD_ICON_WITH_NAME(14,	8,	L"compassP1", L"compass") // 4J Added
 		ADD_ICON_WITH_NAME(14,	9,	L"compassP2", L"compass") // 4J Added
@@ -599,6 +607,31 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(15,		9,	L"record_ward")
 		ADD_ICON(15,		10,	L"record_11")
 		ADD_ICON(15,		11,	L"record_where are we now")
+
+		ADD_ICON(16, 0, L"buggy")
+		ADD_ICON(16, 1, L"buggyBlueprint")
+		ADD_ICON(16, 2, L"buggySeat")
+		ADD_ICON(16, 3, L"buggyWheel")
+		ADD_ICON(16, 4, L"dehydratedApple")
+		ADD_ICON(16, 5, L"dehydratedCarrot")
+		ADD_ICON(16, 6, L"dehydratedMelon")
+		ADD_ICON(16, 7, L"dehydratedPotato")
+		ADD_ICON(16, 8, L"cannedBeef")
+		ADD_ICON(16, 9, L"buggyStorage")
+		ADD_ICON(16, 10, L"sapphireHelmet")
+		ADD_ICON(16, 11, L"sapphireChestplate")
+		ADD_ICON(16, 12, L"sapphireLeggings")
+		ADD_ICON(16, 13, L"sapphireBoots")
+		ADD_ICON(16, 14, L"sapphireSword")
+		ADD_ICON(16, 15, L"sapphireShovel")
+
+		ADD_ICON(17, 0, L"sapphirePickaxe")
+		ADD_ICON(17, 1, L"sapphireHatchet")
+		ADD_ICON(17, 2, L"sapphireHoe")
+		//ADD_ICON(17, 3, L"oxygenVent")
+		//ADD_ICON(17, 4, L"oxygenFan")
+		//ADD_ICON(17, 5, L"oxygenConcentrator")
+		ADD_ICON(17, 6, L"greenString")
 
 		// Special cases
 		ClockTexture *dataClock = new ClockTexture();
@@ -1015,8 +1048,36 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(20, 10, L"moonDungeonCrackedBricks");
 		ADD_ICON(20, 11, L"glowstoneTorch");
 		ADD_ICON(20, 12, L"deadTorch");
+		ADD_ICON(20, 13, L"copperOre");
+		ADD_ICON(20, 14, L"tinOre");
+		ADD_ICON(20, 15, L"aluminiumOre");
 
 		ADD_ICON(21, 0, L"cheese_block_top");
 		ADD_ICON(21, 1, L"cheese_block_side");
+		ADD_ICON(21, 2, L"siliconOre");
+		ADD_ICON(21, 3, L"fuel");
+		ADD_ICON_SIZE(21, 4, L"fuel_flow", 2, 2);
+		ADD_ICON(21, 6, L"oil");
+		ADD_ICON_SIZE(21, 7, L"oil_flow", 2, 2);
+		ADD_ICON(21, 9, L"spaceWorkbench_top");
+		ADD_ICON(21, 10, L"spaceWorkbench_side");
+		ADD_ICON(21, 11, L"spaceWorkbench_front");
+		ADD_ICON(21, 12, L"spaceWorkbench_bottom");
+		ADD_ICON(21, 13, L"copperBlock");
+		ADD_ICON(21, 14, L"tinBlock");
+		ADD_ICON(21, 15, L"aluminiumBlock");
+
+		ADD_ICON(22, 0, L"door_quartz_upper");
+		ADD_ICON(22, 1, L"moonCobblestone");
+		ADD_ICON(22, 2, L"quartzBookshelf");
+		ADD_ICON(22, 3, L"greenWeb");
+		//ADD_ICON(22, 9, L"oxygenatorSide");
+		//ADD_ICON(22, 10, L"oxygenatorTop");
+		//ADD_ICON(22, 11, L"oxygenatorFront");
+		//ADD_ICON(22, 12, L"oxygenatorBack");
+		ADD_ICON(22, 13, L"siliconBlock");
+		ADD_ICON(22, 14, L"sapphireBlock");
+
+		ADD_ICON(23, 0, L"door_quartz_lower");
 	}
 }

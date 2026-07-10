@@ -14,6 +14,7 @@ public:
 	static ResourceLocation ENCHANT_GLINT_LOCATION;
     static ResourceLocation MAP_BACKGROUND_LOCATION;
     static ResourceLocation UNDERWATER_LOCATION;
+    static ResourceLocation UNDEROIL_LOCATION;
 
 private:
 	Minecraft *minecraft;
@@ -36,7 +37,7 @@ public:
     void renderScreenEffect(float a);
 private:
 	void renderTex(float a, Icon *slot);
-    void renderWater(float a);
+    void renderWater(float a, bool isOil);
     void renderFire(float a);
     int lastSlot;
 public:

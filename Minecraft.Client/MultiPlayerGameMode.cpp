@@ -519,6 +519,15 @@ bool MultiPlayerGameMode::handleCraftItem(int recipe, shared_ptr<Player> player)
     return true;
 }
 
+bool MultiPlayerGameMode::handleSpaceCraftItem(int recipe, shared_ptr<Player> player)
+{
+	short changeUid = player->containerMenu->backup(player->inventory);
+
+	connection->send(std::make_shared<SpaceCraftItemPacket>(recipe, changeUid));
+
+	return true;
+}
+
 void MultiPlayerGameMode::handleDebugOptions(unsigned int uiVal, shared_ptr<Player> player)
 {
 	player->SetDebugOptions(uiVal);

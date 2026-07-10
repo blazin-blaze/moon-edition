@@ -257,20 +257,22 @@ bool TreasureChestTile::use(Level* level, int x, int y, int z, shared_ptr<Player
 {
 	if (soundOnly) return true;
 
-	if (level->isClientSide)
-	{
+	shared_ptr<ItemInstance> usedItem = player->getCarriedItem();
+	shared_ptr<ChestTileEntity> entity = dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x, y, z));
+
+	if (level->isClientSide) {
 		return true;
 	}
 
-	shared_ptr<ItemInstance> usedItem = player->getCarriedItem();
-	shared_ptr<ChestTileEntity> entity = dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x, y, z));
 	if (usedItem != nullptr && usedItem->id == 424 && entity != nullptr && entity->isLocked) {
 		entity->isLocked = false;
-		level->levelEvent(player, LevelEvent::SOUND_CLICK, x, y, z, 0);
-		usedItem->remove(1);
+		if (!player->abilities.instabuild) {
+			usedItem->remove(1);
+		}
 		if (usedItem->count == 0) {
 			usedItem = nullptr;
 		}
+		level->playSound(x, y, z, eSoundType_TREASURE_UNLOCK, 1.0F, 1.0F, false);
 		return true;
 	}
 
@@ -280,6 +282,9 @@ bool TreasureChestTile::use(Level* level, int x, int y, int z, shared_ptr<Player
 	{
 		if (!entity->isLocked) {
 			player->openContainer(container);
+		}
+		else {
+			level->playSound(x, y, z, eSoundType_TREASURE_LOCKED, 1.0F, 1.0F, false);
 		}
 	}
 

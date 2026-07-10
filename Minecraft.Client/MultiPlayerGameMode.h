@@ -60,6 +60,7 @@ public:
 	
 	// 4J Stu - Added so we can send packets for this in the network game
 	virtual bool handleCraftItem(int recipe, shared_ptr<Player> player);
+	virtual bool handleSpaceCraftItem(int recipe, shared_ptr<Player> player);
 	virtual void handleDebugOptions(unsigned int uiVal, shared_ptr<Player> player);
 
 	// 4J Stu - Added for tutorial checks

@@ -362,12 +362,12 @@ void GameRenderer::pick(float a)
 
 void GameRenderer::SetFovVal(float fov)
 {
-	m_fov=fov;
+	mc->options->set(Options::Option::FOV, (fov - 70) / 40);
 }
 
 float GameRenderer::GetFovVal()
 {
-	return m_fov;
+	return 70 + mc->options->fov * 40;
 }
 
 void GameRenderer::tickFov()

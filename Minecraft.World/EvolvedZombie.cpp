@@ -36,7 +36,7 @@ void EvolvedZombie::registerAttributes()
 
 bool EvolvedZombie::useNewAi()
 {
-	return false;
+	return true;
 }
 
 bool EvolvedZombie::canSpawn()
@@ -63,8 +63,14 @@ int EvolvedZombie::getDeathLoot()
 	return Item::rotten_flesh_Id;
 }
 
+void EvolvedZombie::killed(shared_ptr<LivingEntity> mob)
+{
+	Monster::killed(mob);
+}
+
 MobGroupData* EvolvedZombie::finalizeMobSpawn(MobGroupData* groupData, int extraData /*= 0*/) // 4J Added extraData param
 {
 	setVillager(false);
+	setBaby(false);
 	return groupData;
 }

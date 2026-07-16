@@ -27,6 +27,7 @@ public:
 
 public:
 	virtual bool mobInteract(shared_ptr<Player> player);
+	virtual void killed(shared_ptr<LivingEntity> mob);
 
 protected:
 	virtual int getDeathLoot();

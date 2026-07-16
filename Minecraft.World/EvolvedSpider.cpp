@@ -62,6 +62,57 @@ void EvolvedSpider::dropDeathLoot(bool wasKilledByPlayer, int playerBonusLevel)
 
 MobGroupData* EvolvedSpider::finalizeMobSpawn(MobGroupData* groupData, int extraData /*= 0*/) // 4J Added extraData param
 {
-	// do nothing
+#ifndef _CONTENT_PACKAGE
+	// 4J-JEV: Added for spider-jockey spawn-egg.
+	if ((level->random->nextInt(100) == 0) || (extraData != 0))
+#else
+	if (level->random->nextInt(100) == 0)
+#endif
+	{
+		shared_ptr<EvolvedSkeleton> skeleton = std::make_shared<EvolvedSkeleton>(level);
+		skeleton->moveTo(x, y, z, yRot, 0);
+		skeleton->finalizeMobSpawn(nullptr);
+		level->addEntity(skeleton);
+		skeleton->ride(shared_from_this());
+	}
+
 	return groupData;
+}
+
+void EvolvedSpider::checkHurtTarget(shared_ptr<Entity> target, float d)
+{
+	//do not check for brightness levels as evolved spider
+
+	if (d > 2 && d < 6 && random->nextInt(10) == 0)
+	{
+		if (onGround)
+		{
+			double xdd = target->x - x;
+			double zdd = target->z - z;
+			float dd = static_cast<float>(sqrt(xdd * xdd + zdd * zdd));
+			xd = (xdd / dd * 0.5f) * 0.8f + xd * 0.2f;
+			zd = (zdd / dd * 0.5f) * 0.8f + zd * 0.2f;
+			yd = 0.4f;
+		}
+	}
+	else
+	{
+		Monster::checkHurtTarget(target, d);
+	}
+}
+
+shared_ptr<Entity> EvolvedSpider::findAttackTarget()
+{
+#ifndef _FINAL_BUILD
+#ifdef _DEBUG_MENUS_ENABLED
+	if (app.GetMobsDontAttackEnabled())
+	{
+		return shared_ptr<Player>();
+	}
+#endif
+#endif
+
+	//do not check for brightness levels as evolved spider
+	double maxDist = 16;
+	return level->getNearestAttackablePlayer(shared_from_this(), maxDist);
 }

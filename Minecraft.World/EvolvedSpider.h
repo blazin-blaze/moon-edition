@@ -14,6 +14,8 @@ public:
 protected:
 	void registerAttributes();
 	virtual void dropDeathLoot(bool wasKilledByPlayer, int playerBonusLevel);
+	virtual shared_ptr<Entity> findAttackTarget();
+	virtual void checkHurtTarget(shared_ptr<Entity> target, float d);
 
 public:
 	virtual bool doHurtTarget(shared_ptr<Entity> target);

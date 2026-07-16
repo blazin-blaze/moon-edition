@@ -42,12 +42,13 @@ void EvolvedSkeleton::registerAttributes()
 	Monster::registerAttributes();
 
 	getAttribute(SharedMonsterAttributes::MAX_HEALTH)->setBaseValue(16 * 2);
-	getAttribute(SharedMonsterAttributes::MOVEMENT_SPEED)->setBaseValue(0.25f);
+	getAttribute(SharedMonsterAttributes::MOVEMENT_SPEED)->setBaseValue(0.25f*2);
+	getAttribute(SharedMonsterAttributes::ATTACK_DAMAGE)->setBaseValue(3 * 2);
 }
 
 bool EvolvedSkeleton::useNewAi()
 {
-	return false;
+	return true;
 }
 
 bool EvolvedSkeleton::doHurtTarget(shared_ptr<Entity> target)

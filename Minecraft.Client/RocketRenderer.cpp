@@ -30,6 +30,7 @@ void RocketRenderer::render(shared_ptr<Entity> mob, double x, double y, double z
 
     bindTexture(rocket);
 	glScalef(-1, -1, 1);
+	//glScalef(2.0f, 2.0f, 2.0f);
 	rocketModel->render(rocket, 0, 0, 0, 0, 0, 1 / 16.0F, false);
     glPopMatrix();
 }

@@ -3838,6 +3838,9 @@
     <ClInclude Include="BuggyRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Minecraft.Server\Security\StreamCipher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -6037,6 +6040,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BuggyRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minecraft.Server\Security\StreamCipher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

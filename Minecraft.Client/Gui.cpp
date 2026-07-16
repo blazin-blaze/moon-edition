@@ -1073,6 +1073,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
         if (minecraft->options->renderDebug && minecraft->player != nullptr && minecraft->level != nullptr)
         {
 			lines.push_back(ClientConstants::VERSION_STRING);
+			lines.push_back(L"(MCLCE/MinecraftConsoles 6731aaa4-dev)");
 			lines.push_back(L"Made with contributions from Team Galacticraft :)");
             lines.push_back(minecraft->fpsString);
             lines.push_back(L"E: " + std::to_wstring(minecraft->level->getAllEntities().size()));

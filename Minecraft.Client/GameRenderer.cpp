@@ -1457,7 +1457,7 @@ void GameRenderer::renderLevel(float a, int64_t until)
 #endif
 
 
-		if (cameraEntity->y < Level::genDepth && mc->cameraTargetPlayer->y < 300)
+		if (cameraEntity->y < Level::genDepth && mc->cameraTargetPlayer->y < 300 && mc->cameraTargetPlayer->dimension != 2)
 		{
 			prepareAndRenderClouds(levelRenderer, a);
 		}
@@ -1594,7 +1594,7 @@ void GameRenderer::renderLevel(float a, int64_t until)
 		levelRenderer->renderDestroyAnimation(Tesselator::getInstance(), dynamic_pointer_cast<Player>(cameraEntity), a);
 		glDisable(GL_BLEND);
 
-		if (cameraEntity->y >= Level::genDepth && mc->cameraTargetPlayer->y < 300)
+		if (cameraEntity->y >= Level::genDepth && mc->cameraTargetPlayer->y < 300 && mc->cameraTargetPlayer->dimension != 2)
 		{
 			prepareAndRenderClouds(levelRenderer, a);
 		}

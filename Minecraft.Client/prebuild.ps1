@@ -13,7 +13,7 @@ if ($env:GITHUB_REPOSITORY) {
     }
 }
 
-$build = 560 # Note: Build/network has to stay static for now, as without it builds wont be able to play together. We can change it later when we have a better versioning scheme in place.
+$build = 870 # Note: Build/network has to stay static for now, as without it builds wont be able to play together. We can change it later when we have a better versioning scheme in place.
 $suffix = ""
 
 # TODO Re-enable

@@ -645,7 +645,7 @@ bool VillagePieces::Well::postProcess(Level *level, Random *random, BoundingBox 
 		boundingBox->move(0, heightPosition - boundingBox->y1 + 3, 0);
 	}
 
-	generateBox(level, chunkBB, 1, 0, 1, 4, height - 3, 4, Tile::cobblestone_Id, Tile::water_Id, false);
+	generateBox(level, chunkBB, 1, 0, 1, 4, height - 3, 4, Tile::cobblestone_Id, Tile::ice_Id, false);
 	placeBlock(level, 0, 0, 2, height - 3, 2, chunkBB);
 	placeBlock(level, 0, 0, 3, height - 3, 2, chunkBB);
 	placeBlock(level, 0, 0, 2, height - 3, 3, chunkBB);

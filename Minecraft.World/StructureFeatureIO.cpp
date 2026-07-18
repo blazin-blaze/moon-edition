@@ -27,12 +27,14 @@ void StructureFeatureIO::staticCtor()
 	setStartId(eStructureStart_NetherBridgeStart, NetherBridgeFeature::NetherBridgeStart::Create, L"Fortress");
 	setStartId(eStructureStart_StrongholdStart, StrongholdFeature::StrongholdStart::Create, L"Stronghold");
 	setStartId(eStructureStart_ScatteredFeatureStart, RandomScatteredLargeFeature::ScatteredFeatureStart::Create, L"Temple");
+	setStartId(eStructureStart_MoonMineShaftStart, MoonMineShaftStart::Create, L"MoonMineshaft");
 
 	MineShaftPieces::loadStatic();
 	VillagePieces::loadStatic();
 	NetherBridgePieces::loadStatic();
 	StrongholdPieces::loadStatic();
 	ScatteredFeaturePieces::loadStatic();
+	MoonMineShaftPieces::loadStatic();
 }
 
 wstring StructureFeatureIO::getEncodeId(StructureStart *start)

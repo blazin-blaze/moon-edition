@@ -21,11 +21,8 @@ MoonLevelRandomLevelSource::MoonLevelRandomLevelSource(Level* level, int64_t see
 	level->getLevelData()->getMoatFlags(&m_classicEdgeMoat, &m_smallEdgeMoat, &m_mediumEdgeMoat);
 #endif
 	caveFeature = new LargeCaveFeature();
-	//strongholdFeature = new StrongholdFeature();
 	villageFeature = new VillageFeature(m_XZSize);
 	mineShaftFeature = new MoonMineShaftFeature();
-	//mineShaftFeature = new MineShaftFeature();
-	//scatteredFeature = new RandomScatteredLargeFeature();
 	canyonFeature = new CanyonFeature();
 
 	this->level = level;

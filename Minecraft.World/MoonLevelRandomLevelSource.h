@@ -64,10 +64,8 @@ public:
 
 private:
 	LargeFeature* caveFeature;
-	//StrongholdFeature* strongholdFeature;
 	VillageFeature* villageFeature;
 	MoonMineShaftFeature* mineShaftFeature;
-	//RandomScatteredLargeFeature* scatteredFeature;
 	LargeFeature* canyonFeature;
 private:
 	virtual LevelChunk* create(int x, int z);

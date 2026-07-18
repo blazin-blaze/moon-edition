@@ -2160,7 +2160,11 @@ void Player::travel(float xa, float ya)
 				this->changeDimension(2);
 			}
 			if (!this->abilities.instabuild) {
-				this->inventory->add(std::make_shared<ItemInstance>(Item::rocket, 1));
+				if (!this->inventory->add(std::make_shared<ItemInstance>(Item::rocket, 1))) {
+					int highestY = this->level->getTopSolidBlock(x, z);
+					shared_ptr<ItemEntity> rocket = make_shared<ItemEntity>(this->level, x, highestY, z, make_shared<ItemInstance>(Item::rocket, 1));
+					level->addEntity(rocket);
+				}
 			}
 		}
 	}

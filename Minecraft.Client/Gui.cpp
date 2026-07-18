@@ -1176,7 +1176,39 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
             for (int i = eTerrainFeature_Stronghold; i <= static_cast<int>(eTerrainFeature_Ravine); i++)
                 lines.push_back(wfeature[i]);
             lines.push_back(L"");
-        }
+		}
+		else if (minecraft->options->renderDebug && minecraft->player != nullptr && minecraft->level != nullptr && minecraft->level->dimension->id == 2) {
+			wstring wfeature[eTerrainFeature_Count];
+			wfeature[eTerrainFeature_MoonMineshaft] = L"Moon Mineshaft: ";
+			wfeature[eTerrainFeature_Village] = L"Village: ";
+			wfeature[eTerrainFeature_Ravine] = L"Ravine: ";
+
+			// maxW in font units: physical width divided by font scale
+			float maxW = (static_cast<float>(g_rScreenWidth) - debugLeft - 8) / fontScale;
+			float maxWForContent = maxW - static_cast<float>(font->width(L"..."));
+			bool truncated[eTerrainFeature_Count] = {};
+
+			for (size_t i = 0; i < app.m_vTerrainFeatures.size(); i++)
+			{
+				FEATURE_DATA* pFeatureData = app.m_vTerrainFeatures[i];
+				int type = pFeatureData->eTerrainFeature;
+				if (type < eTerrainFeature_Village || type > eTerrainFeature_MoonMineshaft) continue;
+				if (truncated[type]) continue;
+				wstring itemInfo = L"[" + std::to_wstring(pFeatureData->x * 16) + L", " + std::to_wstring(pFeatureData->z * 16) + L"] ";
+				if (font->width(wfeature[type] + itemInfo) <= maxWForContent)
+					wfeature[type] += itemInfo;
+				else
+				{
+					wfeature[type] += L"...";
+					truncated[type] = true;
+				}
+			}
+
+			lines.push_back(L"");
+			for (int i = eTerrainFeature_Village; i <= static_cast<int>(eTerrainFeature_MoonMineshaft); i++)
+				lines.push_back(wfeature[i]);
+			lines.push_back(L"");
+		}
 #endif
 
         int yPos = debugTop;

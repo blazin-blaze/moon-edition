@@ -593,7 +593,7 @@ void Item::staticCtor()
 	Item::compressedIron = (new Item(190))->setIconName(L"slot_empty_boots")->setDescriptionId(IDS_ITEM_COMPRESSED_IRON)->setUseDescriptionId(IDS_DESC_COMPRESSED_IRON);
 	Item::compressedBronze = (new Item(191))->setIconName(L"compressedBronze")->setDescriptionId(IDS_ITEM_COMPRESSED_BRONZE)->setUseDescriptionId(IDS_DESC_COMPRESSED_BRONZE);
 	Item::compressedAluminium = (new Item(192))->setIconName(L"compressedAluminium")->setDescriptionId(IDS_ITEM_COMPRESSED_ALUMINIUM)->setUseDescriptionId(IDS_DESC_COMPRESSED_ALUMINIUM);
-	Item::compressedSteel = (new Item(193))->setIconName(L"compressedSteel")->setDescriptionId(IDS_ITEM_COMPRESSED_STEEL)->setUseDescriptionId(IDS_DESC_COMPRESSED_STEEL);
+	Item::compressedSteel = (new Item(193))->setBaseItemTypeAndMaterial(eBaseItemType_steel, eMaterial_steel)->setIconName(L"compressedSteel")->setDescriptionId(IDS_ITEM_COMPRESSED_STEEL)->setUseDescriptionId(IDS_DESC_COMPRESSED_STEEL);
 	Item::compressedTin = (new Item(194))->setIconName(L"slot_empty_helmet")->setDescriptionId(IDS_ITEM_COMPRESSED_TIN)->setUseDescriptionId(IDS_DESC_COMPRESSED_TIN);
 	Item::compressedCopper = (new Item(195))->setIconName(L"slot_empty_chestplate")->setDescriptionId(IDS_ITEM_COMPRESSED_COPPER)->setUseDescriptionId(IDS_DESC_COMPRESSED_COPPER);
 	Item::compressedHeavyDuty = (new Item(196))->setIconName(L"compressedHeavyDuty")->setDescriptionId(IDS_ITEM_COMPRESSED_HEAVY_DUTY)->setUseDescriptionId(IDS_DESC_COMPRESSED_HEAVY_DUTY);

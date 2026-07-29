@@ -98,6 +98,7 @@ public:
 		eMaterial_aluminium,
 		eMaterial_silicon,
 		eMaterial_can,
+		eMaterial_steel,
 	}
 	eMaterial;
 
@@ -152,6 +153,7 @@ public:
 		eBaseItemType_mechanisms,
 		eBaseItemType_cannedFoods,
 		eBaseItemType_oxygenIngr,
+		eBaseItemType_steel,
 		eBaseItemType_MAXTYPES,
 	}
 	eBaseItemType;

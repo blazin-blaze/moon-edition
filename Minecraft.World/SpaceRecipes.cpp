@@ -136,6 +136,13 @@ SpaceRecipes::SpaceRecipes()
 		L'I', Item::compressedIron, L'C', Item::coal,
 		L'C');
 
+	addShapedRecipy(new ItemInstance(Item::compressedSteel, 1), //
+		L"sciczg",
+		L"CIC",
+
+		L'I', Item::compressedIron, L'C', new ItemInstance(Item::coal, 1, CoalItem::CHAR_COAL),
+		L'C');
+
 	addShapedRecipy(new ItemInstance(Item::compressedBronze, 1), //
 		L"scicig",
 		L"CT",
